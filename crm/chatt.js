@@ -799,7 +799,9 @@ window.UPChatt = (K, LED) => {
     if (!visa) { if (ikon) { ikon.remove(); ikon = null; } stangIkonMeny(); return; }
     if (!ikon) { ikon = document.createElement('button'); ikon.type = 'button'; ikon.className = 'chf-ikon'; ikon.setAttribute('data-g', 'chf-ikon'); ikon.setAttribute('data-mork-yta', ''); document.body.appendChild(ikon); }
     const n = olastaTotalt();
-    ikon.innerHTML = `<span class="chf-ikon-yta">${ik(fl.storEj ? 'mane' : 'prat')}</span>${n ? `<b>${n > 9 ? '9+' : n}</b>` : ''}`;
+    // iOS 26 (2026-11-24, användaren: "gör den ios senaste design och känsla"): fylld pratbubbla som i Meddelanden (message.fill) med tre prickar
+    const bubbla = '<svg class="chf-bubbla" viewBox="0 0 24 24" aria-hidden="true"><path class="chf-bubbla-yta" d="M12 3.4c-5.1 0-9.2 3.5-9.2 7.8 0 2.5 1.4 4.7 3.5 6.1-.2 1.4-.9 2.6-2 3.6 2.1 0 3.9-.7 5.2-1.9.8.2 1.6.3 2.5.3 5.1 0 9.2-3.5 9.2-7.9S17.1 3.4 12 3.4Z"/><circle class="chf-bubbla-prick" cx="8" cy="11.3" r="1.3"/><circle class="chf-bubbla-prick" cx="12" cy="11.3" r="1.3"/><circle class="chf-bubbla-prick" cx="16" cy="11.3" r="1.3"/></svg>';
+    ikon.innerHTML = `<span class="chf-ikon-yta">${fl.storEj ? ik('mane') : bubbla}</span>${n ? `<b>${n > 9 ? '9+' : n}</b>` : ''}`;
     ikon.toggleAttribute('data-stor-ej', !!fl.storEj); ikon.setAttribute('aria-expanded', String(!!ikonMeny));
     ikon.setAttribute('aria-label', `Öppna chatten${n ? `, ${plural(n, 'oläst', 'olästa')}` : ''}${fl.storEj ? ', stör ej' : ''}`); ikon.title = `${ikon.getAttribute('aria-label')} · högerklicka för fler val`;
     placeraIkon();

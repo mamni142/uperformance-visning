@@ -149,4 +149,7 @@ html[data-glas] :is(dialog.ark, .valj-panel, .kal-panel, .sok-traffar, .sido-bub
   /* Snabbarkets topp: i Ljus står ljus text inte på ljus botten */
   html[data-glas][data-tema="ljus"] dialog.ark:has(> .snabb-topp) { --z-opak: .96; }
   html[data-glas] .stegband { -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); }
+  /* Svävande rutor som visas vid pekning (verktygstips) ska alltid gå att läsa (2026-11-24, användaren: grafens ruta på översikten
+     var genomskinlig – texten bakom syntes igenom). De ligger ovanpå annat innehåll, så de är täta i alla teman, med frost bakom. */
+  html[data-glas] :is(.ob-ig-tips, .ss-tips) { --z-opak: 1 !important; -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%); }
 }

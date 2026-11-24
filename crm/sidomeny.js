@@ -340,6 +340,29 @@
     setTimeout(() => rot.classList.remove('sido-entre'), 1200);
   }
 
+  /* 05 Fotens verktygsrad (Hemsidan · Logga ut · återställ, 2026-11-24, användaren: "lägg till mjuk känsla och animering"): en ljus
+     platta som glider mellan knapparna efter pekaren och tangentbordsfokus, som iOS – bara transform/opacity och en bredd på ett
+     litet lager. Delegerat på dokumentet, så att en omritad fot fungerar direkt. */
+  (() => {
+    const platta = (rad) => { let p = rad.querySelector(':scope > .sido-lank-ljus'); if (!p) { p = document.createElement('span'); p.className = 'sido-lank-ljus'; p.setAttribute('aria-hidden', 'true'); rad.prepend(p); } return p; };
+    const till = (knapp) => {
+      const rad = knapp.closest('.sido-lankar'); if (!rad) return;
+      const p = platta(rad);
+      const forst = !rad.hasAttribute('data-ljus');
+      if (forst) p.style.transition = 'none';  // första gången: tona fram på plats, glid sedan mellan knapparna
+      p.style.width = knapp.offsetWidth + 'px';
+      p.style.transform = 'translateX(' + knapp.offsetLeft + 'px)';
+      rad.setAttribute('data-ljus', '');
+      rad.querySelectorAll('.sido-lank').forEach((k) => k.toggleAttribute('data-ljus', k === knapp));
+      if (forst) { void p.offsetWidth; p.style.transition = ''; }
+    };
+    const bort = (rad) => { rad.removeAttribute('data-ljus'); rad.querySelectorAll('.sido-lank[data-ljus]').forEach((k) => k.removeAttribute('data-ljus')); };
+    document.addEventListener('pointerover', (e) => { const k = e.target.closest && e.target.closest('#sidomeny .sido-lank'); if (k && e.pointerType !== 'touch') till(k); });
+    document.addEventListener('pointerout', (e) => { const rad = e.target.closest && e.target.closest('#sidomeny .sido-lankar'); if (rad && !rad.contains(e.relatedTarget)) bort(rad); });
+    document.addEventListener('focusin', (e) => { const k = e.target.closest && e.target.closest('#sidomeny .sido-lank'); if (k && k.matches(':focus-visible')) till(k); });
+    document.addEventListener('focusout', (e) => { const rad = e.target.closest && e.target.closest('#sidomeny .sido-lankar'); if (rad && !rad.contains(e.relatedTarget)) bort(rad); });
+  })();
+
   let anpT = 0;
   addEventListener('resize', () => { clearTimeout(anpT); anpT = setTimeout(anpassa, 120); });
   try { document.fonts.ready.then(() => anpassa()); } catch (err) { /* äldre webbläsare */ }

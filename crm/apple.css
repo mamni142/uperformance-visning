@@ -961,3 +961,111 @@ html[data-stil="apple"] :is(.sidhjalte-ogon, .ob-ogon, .mk-ogon, .kb-ogon, .lp-o
   text-transform: none !important; letter-spacing: -.005em !important; font-family: var(--font-brod) !important; font-weight: 600 !important; font-size: .84rem !important; }
 html[data-stil="apple"] :is(.sidhjalte .glas-etikett, .kr-blick-etikett, .ob-matt-etikett, .obk-total-etikett, .ms-tal-topp small, .ms-tal-vem small, .kd-klubb-etikett, .kb-fakta-etikett, .mk-etikett, .ab-hj-tal small) {
   text-transform: none !important; letter-spacing: -.003em !important; font-family: var(--font-brod) !important; font-weight: 600 !important; font-size: .76rem !important; }
+
+/* 52 Chattens snabbknapp som iOS 26 (2026-11-24, användaren: "gör den ios senaste desing och känsla"): en flytande knapp i liquid glass –
+   tonat mintglas med ljusreflex uppe, ljus kant runt om och mjuk skugga, en fylld vit pratbubbla (Meddelanden) med prickar i djup mint
+   och den röda iOS-brickan med vit ring. Trycket fjädrar (scale), inget skak. Rälsens lilla variant (data-i-rals) får samma bubbla. */
+html[data-stil="apple"] .chf-ikon:not([data-stor-ej]):not([data-i-rals]) {
+  width: 56px; height: 56px; isolation: isolate; color: #fff;
+  background:
+    radial-gradient(70% 45% at 42% 14%, rgb(255 255 255 / .85), rgb(255 255 255 / 0) 72%),
+    radial-gradient(120% 110% at 30% 10%, rgb(190 247 228 / .96), rgb(104 220 186 / .95) 52%, rgb(32 168 132 / .96)) !important;
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / .95), inset 0 0 0 .5px rgb(255 255 255 / .7), inset 0 -6px 12px rgb(8 92 70 / .28),
+    0 0 0 .5px rgb(8 92 70 / .3), 0 14px 30px -12px rgb(15 110 87 / .65), 0 3px 8px -3px rgb(0 0 0 / .25) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.8); backdrop-filter: blur(14px) saturate(1.8);
+  transition: translate .45s cubic-bezier(.22, 1, .36, 1), transform .45s cubic-bezier(.34, 1.4, .64, 1), box-shadow .35s ease, top .4s cubic-bezier(.22, 1, .36, 1), left .4s cubic-bezier(.22, 1, .36, 1);
+}
+html[data-stil="apple"] .chf-ikon:not([data-stor-ej]):not([data-i-rals]):hover,
+html[data-stil="apple"] .chf-ikon:not([data-stor-ej]):not([data-i-rals])[data-nara] { transform: scale(1.06);
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / .95), inset 0 0 0 .5px rgb(255 255 255 / .75), inset 0 -6px 12px rgb(8 92 70 / .26),
+    0 0 0 .5px rgb(8 92 70 / .3), 0 20px 38px -12px rgb(15 110 87 / .7), 0 4px 10px -4px rgb(0 0 0 / .25) !important; }
+html[data-stil="apple"] .chf-ikon:not([data-stor-ej]):active { transform: scale(.92); }
+html[data-stil="apple"] .chf-ikon:hover .chf-ikon-yta { animation: none; } /* inget vickande – iOS fjädrar bara */
+.chf-bubbla { width: 26px; height: 26px; overflow: visible; filter: drop-shadow(0 1px 1.5px rgb(8 92 70 / .35)); }
+.chf-bubbla-yta { fill: #fff; }
+.chf-bubbla-prick { fill: #179474; }
+.chf-ikon[data-i-rals] .chf-bubbla { width: 18px; height: 18px; filter: none; }
+.chf-ikon[data-i-rals] .chf-bubbla-yta { fill: var(--accent-text, #0f6e57); }
+.chf-ikon[data-i-rals] .chf-bubbla-prick { fill: #fff; }
+html[data-stil="apple"] .chf-ikon:not([data-i-rals]) b { right: -2px; top: -2px; min-width: 22px; height: 22px; font: 600 12px/1 var(--font-brod);
+  background: #ff3b30; color: #fff; box-shadow: 0 0 0 2.5px #fff, 0 2px 6px rgb(0 0 0 / .25); }
+@media (prefers-reduced-motion: reduce) { html[data-stil="apple"] .chf-ikon { transition: none !important; } }
+
+/* 53 Sidofältets topp och fot som iPadOS 26 (2026-11-24, användaren: "den känns rörig, gör den ios snygg smart stilren design, senaste"
+   + om foten: "den med ios och snyggare"). Lugnt och enhetligt: loggan står fritt (inget kort, inget glödande CRM-piller – CRM är en
+   diskret etikett), sökfältet är iOS-fältet, klockan och plus är lika stora runda knappar, Säljvy/Chefsvy är en segmentväljare med
+   enfärgad text och ikoner, och foten är tre jämna kapslar (Logga ut i iOS röda). Fyllnaderna är currentColor i låg täckning – de
+   följer temat (ljusa och mörka menyer) utan egna färger. */
+@media (min-width: 1000px) {
+  html[data-stil="apple"] body #sidomeny { --ios-fyll: color-mix(in srgb, currentColor 8%, transparent); --ios-fyll-h: color-mix(in srgb, currentColor 13%, transparent); }
+  /* loggan */
+  html[data-stil="apple"] body #sidomeny .varumarke { background: #13263a !important; box-shadow: inset 0 0 0 .5px rgb(255 255 255 / .12), 0 2px 6px -2px rgb(0 0 0 / .25) !important; border-radius: 12px !important; padding: 6px 8px 6px 7px !important; min-height: 40px; } /* loggans ordmärke är vitt – en lugn mörk platta, ingen glöd */
+  html[data-stil="apple"] body #sidomeny .varumarke::before, html[data-stil="apple"] body #sidomeny .varumarke::after { display: none !important; }
+  html[data-stil="apple"] body #sidomeny [data-varumarke-under] { padding: 3px 7px !important; border-radius: 6px !important; background: var(--ios-fyll) !important; box-shadow: none !important;
+    font: 600 10.5px/1.2 var(--font-brod) !important; letter-spacing: .02em !important; color: rgb(255 255 255 / .72) !important; background: rgb(255 255 255 / .1) !important; text-shadow: none !important; }
+  html[data-stil="apple"] body #sidomeny [data-varumarke-under]::before, html[data-stil="apple"] body #sidomeny [data-varumarke-under]::after { display: none !important; }
+  /* sök + knappar: en rad med samma höjd (36 px) */
+  html[data-stil="apple"] body #sidomeny .sido-verktyg { gap: 8px !important; align-items: center; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .sok input { height: 36px !important; padding-left: 32px !important; border: 0 !important; border-radius: 10px !important; background: var(--ios-fyll) !important; box-shadow: none !important;
+    font: 400 15px/1 var(--font-brod) !important; letter-spacing: -.01em; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .sok input::placeholder { color: color-mix(in srgb, currentColor 50%, transparent); }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .sok input:focus { background: var(--ios-fyll-h) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .sok > .ikon { width: 15px !important; height: 15px !important; left: 11px !important; color: color-mix(in srgb, currentColor 50%, transparent) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .sok-kbd { background: none !important; box-shadow: none !important; font: 500 10.5px/1 var(--font-brod) !important; color: color-mix(in srgb, currentColor 40%, transparent) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg :is(.klocka, .knapp-ny) { flex: none; width: 36px !important; height: 36px !important; min-height: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 50% !important;
+    transition: background .2s ease, scale .35s cubic-bezier(.34, 1.4, .64, 1) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .klocka { background: var(--ios-fyll) !important; box-shadow: none !important; color: inherit !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .klocka:hover { background: var(--ios-fyll-h) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .klocka .ikon { width: 18px !important; height: 18px !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .knapp-ny { color: #fff !important; background: var(--accent-djup, #0f6e57) !important; box-shadow: 0 4px 10px -4px color-mix(in srgb, var(--accent-djup, #0f6e57) 70%, transparent) !important; font-size: 0 !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .knapp-ny:hover:not(:disabled) { transform: none !important; background: color-mix(in srgb, var(--accent-djup, #0f6e57) 88%, #fff) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .knapp-ny .ikon { width: 17px !important; height: 17px !important; stroke-width: 2.4 !important; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg :is(.klocka, .knapp-ny):active { scale: .9; }
+  html[data-stil="apple"] body #sidomeny .sido-verktyg .klocka > b { top: -3px !important; right: -3px !important; min-width: 18px !important; height: 18px !important; padding: 0 5px !important; font: 600 11px/18px var(--font-brod) !important;
+    background: #ff3b30 !important; color: #fff !important; box-shadow: 0 0 0 2px rgb(var(--t-glas-rgb, 255 255 255)) !important; }
+  /* Säljvy / Chefsvy: iOS-segment */
+  html[data-stil="apple"] body #sidomeny .vy-vaxel { margin: 2px 2px 8px !important; padding: 2px !important; border-radius: 9px !important; background: var(--ios-fyll) !important; box-shadow: none !important; color: inherit; }
+  html[data-stil="apple"] body #sidomeny .vy-vaxel button { min-height: 28px !important; border-radius: 7px !important; gap: 5px !important; font: 600 13px/1 var(--font-brod) !important; letter-spacing: -.01em !important;
+    color: inherit !important; opacity: .62; transition: opacity .25s ease, color .25s ease !important; }
+  html[data-stil="apple"] body #sidomeny .vy-vaxel button[aria-pressed="true"] { opacity: 1; color: #1c1c1e !important; }
+  html[data-stil="apple"] body #sidomeny .vy-vaxel button .ikon { width: 14px !important; height: 14px !important; color: currentColor !important; transform: none !important; }
+  html[data-stil="apple"] body #sidomeny .vy-vaxel .vy-vaxel-puck, html[data-stil="apple"] body #sidomeny .vy-vaxel[data-lage="chef"] .vy-vaxel-puck {
+    border-radius: 7px !important; background: #fff !important; box-shadow: 0 3px 8px rgb(0 0 0 / .12), 0 3px 1px rgb(0 0 0 / .04), 0 0 0 .5px rgb(0 0 0 / .04) !important; }
+  html[data-stil="apple"][data-tema="mork"] body #sidomeny .vy-vaxel .vy-vaxel-puck, html[data-stil="apple"][data-tema="mork"] body #sidomeny .vy-vaxel[data-lage="chef"] .vy-vaxel-puck { background: color-mix(in srgb, currentColor 22%, transparent) !important; box-shadow: 0 3px 8px rgb(0 0 0 / .2) !important; }
+  html[data-stil="apple"][data-tema="mork"] body #sidomeny .vy-vaxel button[aria-pressed="true"] { color: inherit !important; }
+  /* plattan sitter exakt på knappen (förut 1 px snett och 2 px lägre) */
+  html[data-stil="apple"] body #sidomeny .vy-vaxel { position: relative; }
+  html[data-stil="apple"] body #sidomeny .vy-vaxel .vy-vaxel-puck { top: 2px !important; bottom: 2px !important; left: 2px !important; height: auto !important; width: calc(50% - 2px) !important; }
+  html[data-stil="apple"][data-tema="mork"] body #sidomeny .vy-vaxel .vy-vaxel-puck, html[data-stil="apple"][data-tema="mork"] body #sidomeny .vy-vaxel[data-lage="chef"] .vy-vaxel-puck {
+    background: rgb(255 255 255 / .17) !important; box-shadow: inset 0 .5px 0 rgb(255 255 255 / .22), 0 2px 6px rgb(0 0 0 / .3) !important; }
+  /* foten: EN verktygsrad som i iOS – en tonad kapsel, knapparna får den bredd texten behöver (förut tre lika breda kapslar där
+     "Hemsidan" inte fick plats och trycktes mot kanten), tunna avdelare emellan, Logga ut i iOS röda, återställ som rund ikon */
+  html[data-stil="apple"] body #sidomeny .sido-lankar { display: flex !important; align-items: center; gap: 0 !important; padding: 3px !important; border: 0 !important; border-radius: 12px !important; background: var(--ios-fyll) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-lank { position: relative; flex: 1 1 auto; min-width: 0; display: inline-flex !important; align-items: center; justify-content: center; gap: 5px !important; height: 30px; min-height: 0 !important;
+    padding: 0 6px !important; border: 0 !important; border-radius: 9px !important; background: transparent !important; box-shadow: none !important; color: inherit !important;
+    font: 600 12.5px/1 var(--font-brod) !important; letter-spacing: -.01em !important; text-decoration: none !important; white-space: nowrap;
+    transition: background .2s ease, scale .3s cubic-bezier(.34, 1.4, .64, 1) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-lank + .sido-lank::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: color-mix(in srgb, currentColor 18%, transparent); transition: opacity .2s; }
+  html[data-stil="apple"] body #sidomeny .sido-lank[data-g="logga-ut"]::before { background: color-mix(in srgb, var(--text, #888) 18%, transparent); }
+  html[data-stil="apple"] body #sidomeny .sido-lank:hover { background: var(--ios-fyll-h) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-lank:hover::before, html[data-stil="apple"] body #sidomeny .sido-lank:hover + .sido-lank::before { opacity: 0; }
+  html[data-stil="apple"] body #sidomeny .sido-lank:active { scale: .95; }
+  html[data-stil="apple"] body #sidomeny .sido-lank .ikon { flex: none; width: 14px !important; height: 14px !important; color: currentColor !important; }
+  html[data-stil="apple"] body #sidomeny .sido-lank[data-g="logga-ut"] { color: #e5342a !important; }
+  html[data-stil="apple"][data-tema="mork"] body #sidomeny .sido-lank[data-g="logga-ut"] { color: #ff6961 !important; }
+  html[data-stil="apple"] body #sidomeny .sido-ikonlank { flex: 0 0 30px; width: 30px; padding: 0 !important; border-radius: 50% !important; }
+  /* mjuk känsla (sidomeny.js 05): plattan glider mellan knapparna med iOS-fjäder, ikonerna rör sig var på sitt sätt */
+  html[data-stil="apple"] body #sidomeny .sido-lankar { position: relative; isolation: isolate; }
+  html[data-stil="apple"] body #sidomeny .sido-lank-ljus { position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 0; width: 0; border-radius: 9px; pointer-events: none; opacity: 0;
+    background: color-mix(in srgb, currentColor 11%, transparent); box-shadow: inset 0 .5px 0 rgb(255 255 255 / .14);
+    transition: transform .46s cubic-bezier(.32, 1.18, .42, 1), width .46s cubic-bezier(.32, 1.18, .42, 1), opacity .28s ease; }
+  html[data-stil="apple"] body #sidomeny .sido-lankar[data-ljus] > .sido-lank-ljus { opacity: 1; }
+  html[data-stil="apple"] body #sidomeny .sido-lankar .sido-lank:hover { background: transparent !important; } /* plattan ersätter hovringens bakgrund */
+  html[data-stil="apple"] body #sidomeny .sido-lankar[data-ljus] .sido-lank::before { opacity: 0; transition: opacity .25s ease; } /* avdelarna viker undan för plattan */
+  html[data-stil="apple"] body #sidomeny .sido-lank .ikon { transition: transform .45s cubic-bezier(.34, 1.56, .64, 1) !important; }
+  html[data-stil="apple"] body #sidomeny .sido-lank[href]:is(:hover, [data-ljus]) .ikon { transform: translateY(-1.5px) scale(1.08); }
+  html[data-stil="apple"] body #sidomeny .sido-lank[data-g="logga-ut"]:is(:hover, [data-ljus]) .ikon { transform: translateX(2px); }
+  html[data-stil="apple"] body #sidomeny .sido-ikonlank:is(:hover, [data-ljus]) .ikon { transform: rotate(-180deg); transition-duration: .6s !important; }
+  html[data-stil="apple"] body #sidomeny .sido-lank:active .ikon { transform: scale(.9); transition-duration: .15s !important; }
+  @media (prefers-reduced-motion: reduce) { html[data-stil="apple"] body #sidomeny :is(.sido-lank-ljus, .sido-lank .ikon) { transition: opacity .2s !important; } html[data-stil="apple"] body #sidomeny .sido-lank .ikon { transform: none !important; } }
+}
