@@ -1,0 +1,394 @@
+/* =====================================================================================
+   Uperformance CRM – teman (samma upplägg som Legohus, våra färger). Laddas bara av index.html: kundens sidor,
+   inloggningen och utskrifter är alltid Original. Original = crm.css :root (tema.css säger inget om det).
+   Tripletter (--t-*-rgb) används för genomskinlighet: rgb(var(--t-blaeck-rgb) / .06).
+   Hjältar, band, menyn, chatten och ark är zoner: de följer temat via --z-* (tema-toner.css). Papper, presentationen, filmen och 3D-fönstren är låsta.
+   Nya färger: använd --vit, --ben, --text*, --kant*, --kol, --accent-text, --navy-text … – inte fasta färger.
+   ===================================================================================== */
+
+/* ---- Ljus: luftigt – ljusa hjältar med mörk text, vita kort med tunn kant och nästan ingen skugga ---- */
+:root[data-tema="ljus"], [data-tema-prov="ljus"] {
+  color-scheme: light;
+  --ben: #fcfcfb; --ben-2: #f4f4f1; --vit: #fff;
+  --text: #0f1a26; --text-2: #414c5a; --text-3: #4f5a67;
+  --kol: #1f3a54; --kol-2: #264560; --kol-3: #2e526f;
+  --accent-text: #0c6450; --navy-text: #183653; --orange-text: #b8681f;
+  --accent-ljus: #ebfaf4; --is-ljus: #f0f7ff; --gul-ljus: #fff7e6; --rod-ljus: #fef1ee; --orange-ljus: #fdf5ea; --navy-ljus: #f0f4f9;
+  --gul-text: #755000; --rod-text: #9c2f1c;
+  --kant: rgba(15, 26, 38, .08); --kant-2: rgba(15, 26, 38, .13);
+  --skugga: 0 0 0 1px rgba(15, 26, 38, .05), 0 1px 2px rgba(15, 26, 38, .03);
+  --skugga-stor: 0 24px 60px -30px rgba(15, 26, 38, .28), 0 10px 24px -18px rgba(15, 26, 38, .18);
+  --t-blaeck-rgb: 15 26 38; --t-skugga-rgb: 58 72 88; --t-skugga-navy-rgb: 58 82 108; --t-navy-rgb: 24 54 83; --t-accent-djup-rgb: 15 110 87;
+  --t-glas-rgb: 255 255 255; --t-glans-rgb: 255 255 255; --t-ben-rgb: 252 252 251;
+  --t-flack-1-rgb: 96 168 255; --t-flack-2-rgb: 64 214 172; --t-flack-3-rgb: 182 146 255; --t-flack-k: 1; /* med glas: klara pastellfläckar, så att de vita glasytorna tar upp färg */
+  --t-flack-grund: linear-gradient(135deg, #cfe4fa, #e0d7f8 50%, #cdeee3);
+}
+
+/* ---- Mörk: ink som grund, kort ett steg upp; accent och is blir textfärger ---- */
+:root[data-tema="mork"], [data-tema-prov="mork"] {
+  color-scheme: dark;
+  --ben: #0a1119; --ben-2: #0e1722; --vit: #131f2c; --vit-tack: #131f2c; /* täckt yta utan glas (kontomenyn, Mer-arket) – glas.css sätter sin egen */
+  --text: #edf2f7; --text-2: #c4cfda; --text-3: #aab8c6;
+  --kol: #24384d; --kol-2: #2a4058; --kol-3: #334c66;
+  --accent-text: #7ee0c3; --navy-text: #a7d2ff; --orange-text: #ffb36b;
+  --accent-ljus: #12352c; --is-ljus: #14304a; --gul-ljus: #3a2e12; --rod-ljus: #3d1d18; --orange-ljus: #3a2812; --navy-ljus: #1a3046;
+  --gul-text: #ffd27a; --rod-text: #ff9b86;
+  --kant: rgba(237, 242, 247, .1); --kant-2: rgba(237, 242, 247, .18);
+  --skugga: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 26px -14px rgba(0, 0, 0, .6);
+  --skugga-stor: 0 40px 90px -30px rgba(0, 0, 0, .75), 0 18px 40px -24px rgba(0, 0, 0, .6);
+  --t-blaeck-rgb: 237 242 247; --t-skugga-rgb: 0 0 0; --t-skugga-navy-rgb: 0 0 0; --t-navy-rgb: 167 210 255; --t-accent-djup-rgb: 126 224 195;
+  --t-glas-rgb: 24 38 54; --t-glans-rgb: 104 132 160; --t-ben-rgb: 10 17 25;
+  --t-flack-1-rgb: 40 112 196; --t-flack-2-rgb: 18 146 116; --t-flack-3-rgb: 84 72 186; --t-flack-k: .95; /* djupa men klara sken: mörkt glas visar bara färg som är starkare än det självt */
+  --t-flack-grund: linear-gradient(135deg, #0c1a28, #101a30 50%, #0b1d24);
+}
+
+/* ---- Färgglad: mättat blå hjältar med korallsken, livligare mint och is, korten färgade ---- */
+:root[data-tema="fargglad"], [data-tema-prov="fargglad"] {
+  color-scheme: light;
+  --ben: #eefaf6; --ben-2: #dcf3ec; --vit: #fff;
+  --text: #0b1a22; --text-2: #2f3f49; --text-3: #394954;
+  --kol: #1440a8; --kol-2: #1650b8; --kol-3: #1a5fd0;
+  --accent: #4fe3b9; --accent-hover: #74ecca; --is: #8cc6ff; --gul: #ffbe3d; --rod: #f0604a; --orange: #f5893a;
+  --accent-text: #0a6f55; --navy-text: #124a78; --orange-text: #b35a12;
+  --accent-ljus: #c8f5e6; --is-ljus: #d6eaff; --gul-ljus: #ffedb8; --rod-ljus: #ffdcd3; --orange-ljus: #ffe3c4; --navy-ljus: #d8e8f8;
+  --gul-text: #6f4c00; --rod-text: #a12b16;
+  --kant: rgba(11, 58, 70, .12); --kant-2: rgba(11, 58, 70, .2);
+  --skugga: 0 1px 2px rgba(11, 58, 70, .06), 0 10px 26px -14px rgba(11, 58, 70, .24);
+  --skugga-stor: 0 40px 90px -30px rgba(11, 58, 70, .42), 0 18px 40px -24px rgba(11, 58, 70, .32);
+  --t-blaeck-rgb: 11 30 40; --t-skugga-rgb: 11 58 70; --t-skugga-navy-rgb: 18 74 120; --t-navy-rgb: 18 74 120; --t-accent-djup-rgb: 10 111 85;
+  --t-glas-rgb: 255 255 255; --t-glans-rgb: 255 255 255; --t-ben-rgb: 238 250 246;
+  --t-flack-1-rgb: 22 216 170; --t-flack-2-rgb: 60 140 255; --t-flack-3-rgb: 255 120 84; --t-flack-3-pos: 38% 112%; --t-flack-3-k: .62; --t-flack-k: 1; /* korallen nere: blått över korall ger malva i hjältarna, och text står direkt på den */
+  --t-flack-grund: linear-gradient(135deg, #9df0d8, #a8d4ff 50%, #8feddb);
+}
+
+/* Original med glas: bakgrunden är inte längre benvit, så dämpad text ett steg mörkare (zonerna använder egna tokens) */
+:root[data-tema="original"][data-glas] { --text-2: #2c3744; --text-3: #303c48; }
+:root[data-tema="ljus"][data-glas] { --text-2: #333e4b; --text-3: #3a4552; }
+:root[data-tema="fargglad"][data-glas] { --text-2: #27363f; --text-3: #2c3b45; }
+/* Mörk med glas: skenen lyser igenom korten, så dämpad text ett steg ljusare */
+:root[data-tema="mork"][data-glas] { --text-2: #ccd6e0; --text-3: #b9c6d3; }
+:root[data-tema="mork"][data-glas] ::placeholder { color: #b9c6d3; }
+/* Med glas står rubriker och ögonrader direkt på de mättade fläckarna: mörkare accent och signaltext i de ljusa temana (tonerna: tema-toner.css) */
+:root[data-glas]:not([data-tema="mork"]) { --accent-text: #084c3b; --t-accent-djup-rgb: 8 76 59; --gul-text: #6b4700; --rod-text: #8f2a18; }
+:where(:root) ::placeholder { color: color-mix(in srgb, var(--text-3) 66%, transparent); opacity: 1; } /* dämpad: tomma fält såg ifyllda ut (mobiltestet 2026-11-04) */
+
+/* Hjältarnas skugga, menyns glas och förladdningsytorna ligger på :root – de byts per tema */
+:root[data-tema="ljus"] { --hjalte-skugga: 0 1px 0 rgb(255 255 255 / .8), 0 22px 46px -30px rgb(58 72 88 / .3), 0 60px 110px -70px rgb(58 82 108 / .28);
+  --meny-glas: linear-gradient(160deg, rgb(255 255 255 / .86), rgb(255 255 255 / .5)); --meny-glaskant: rgb(15 26 38 / .08);
+  --meny-linje: linear-gradient(90deg, transparent, rgb(29 91 140 / .28) 30%, rgb(12 100 80 / .34) 62%, transparent);
+  --meny-aktiv: linear-gradient(100deg, rgb(126 224 195 / .42), rgb(167 210 255 / .26) 62%, rgb(255 255 255 / .4)); --meny-aktiv-kant: inset 0 0 0 1px rgb(15 110 87 / .22), inset 0 1px 0 rgb(255 255 255 / .85);
+  --ov-yta: radial-gradient(60% 85% at 70% 8%, rgb(167 210 255 / .3), transparent 64%), radial-gradient(48% 60% at 0% 104%, rgb(126 224 195 / .26), transparent 72%), linear-gradient(176deg, #fff, #f6f9fb);
+  --kb-yta: radial-gradient(70% 80% at 72% 108%, rgb(255 190 130 / .3), transparent 62%), radial-gradient(60% 70% at 94% -6%, rgb(167 210 255 / .34), transparent 60%), linear-gradient(180deg, #fff, #f7f9fb); }
+:root[data-tema="mork"] { --ov-yta: radial-gradient(60% 85% at 70% 8%, rgb(28 46 70 / .5), transparent 64%), linear-gradient(176deg, #141c26, #0f151c 56%, #0c131a);
+  --kb-yta: radial-gradient(70% 80% at 72% 108%, rgb(217 130 43 / .2), transparent 62%), linear-gradient(180deg, #141c26, #0f151c 56%, #0c131a); }
+:root[data-tema="fargglad"] { --ov-yta: radial-gradient(60% 90% at 100% 0%, rgb(190 62 56 / .75), transparent 62%), linear-gradient(176deg, #1849bd, #143ebb 56%, #153ebc);
+  --kb-yta: radial-gradient(60% 90% at 100% 0%, rgb(190 62 56 / .75), transparent 62%), linear-gradient(176deg, #1849bd, #143ebb 56%, #153ebc); }
+:root[data-tema="mork"] { --hjalte-skugga: 0 1px 0 rgb(237 242 247 / .05), 0 30px 60px -36px rgb(0 0 0 / .8), 0 70px 120px -60px rgb(0 0 0 / .7); }
+:root[data-tema="fargglad"] { --hjalte-skugga: 0 1px 0 rgb(255 255 255 / .5), 0 30px 60px -36px rgb(11 58 110 / .6), 0 70px 120px -60px rgb(18 74 120 / .55), 0 40px 110px -70px rgb(255 136 96 / .4);
+  --meny-glas: linear-gradient(160deg, rgb(255 255 255 / .13), rgb(255 255 255 / .05)); --meny-glaskant: rgb(255 255 255 / .24);
+  --meny-linje: linear-gradient(90deg, transparent, rgb(255 255 255 / .55) 30%, rgb(196 247 230 / .8) 62%, transparent);
+  --meny-aktiv: linear-gradient(100deg, rgb(196 247 230 / .15), rgb(217 237 255 / .09) 62%, rgb(255 255 255 / .05)); --meny-aktiv-kant: inset 0 0 0 1px rgb(255 255 255 / .42), inset 0 1px 0 rgb(255 255 255 / .34); }
+:root[data-tema="fargglad"][data-glas] .anvandarval { background: rgb(8 30 120 / .46); }
+
+/* Klubbmotorns plats under laddningen: samma yta som hjältens övre del, aldrig Originals mörka fot */
+html:not([data-tema="original"])[data-3d] #vy > .loop:first-child { background: var(--kb-yta); }
+
+/* Sökträffarna öppnas ur sidomenyn (en zon) men ligger ovanpå sidan – de har temats färger */
+:root[data-tema] .sido-verktyg .sok-traffar { color: var(--text); }
+
+/* Provbilderna: menyn och hjälten i temats egna färger */
+[data-tema-prov="original"] { --prov-sido: #0b1520; --prov-hjalte: linear-gradient(120deg, #122130, #183653); --prov-rubrik: #f6f4ef; --prov-linje: rgba(246, 244, 239, .24); --prov-kant: transparent; }
+[data-tema-prov="ljus"] { --prov-sido: #fff; --prov-hjalte: linear-gradient(120deg, #fff, #e6f1fb); --prov-rubrik: #0f1a26; --prov-linje: rgb(15 26 38 / .16); --prov-kant: rgb(15 26 38 / .08); }
+[data-tema-prov="mork"] { --prov-sido: #0e1824; --prov-hjalte: linear-gradient(120deg, #101c2a, #16283a); --prov-rubrik: #edf2f7; --prov-linje: rgb(237 242 247 / .22); --prov-kant: rgb(237 242 247 / .08); }
+[data-tema-prov="fargglad"] { --prov-sido: linear-gradient(170deg, #0b3f8a, #0e8a88); --prov-hjalte: linear-gradient(115deg, #0b3f8a, #0e7f96 62%, #ff7a59); --prov-rubrik: #fff; --prov-linje: rgb(255 255 255 / .34); --prov-kant: transparent; }
+
+/* Originals fläckar och prov (crm.css :root har resten) */
+:root, [data-tema-prov="original"] { --t-flack-1-rgb: 58 214 168; --t-flack-2-rgb: 74 158 255; --t-flack-3-rgb: 40 196 214; --t-flack-k: 1;
+  --t-flack-grund: linear-gradient(135deg, #b4dcf0, #b6d4fb 48%, #addfe6); }
+
+/* Mörk: tvåtonslinjerna i spriten blir ljusa – samma stopp som ikg-ljus* (gäller varje ikon och diagram som hämtar gradienten) */
+:root[data-tema="mork"] #ikg-navy stop:first-child, :root[data-tema="mork"] #ikg-is stop:first-child { stop-color: #a7d2ff; }
+:root[data-tema="mork"] #ikg-navy stop:last-child, :root[data-tema="mork"] #ikg-is stop:last-child { stop-color: #e6f2ff; }
+:root[data-tema="mork"] #ikg-mint stop:first-child { stop-color: #7ee0c3; }
+:root[data-tema="mork"] #ikg-mint stop:last-child { stop-color: #c4e6ff; }
+:root[data-tema="mork"] #ikg-orange stop:first-child { stop-color: #ffb36b; }
+:root[data-tema="mork"] #ikg-orange stop:last-child { stop-color: #ffe2b6; }
+:root[data-tema="mork"] #ikg-rod stop:first-child { stop-color: #ff9b86; }
+:root[data-tema="mork"] #ikg-rod stop:last-child { stop-color: #ffd3c8; }
+:root[data-tema="mork"] #ikg-gul stop:first-child { stop-color: #ffd27a; }
+:root[data-tema="mork"] #ikg-gul stop:last-child { stop-color: #fff2c6; }
+:root[data-tema="mork"] #stapel-grad stop:last-child { stop-color: #2f7fa8; }
+/* Mörk: ikonerna utanför zonerna följer samma regler som på mörka ytor (crm.css modul 21) */
+:root[data-tema="mork"] .emo { --emo-farg: var(--accent); --emo-grad: url(#ikg-ljus) var(--accent); }
+:root[data-tema="mork"] .emo[data-ton="rod"] { --emo-farg: #ff9b86; --emo-grad: url(#ikg-ljus-rod) #ff9b86; }
+:root[data-tema="mork"] .emo[data-ton="gul"] { --emo-farg: #ffd27a; --emo-grad: url(#ikg-ljus-gul) #ffd27a; }
+:root[data-tema="mork"] .emo[data-ton="orange"] { --emo-farg: #ffb36b; --emo-grad: url(#ikg-ljus-orange) #ffb36b; }
+:root[data-tema="mork"] .emo[data-ton="is"] { --emo-farg: var(--is); --emo-grad: url(#ikg-ljus-is) var(--is); }
+:root[data-tema="mork"] img:not([data-tema-behall]) { filter: brightness(.92) contrast(1.02); }
+:root[data-tema="mork"] :is(.mall-papper, .mote, .sidhjalte, .hero3d) img { filter: none; }
+
+/* Mjukt byte (tema.js): hela CRM:et byter samtidigt. Den gamla bilden står stilla och den nya sveper in som en mjuk rund våg från det
+   valda provet, med mjuk kant (masken) – ingen vit blixt, eftersom den gamla bilden ligger täckande under ända tills vågen är framme.
+   Utan View Transitions sätts html.tema-byter i ~300 ms. */
+@property --vag { syntax: '<length>'; inherits: true; initial-value: 0px; }
+html.tema-vt *, html.tema-vt *::before, html.tema-vt *::after { view-transition-name: none !important; }
+html.tema-vt::view-transition-old(root) { animation: none; z-index: 1; mix-blend-mode: normal; }
+html.tema-vt::view-transition-new(root) { z-index: 2; mix-blend-mode: normal; animation: tema-vag .72s cubic-bezier(.4, .05, .2, 1) both;
+  -webkit-mask-image: radial-gradient(circle at var(--vag-x, 50%) var(--vag-y, 50%), #000 calc(var(--vag) - 140px), rgb(0 0 0 / .5) calc(var(--vag) - 60px), transparent var(--vag));
+  mask-image: radial-gradient(circle at var(--vag-x, 50%) var(--vag-y, 50%), #000 calc(var(--vag) - 140px), rgb(0 0 0 / .5) calc(var(--vag) - 60px), transparent var(--vag)); }
+@keyframes tema-vag { from { --vag: 0px; } to { --vag: calc(var(--vag-r, 1400px) + 160px); } }
+:where(html.tema-byter), :where(html.tema-byter) :where(*, *::before, *::after) { transition-property: background-color, color, border-color, fill, stroke; transition-duration: .25s; transition-timing-function: ease; }
+@media (prefers-reduced-motion: reduce) {
+  html.tema-vt::view-transition-old(root), html.tema-vt::view-transition-new(root) { animation: none; -webkit-mask-image: none; mask-image: none; }
+  :where(html.tema-byter), :where(html.tema-byter) :where(*) { transition-duration: 0s; }
+}
+
+/* =====================================================================================
+   Väljarna (tema.js): små fönster i kontomenyn, kort med förhandsvisning i Inställningar. Varje prov har
+   data-tema-prov="<id>" och ritas med det temats egna token.
+   ===================================================================================== */
+.tema-valjare--liten { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+.tema-knapp { display: grid; justify-items: center; gap: 4px; min-width: 0; padding: 5px 2px 4px; border: 0; border-radius: 11px; background: rgb(var(--t-blaeck-rgb) / .04); color: var(--text-2); cursor: pointer; transition: transform .16s var(--mjuk), background-color .2s ease, box-shadow .2s ease, color .2s ease; }
+.tema-knapp__namn { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 .64rem/1.1 var(--font-brod); letter-spacing: .01em; }
+.tema-ruta { position: relative; display: block; width: 100%; max-width: 46px; height: 26px; border-radius: 7px; overflow: hidden; transition: transform .2s var(--mjuk); }
+.tema-ruta__del { position: absolute; inset: 0; display: block; border-radius: inherit; background: var(--ben); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .16); }
+.tema-ruta--system .tema-ruta__del + .tema-ruta__del { clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.tema-ruta__del i, .tema-ruta__del s, .tema-ruta__del b { position: absolute; display: block; text-decoration: none; }
+.tema-ruta__del i { left: 0; top: 0; bottom: 0; width: 30%; background: var(--prov-sido); }
+.tema-ruta__del s { left: 40%; top: 26%; width: 46%; height: 3px; border-radius: 2px; background: var(--text); opacity: .75; }
+.tema-ruta__del b { left: 40%; bottom: 24%; width: 34%; height: 6px; border-radius: 3px; background: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .tema-knapp:hover { background: rgb(var(--t-blaeck-rgb) / .08); color: var(--text); }
+  .tema-knapp:hover .tema-ruta { transform: translateY(-1px); }
+}
+.tema-knapp:active { transform: scale(.95); }
+.tema-knapp[aria-pressed="true"] { background: var(--vit); color: var(--text); box-shadow: inset 0 0 0 2px var(--accent-text), 0 4px 10px -6px rgb(var(--t-skugga-rgb) / .4); }
+.tema-knapp:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+
+/* Kontomenyn är en mörk yta */
+.lp-konto-tema { display: grid; gap: 6px; flex: none; margin: 0; }
+.lp-konto-tema .tema-knapp { min-height: 44px; padding: 5px 2px; background: rgb(var(--z-vit-rgb, 255 255 255) / .05); color: var(--z-t70, rgba(246, 244, 239, .7)); box-shadow: inset 0 0 0 1px rgb(var(--z-vit-rgb, 255 255 255) / .06); }
+.lp-konto-tema .tema-knapp:hover { background: rgb(var(--z-vit-rgb, 255 255 255) / .1); color: var(--z-text, var(--pa-mork)); }
+.lp-konto-tema .tema-knapp[aria-pressed="true"] { background: rgba(126, 224, 195, .14); color: var(--z-text, var(--pa-mork)); box-shadow: inset 0 0 0 2px var(--z-accent, var(--accent)); }
+.lp-konto-tema .tema-knapp:focus-visible { outline-color: var(--z-accent, var(--accent)); }
+.lp-konto-tema .tema-ruta { height: 22px; }
+.lp-konto-tema .tema-knapp { min-height: 40px; align-content: center; }
+.lp-konto-tema .tema-knapp__namn { display: none; } /* fem prov i menyns bredd: det valda namnet står i raden ovanför */
+.lp-konto-tema-rad { display: flex; align-items: baseline; gap: 8px; min-width: 0; margin: 2px 2px 0; }
+.lp-konto-tema-rad .lp-konto-rubrik { margin: 0; }
+.lp-konto-tema-namn { min-width: 0; font: 600 .72rem/1.2 var(--font-brod); color: var(--z-t78, rgba(246, 244, 239, .78)); }
+.lp-konto-tema-lank { display: inline-flex; align-items: center; gap: 3px; min-height: 28px; margin-left: auto; flex: none; border-radius: 8px; font: 600 .72rem/1.2 var(--font-brod); color: var(--z-t78, rgba(246, 244, 239, .78)); text-decoration: none; transition: color .16s ease; }
+.lp-konto-tema-lank .ikon { width: 13px; height: 13px; }
+.lp-konto-tema-lank:hover { color: var(--z-accent, var(--accent)); }
+.lp-konto-tema-lank:focus-visible { outline: 2px solid var(--z-accent, var(--accent)); outline-offset: 2px; }
+.lp-konto-tema .glas-vaxel { padding: 6px 10px; background: rgb(var(--z-vit-rgb, 255 255 255) / .05); color: var(--z-text, var(--pa-mork)); box-shadow: inset 0 0 0 1px rgb(var(--z-vit-rgb, 255 255 255) / .06); }
+.lp-konto-tema .glas-vaxel:hover { background: rgb(var(--z-vit-rgb, 255 255 255) / .09); }
+.lp-konto-tema .glas-vaxel__text small { display: none; }
+.lp-konto-tema .glas-vaxel__spar { width: 36px; height: 20px; background: rgb(var(--z-vit-rgb, 255 255 255) / .16); }
+.lp-konto-tema .glas-vaxel__spar i { width: 14px; height: 14px; }
+.lp-konto-tema .glas-vaxel[aria-checked="true"] .glas-vaxel__spar { background: var(--z-accent, var(--accent)); }
+.lp-konto-tema .glas-vaxel[aria-checked="true"] .glas-vaxel__spar i { transform: translateX(16px); }
+.lp-konto[data-tat="2"] .lp-konto-tema .tema-knapp { min-height: 34px; }
+
+/* Inställningar: kort med en liten förhandsvisning av appen */
+.tema-valjare--stor { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 12px; }
+.tema-kort { position: relative; display: grid; gap: 10px; align-content: start; padding: 8px 8px 12px; border: 0; border-radius: 18px; text-align: left; background: var(--vit); color: var(--text); font: inherit; cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .1), 0 1px 2px rgb(var(--t-skugga-rgb) / .04); transition: transform .2s var(--mjuk), box-shadow .2s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .tema-kort:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .16), 0 14px 28px -20px rgb(var(--t-skugga-rgb) / .55); }
+}
+.tema-kort:active { transform: scale(.98); }
+.tema-kort:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; }
+.tema-kort[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent-text), 0 14px 28px -22px rgb(var(--t-skugga-rgb) / .5); }
+.tema-kort__text { display: grid; gap: 2px; padding: 0 4px; min-width: 0; }
+.tema-kort__text b { font: 600 .9rem/1.2 var(--font-rubrik); color: var(--text); }
+.tema-kort__text small { font: 500 .74rem/1.3 var(--font-brod); color: var(--text-2); }
+.tema-kort__bock { position: absolute; top: 14px; right: 14px; z-index: 1; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-text); color: var(--vit); box-shadow: 0 0 0 2px var(--vit); opacity: 0; transform: scale(.6); transition: opacity .18s ease, transform .22s var(--mjuk); }
+.tema-kort__bock svg { width: 13px; height: 13px; }
+.tema-kort[aria-pressed="true"] .tema-kort__bock { opacity: 1; transform: none; }
+.tema-bild { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden; }
+.tema-bild__ram { position: absolute; inset: 0; display: grid; grid-template-columns: 26% 1fr; gap: 6%; padding: 7%; background: var(--ben); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .1); }
+.tema-bild--system .tema-bild__ram + .tema-bild__ram { clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.tema-bild i, .tema-bild b, .tema-bild s, .tema-bild em { display: block; font-style: normal; text-decoration: none; }
+.tb-sido { display: grid; align-content: start; gap: 5px; padding: 8px 6px; border-radius: 7px; background: var(--prov-sido); box-shadow: inset 0 0 0 1px var(--prov-kant); }
+.tb-sido b { height: 5px; border-radius: 3px; background: var(--prov-linje); }
+.tb-sido b:first-child { background: var(--accent); }
+.tb-yta { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1.1fr 1fr; gap: 6px; min-width: 0; }
+.tb-hjalte { grid-column: 1 / -1; display: grid; align-content: center; gap: 5px; padding: 0 9%; border-radius: 7px; background: var(--prov-hjalte); box-shadow: inset 0 0 0 1px var(--prov-kant); }
+.tb-hjalte b { width: 62%; height: 5px; border-radius: 3px; background: var(--prov-rubrik); }
+.tb-hjalte s { width: 36%; height: 4px; border-radius: 3px; background: var(--accent); }
+.tb-kort { display: grid; align-content: start; gap: 4px; padding: 6px 7px; border-radius: 6px; background: var(--vit); box-shadow: 0 1px 2px rgb(var(--t-skugga-rgb) / .08), inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .06); }
+.tb-kort b { width: 70%; height: 4px; border-radius: 3px; background: var(--text); }
+.tb-kort s { width: 46%; height: 3px; border-radius: 3px; background: var(--text-3); }
+.tb-kort em { width: 54%; height: 7px; margin-top: 2px; border-radius: 4px; background: var(--accent); }
+.inst-tema__not { margin: 14px 2px 0; font: 500 .8125rem/1.45 var(--font-brod); color: var(--text-2); }
+.inst-tema .glas-vaxel { margin-top: 12px; }
+.inst-rum { display: grid; gap: 18px; margin-top: 18px; }
+.inst-lankar { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 10px; }
+.inst-lank { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 10px 12px; border-radius: 14px; background: rgb(var(--t-blaeck-rgb) / .035); color: var(--text); text-decoration: none; transition: background-color .18s ease; }
+a.inst-lank:hover, button.inst-lank:hover { background: rgb(var(--t-blaeck-rgb) / .07); }
+button.inst-lank { width: 100%; border: 0; font: inherit; text-align: left; cursor: pointer; }
+.inst-lank > span:not(.emo) { display: grid; gap: 1px; min-width: 0; flex: 1; }
+.inst-lank strong { font: 600 .9rem/1.25 var(--font-rubrik); }
+.inst-lank small { font-size: .78rem; line-height: 1.35; color: var(--text-3); }
+.inst-lank > .ikon { flex: none; color: var(--text-3); }
+/* Mobil (mobiltestet 2026-11-04): Följ systemet är en egen rad med bilden bredvid texten, och de fyra temana står 2 x 2 (förut stod Färgglad ensam över hela bredden) */
+@media (max-width: 560px) {
+  .tema-valjare--stor { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .tema-valjare--stor > :first-child { grid-column: 1 / -1; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); align-items: center; padding: 8px; }
+  .tema-valjare--stor > :first-child .tema-kort__bock { top: 50%; right: 14px; translate: 0 -50%; }
+  .tema-valjare--stor > :first-child .tema-kort__text { padding-right: 32px; }
+}
+@media (prefers-reduced-motion: reduce) { .tema-kort, .tema-knapp, .tema-kort__bock, .tema-ruta { transition: none; } }
+
+/* Knappen som slår på och av glaset */
+.glas-vaxel { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border: 0; border-radius: 14px; background: rgb(var(--t-blaeck-rgb) / .04); color: var(--text); text-align: left; cursor: pointer; transition: background-color .18s ease; }
+.glas-vaxel:hover { background: rgb(var(--t-blaeck-rgb) / .07); }
+.glas-vaxel:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.glas-vaxel__spar { position: relative; flex: none; width: 42px; height: 24px; border-radius: 999px; background: rgb(var(--t-blaeck-rgb) / .16); transition: background-color .22s ease; }
+.glas-vaxel__spar i { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(0, 0, 0, .3); transition: transform .28s cubic-bezier(.3, 1.4, .5, 1); }
+.glas-vaxel[aria-checked="true"] .glas-vaxel__spar { background: var(--accent-text); }
+.glas-vaxel[aria-checked="true"] .glas-vaxel__spar i { transform: translateX(18px); }
+.glas-vaxel__text { display: grid; gap: 1px; min-width: 0; }
+.glas-vaxel__text b { font: 600 .875rem/1.25 var(--font-rubrik); }
+.glas-vaxel__text small { font-size: .75rem; line-height: 1.3; color: var(--text-3); }
+@media (prefers-reduced-motion: reduce) { .glas-vaxel__spar i { transition: none; } }
+
+/* Sökningen (Ctrl K): temats lilla fönster som ikon */
+.sok-tema { background: none; }
+.sok-tema .tema-ruta { width: 34px; max-width: none; height: 24px; }
+
+/* Mörk: det skriptet inte kan avgöra (accentlika stopp, avsiktligt svaga markörer) */
+:root[data-tema="mork"] ::placeholder { color: #aab8c6; } /* fast: även fälten i zonerna ligger på mörkt */
+:root[data-tema="mork"] .kr-ava[data-s="klubb"] { --s2: #4a3116; }
+:root[data-tema="mork"] :is(.saljverktyg .filterchips button[data-noll] .ikon, .td-typ .ikon, .kd-klubb-pil .ikon) { opacity: .85; }
+:root[data-tema="mork"] .kr-tom { opacity: .8; }
+:root[data-tema="mork"] .kal-falt.falt { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237ee0c3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='3'/%3E%3Cpath d='M3 10h18M8 3v4M16 3v4'/%3E%3C/svg%3E"); }
+:root[data-tema="mork"] .af-kb { border-top-color: rgba(255, 179, 107, .2); background: linear-gradient(135deg, rgba(255, 176, 102, .13), rgba(255, 176, 102, .04)); }
+:root[data-tema="mork"] .sidhjalte-detalj ~ .rutnat-2 .testkort-datum { color: var(--navy-text); background: linear-gradient(160deg, #1a3046, #14304a); box-shadow: inset 0 0 0 1px rgba(167, 210, 255, .14); }
+
+/* =====================================================================================
+   3D-hjältarna – temats palett för scenerna (scen3d.js lasPalett, s.tema; kontraktet överst i scen3d.js).
+   Scenerna läser bara de här tokens: --scen-yta (hjältens yta bakom scenen), --scen-dimma (dis/fjärran), --scen-djup (skuggor),
+   --scen-text, --scen-accent, --scen-is, --scen-varm (r g b, 0–255), --scen-ljus (1 = ljust tema) och toningen --scen-lyft/-genom/
+   -kna/-mattnad/-kurva (efterbehandlingen: mörka partier tonas mot ytan eller blir genomskinliga – 0 = av). Ändras ett tema:
+   ändra här, scenerna följer med vid up:tema utan ommontering.
+   Ingen låda (2026-11-04, användaren: "dem ser iboxade ut"): scenerna står i hjälten i alla teman med samma mjuka masker
+   (scenernas egna stilmallar). Det mörka glasfönstret i Ljus (--fonster-*, clip-path) är borttaget.
+   ===================================================================================== */
+:root { --scen-ljus: 0; --scen-yta: 11 21 32; --scen-dimma: 8 18 28; --scen-djup: 4 8 13; --scen-text: 246 244 239;
+  --scen-accent: 126 224 195; --scen-is: 167 210 255; --scen-varm: 217 130 43; --scen-lyft: 0; --scen-genom: 0; --scen-kna: .55; --scen-mattnad: 1; --scen-kurva: 1; }
+:root[data-tema="mork"] { --scen-yta: 14 21 28; --scen-dimma: 10 14 19; --scen-djup: 6 9 13; --scen-text: 237 242 247; }
+:root[data-tema="fargglad"] { --scen-yta: 17 58 175; --scen-dimma: 14 46 140; --scen-djup: 8 26 90; --scen-text: 255 255 255; --scen-varm: 255 140 110; }
+:root[data-tema="ljus"] { --scen-ljus: 1; --scen-yta: 247 250 253; --scen-dimma: 233 240 249; --scen-djup: 196 210 228; --scen-text: 15 26 38;
+  --scen-accent: 12 100 80; --scen-is: 29 91 140; --scen-varm: 168 90 18; --scen-lyft: .55; --scen-genom: .45; --scen-kna: .26; --scen-mattnad: 1.05; --scen-kurva: 1; }
+:root[data-tema="ljus"][data-glas] { --scen-yta: 226 234 250; --scen-dimma: 218 228 246; }
+
+/* Mjuka kanter i alla teman (dator och mobil): duken tonas in i hjälten med en utjämnad mask i flera steg (ingen synlig kant) – där
+   texten står är scenen genomskinlig och hjältens egen yta syns. Översiktens arena och säljtavlans rum har sina masker i
+   scen-oversikt.css och sidor.css 04; här Klubbmotorn och Kundmötet. --st0/--st1 = toningens början/slut i dukens bredd. */
+:root :is(.kb3d-duk, .motescen[data-ms-3d] .ms-duk) {
+  --sts: calc(var(--st1, 0%) - var(--st0, 0%));
+  --scen-mask-x: linear-gradient(90deg, transparent var(--st0, 0%), rgb(0 0 0 / .05) calc(var(--st0, 0%) + var(--sts) * .2), rgb(0 0 0 / .17) calc(var(--st0, 0%) + var(--sts) * .4),
+    rgb(0 0 0 / .4) calc(var(--st0, 0%) + var(--sts) * .6), rgb(0 0 0 / .72) calc(var(--st0, 0%) + var(--sts) * .8), #000 var(--st1, 0%));
+  --scen-mask-y: linear-gradient(180deg, transparent var(--sy0, 0px), #000 var(--sy1, 0px), #000 calc(100% - var(--sb1, 0px)), transparent calc(100% - var(--sb0, 0px)));
+  -webkit-mask-image: var(--scen-mask-x), var(--scen-mask-y); -webkit-mask-composite: source-in;
+  mask-image: var(--scen-mask-x), var(--scen-mask-y); mask-composite: intersect; }
+/* Klubbmotorn: textkolumnen är min(410px, 37 %) + rubrikens överhäng; plattformen står till höger */
+/* Slöjan är en mörk toning för ljus text på nattscenen (låst yta, Original-färger) – i ljusa teman står texten mörk på hjältens ljusa yta och duken är redan genomskinlig där */
+:root[data-tema="ljus"] .kb3d-slojan { display: none; }
+@media (min-width: 761px) { :root .kb3d-duk { --st0: calc(min(410px, 37%) - 40px); --st1: calc(min(410px, 37%) + 150px); --sb1: 70px; } }
+@media (max-width: 760px) { :root .kb3d-duk { --sy1: 56px; --sb1: 64px; } }
+/* Översiktens band (smalt): rubrikens skimmer var ljust för texten på det mörka fönstret – i Ljus står den på hjältens ljusa yta */
+:root[data-tema="ljus"] .ov-rubrik em { background-image: linear-gradient(100deg, var(--accent-text) 0%, var(--navy-text) 100%); }
+/* Kundmötet: bordet står i den fria ytan till höger om texten; smalt står rummet under texten */
+@media (min-width: 981px) { :root .motescen[data-ms-3d] .ms-duk { --st0: 26%; --st1: 54%; } }
+@media (max-width: 980px) { :root .motescen[data-ms-3d] .ms-duk { --sy1: 76px; --sb1: 72px; } }
+@media (max-width: 640px) { :root .motescen[data-ms-3d] .ms-duk { --sy1: 64px; --sb1: 56px; } }
+
+/* Ljus: diagrammets linje och yta i översiktens Resultat (gradienterna ritas i crm.js) står på ljus botten */
+:root[data-tema="ljus"] #ob-ig-drag stop:nth-child(1) { stop-color: #1d5b8c; }
+:root[data-tema="ljus"] #ob-ig-drag stop:nth-child(2), :root[data-tema="ljus"] #ob-ig-drag stop:nth-child(3) { stop-color: #0c6450; }
+:root[data-tema="ljus"] #ob-ig-yta stop { stop-color: #0f6e57; }
+
+/* Avsiktligt dämpade delar (– i tabeller, helger, veckonummer, andra månaders dagar, ikoner som väntar på hovring) lyfts till läsbar nivå i alla
+   teman – även Original utan glas sedan 2026-11-04 (användaren: "gör det du tycker är bäst"; förut fick de vara svaga där, 1,9–3,7:1). :root:root behåller väljarens vikt. */
+:root:root :is(.kr-tom, .lp-sk-stegruta em, .adm-matris-rad > span > i) { opacity: 1; color: var(--text-2); }
+:root:root :is(.sidhjalte, .lp-band, [data-mork-yta]) :is(.lp-sk-stegruta em, .adm-matris-rad > span > i) { color: var(--z-t72, rgba(246, 244, 239, .72)); }
+:root:root :is(.lp-karta-dag.lp-karta-helg, .lp-schema-d-helg, .lp-karta > i.lp-karta-helg) { opacity: .92; }
+:root:root .lp-sk-stegruta[data-tom] { opacity: .86; }
+:root:root :is(.handelse-knapp, .kr-akt .ikon, .kr-ordning, .td-typ .ikon, .kd-klubb-pil, .filterchips button[data-noll] .ikon, .kr-ordning .ikon, .lp-saljare-topp > .ikon, .detalj-fot .steg[data-status="kommande"] .emo-ruta) { opacity: 1; }
+:root:root .td-typ[data-neutral] { color: rgb(var(--t-navy-rgb) / .86); }
+:root:root :is(.kal-dag[data-annan], .kal-veckodagar, .kal-v) { opacity: 1; color: var(--text-2); }
+:root:root .kal-dag[data-annan]:disabled { opacity: .22; } /* avstängd slår annan månad – oktoberdagarna såg valbara ut (mobiltestet 2026-11-04) */
+:root:root .krav { color: var(--rod-text); }
+/* Rutans text på färgad bricka ska vara mörk i alla teman */
+:root:not([data-tema="original"]) .dk-flikar a[aria-current] b { color: #0b1520; }
+:root:not([data-tema="original"]) .lp-dag[data-lage="franvaro"], :root:not([data-tema="original"]) .sh-knapp-accent .ikon { color: #0b1520; }
+:root:root .adm-du { color: #0b1520; }
+/* Profilens tal "Att göra" är mörkrött på mörk yta i Original utan glas – läsbart överallt annars */
+:root:root .lp-arb-tal[data-ton="rod"] strong { color: var(--z-rod, #ffb3a3); }
+/* Sökningens typbricka på den markerade raden */
+:root:root .sok-typ { color: var(--text); }
+/* Säljtavlans Smarta förslag, Att göra-tipset och projektets statusrad står på en tonad yta: texten och räknarna ett steg mörkare (≥ 4,5:1) */
+:root:root :is(.salj-forslag .sf-huvud p, .td-kommando-ram .td-tips) { color: color-mix(in srgb, var(--text) 70%, var(--text-2)); }
+:root:root :is(.salj-forslag .sf-huvud h2, .sf-huvud h2 .rakna, .pj-status-text small) { color: color-mix(in srgb, var(--accent-text) 72%, var(--text)); }
+:root:root .td-forslag-huvud h2 .rakna { color: color-mix(in srgb, currentColor 78%, var(--text)); }
+/* Kontomenyns statusikoner står på ljus knapp i de ljusa temana: statusfärgen blandas med texten (≥ 3,6:1 även för Strax/gult).
+   Rollbrickan Försäljningschef i textens orange (förut 2,6–3,9:1). Original utan glas är som förut. */
+:root:not([data-tema="mork"]) .lp-konto-snabbval .ikon { color: color-mix(in srgb, var(--narv) 60%, var(--text)); }
+:root:root .lp-konto .lp-roll[data-roll="Försäljningschef"] { color: var(--f-8a4a0c, #8a4a0c); }
+/* Mörk med glas: kundlistans småtext kan stå på en ljus fläck genom glaset (4,49:1) – ett steg ljusare */
+:root[data-tema="mork"][data-glas] .kr-rad .kr-under { color: var(--text-2); }
+/* samma för tiden i översiktens Senaste i teamet (4,44:1 på en ljus fläck genom glaset) */
+:root[data-tema="mork"][data-glas] .ob-akt .akt-tid { color: var(--text-2); }
+:root:root .ch-tips { opacity: 1; }
+/* Chattens tider under bubblorna, listans tider och tangenttipset (10–10,5 px) på chattens mörka yta låg på 3–3,9:1 i Original utan glas
+   (zonens tokens saknas där) – ett steg ljusare, ≥ 4,5:1. :where håller vikten låg så att olästa tider (accent) står kvar;
+   --z-t65 är minst lika ljus som --z-t42/-t45/-t38 i alla teman (tema-toner). */
+:where(:root) :is(.ch-tid, .ch-rad-topp small, .ch-tips) { color: var(--z-t65, rgba(246, 244, 239, .65)); }
+/* Ljus: ikonerna som hämtar ljus gradient direkt (inte via .emo) */
+:root[data-tema="ljus"] :is(.ob-resultat .ob-kort-huvud h3 > .ikon, .kort-mork .kort-huvud :is(h2, h3) > .ikon) { stroke: url(#ikg-mint) var(--accent-text); }
+/* Gul ikon på ljust glas: mörkare ände på gradienten */
+:root[data-glas]:not([data-tema="mork"]) #ikg-gul stop:last-child { stop-color: #a97c0c; }
+:root[data-glas]:not([data-tema="mork"]) #ikg-orange stop:last-child { stop-color: #bb6a1c; }
+:root[data-glas]:not([data-tema="mork"]) #ikg-rod stop:last-child { stop-color: #c4462f; }
+
+/* Tillstånd som inte syns på en vanlig bild (drag över en kolumn, makulerad order, avvikelse): fasta ljusa ytor med temats ljusa text i Mörk */
+:root[data-tema="mork"] .kolumn[data-over] { background: linear-gradient(180deg, var(--accent-ljus), rgb(18 53 44 / .6)); }
+:root[data-tema="mork"] :is(.pj-makulerad, .pj-avvikelse, .pj-tal > [data-varm]) { background: var(--gul-ljus); }
+/* Att görs första uppgift: ikonrutan saknar .emo och föll tillbaka på mörk navy på mörk hjälte */
+:root:is([data-glas], :not([data-tema="original"])) .td-forst-ikon { --emo-grad: url(#ikg-ljus) var(--accent); }
+:root[data-tema="ljus"] .td-forst-ikon { --emo-grad: url(#ikg-mint) var(--accent-text); }
+/* Brickor på glas: en egen mörk (Ljus: ljus) botten, så att de inte tappar kontrasten mot bakgrunden som lyser igenom */
+:root[data-glas] .navlank .rakna:not(.rakna-varm), :root[data-glas] .ob-het-rad :is(.chip-alder, .ob-nasta) { background: rgb(var(--zy-0b1520, 11 21 32) / .5); }
+:root[data-glas] .inst-lank small { color: var(--text-2); }
+/* Småtext som var dämpad med genomskinlighet */
+:root:root :is(.kal-veckodagar span:nth-last-child(-n + 2), .ob-het-rad .sannolikhet b small, .snabb-flikar .emo) { opacity: 1; }
+:root:root .ob-resultat :is(.ob-ig-nu span, .ob-ig-p90-bricka) { color: rgb(var(--zf-7ee0c3-rgb, 126 224 195)); }
+:root:root .sidhjalte-todo .td-dagring-not { color: var(--z-t72, rgba(246, 244, 239, .72)); }
+:root:root .lk-dag.lk-utanfor { opacity: .9; } /* andra månadens dagar: dämpade men läsbara (chipen 4,5:1) */
+/* Tvåtonslinjerna på ljust glas: mörkare ände */
+:root[data-glas]:not([data-tema="mork"]) #ikg-mint stop:last-child { stop-color: #138266; }
+/* Räknaren vid Föreslagna uppgifter: tonen #2f6fa8 når inte 4,5:1 på temanas blåare kort (Ljus 4,4) – temats navy-text gör det */
+:root:not([data-tema="original"]) .td-forslag-huvud .rakna { color: var(--navy-text); }
+/* Smarta förslag-räknaren står i säljtavlans hjältes skugga (Färgglad utan glas 3,7): ljus botten under tonen. Med glas har den redan --vit-tack */
+:root:not([data-tema="original"]):not([data-glas]) .sf-huvud h2 .rakna { background: linear-gradient(rgb(var(--t-accent-djup-rgb) / .1), rgb(var(--t-accent-djup-rgb) / .1)) var(--vit); }
+/* Projektets status: den dämpade raden når inte 4,5:1 på Färgglads mintgröna ruta (4,1) */
+:root:not([data-tema="original"]) .pj-status-text small { opacity: 1; }
+/* Färgglad med glas: veckobrickan i översiktens datumrad är ljus på ljusare blått – en mörk botten håller texten läsbar */
+:root[data-tema="fargglad"][data-glas] .hero3d-datum .hd-vecka { background: rgb(8 30 110 / .3); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .22); }
+/* Mörk: kortet på kundsidan (accent ur --accent-djup) */
+:root[data-tema="mork"] .sidhjalte-detalj ~ .rutnat-2 .omtestkort { --accent-djup: #7ee0c3; }
+
+/* Omtestkortet på kundsidan är ljust i Original (bakgrunden har en fast färg): följer temat */
+:root:is([data-glas], :not([data-tema="original"])) .sidhjalte-detalj ~ .rutnat-2 .omtestkort { background: radial-gradient(90% 120% at 100% 0%, rgba(126, 224, 195, .16), transparent 65%), var(--vit); color: var(--text); }
+
+/* Färgglad: Att göra-ringens bågar är linjer, inte text – mättade färger (temats ljusa texttoner gjorde dem pastell mot det blå) */
+:root[data-tema="fargglad"] .td-seg { stroke: #6ff0c6; }
+:root[data-tema="fargglad"] .td-seg[data-lage="rod"] { stroke: #ff7a5c; }
+:root[data-tema="fargglad"] .td-seg[data-lage="gul"] { stroke: #ffc23d; }
+:root[data-tema="fargglad"] .td-dagring .td-spar { stroke: rgba(255, 255, 255, .14); }
+
+/* Mörk: rubrikikonernas ruta (kort-huvud) är ljust tonat glas – de ljusa färgtokens blev mörka och gav en mörk ruta med grumlig kant (2026-11-04) */
+:root[data-tema="mork"] .kort-huvud :is(h2, h3) > .ikon { background: color-mix(in srgb, var(--is, #a7d2ff) 13%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--is, #a7d2ff) 22%, transparent); color: var(--is, #a7d2ff); stroke: url(#ikg-ljus) var(--is, #a7d2ff); }

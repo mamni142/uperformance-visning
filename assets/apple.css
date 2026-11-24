@@ -1,0 +1,496 @@
+/* ==========================================================================
+   Uperformance – Apple-lagret för hemsidan (2026-11-23)
+   Användaren: "ge hela hemsidan ett lyft och iOS-känsla och design". Samma idé som crm/apple.css: ett lager som laddas SIST
+   (efter up.css) och ändrar form, typografi och material – aldrig paletten, texterna eller sektionernas ordning.
+   Tas länken bort ur index.html ritas sajten exakt som förut. Prestandaregeln gäller: inga nya ständiga animationer,
+   bara övergångar på transform/opacity/färg.
+   01 typografi · 02 menyn · 03 knappar · 04 väljare och chips · 05 kort och ikonrutor · 06 hjälten · 07 sektionerna
+   08 frågorna · 09 formuläret · 10 berättelsen · 11 sidfoten · 12 mobil · 13 rörelse
+   ========================================================================== */
+
+/* 01 typografi: Apples systemtypsnitt (SF Pro på Apple-enheter), Inter där det saknas. Tätare rubriker, lika breda siffror. */
+:root {
+  --font-rubrik: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-brod: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-siffror: ui-rounded, 'SF Pro Rounded', -apple-system, 'Inter', system-ui, sans-serif;
+  --radie: 18px;
+  --radie-stor: 30px;
+  --skugga: 0 0 0 .5px rgba(11, 21, 32, .08), 0 1px 2px rgba(11, 21, 32, .04), 0 14px 34px -18px rgba(11, 21, 32, .2);
+  --ap-fjader: cubic-bezier(.32, .72, 0, 1);
+  --ap-studs: cubic-bezier(.34, 1.36, .64, 1);
+  --ap-har: rgba(11, 21, 32, .09);
+}
+body { font-size: 1.0625rem; line-height: 1.6; letter-spacing: -.011em; font-feature-settings: 'cv11', 'ss01'; }
+h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.032em; }
+.rubrik { font-weight: 700; letter-spacing: -.04em; line-height: 1.05; }
+.ingress { letter-spacing: -.014em; line-height: 1.5; }
+strong, b { font-weight: 650; }
+/* ögonraden: en liten färgad etikett i stället för versaler med streck */
+.eyebrow { gap: 8px; font: 600 .8125rem/1 var(--font-brod); letter-spacing: .01em; text-transform: none; color: var(--accent-djup); }
+.eyebrow::before { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-djup); }
+.eyebrow-ljus { color: var(--accent); }
+.eyebrow-ljus::before { background: var(--accent); }
+.tal-kort .tal, .bs-tal strong, .paket-pris, .ring-tal, .resa-nod, .steg-nr { font-variant-numeric: tabular-nums; }
+.tal-kort .tal { font-weight: 700; letter-spacing: -.05em; }
+.tal-kort .kalla, .sidfot h4, .anpassa-grupper h4, .falt-grupp > legend, .falt-etikett, .person-roll, .bs-kort small, .steg-nr {
+  letter-spacing: .04em; font-family: var(--font-brod); }
+::selection { background: color-mix(in srgb, var(--accent) 55%, transparent); }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent-djup) 55%, transparent); outline-offset: 3px; border-radius: 10px; }
+
+/* 02 menyn: flytande glas (som iOS 26) – genomskinligare, riktig oskärpa, en ljusbrytande kant, valt menyval som en ljus kapsel */
+.meny { background: rgba(11, 21, 32, .84); -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: 0 18px 44px -20px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 0 0 .5px rgba(255, 255, 255, .12); }
+.meny::after { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .38), rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, .18));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+.topp[data-scrollad] .meny { background: rgba(11, 21, 32, .88); }
+.meny-lank { font: 500 .9375rem/1 var(--font-brod); letter-spacing: -.012em; transition: color .2s, background-color .25s, scale .3s var(--ap-studs); }
+.meny-lank:hover { background: rgba(246, 244, 239, .1); }
+.meny-lank[aria-current="true"] { color: #0b1520; background: rgba(246, 244, 239, .92); }
+.meny-lank:active { scale: .96; }
+.meny-oppna, .mobilmeny-stang { transition: scale .3s var(--ap-studs), background-color .2s; }
+.meny-oppna:active, .mobilmeny-stang:active { scale: .9; }
+
+/* 03 knappar: iOS-kapslar – fylld (tonad accent med glans), mörk, och "grå" i stället för kontur. Tryck = krymper lite, ingen lyftning. */
+.knapp { min-height: 50px; padding: 12px 24px; border: 0; font: 600 1.0625rem/1.1 var(--font-brod); letter-spacing: -.018em;
+  transition: background-color .2s, color .2s, scale .3s var(--ap-studs), box-shadow .3s var(--ap-fjader), filter .2s; }
+.knapp:hover { transform: none; filter: brightness(1.04); }
+.knapp:active { scale: .97; filter: brightness(.97); transition-duration: .08s; }
+.knapp-accent { background: linear-gradient(180deg, #a6edd8, var(--accent) 55%, #6ad6b6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 0 0 .5px rgba(255, 255, 255, .45), 0 10px 24px -12px rgba(15, 110, 87, .65); }
+.knapp-accent:hover { background: linear-gradient(180deg, #b4f1df, var(--accent-hover) 55%, #78dcbe); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 0 0 .5px rgba(255, 255, 255, .45), 0 14px 28px -12px rgba(15, 110, 87, .7); }
+.knapp-mork { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 10px 24px -14px rgba(11, 21, 32, .6); }
+.knapp-kontur { color: var(--ink); background: rgba(11, 21, 32, .07); box-shadow: inset 0 0 0 .5px rgba(11, 21, 32, .06); }
+.knapp-kontur:hover { background: rgba(11, 21, 32, .11); color: var(--ink); }
+.knapp-kontur-ljus { color: var(--ben); background: rgba(246, 244, 239, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 0 0 .5px rgba(255, 255, 255, .16);
+  -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); }
+.knapp-kontur-ljus:hover { background: rgba(246, 244, 239, .22); color: var(--ben); }
+.knapp-liten { min-height: 40px; padding: 8px 18px; font-size: .9375rem; }
+.textlank { font: 600 1rem/1.2 var(--font-brod); letter-spacing: -.014em; color: var(--accent-djup); }
+.film-knapp { border: 0; background: rgba(246, 244, 239, .14); font: 600 .875rem/1 var(--font-brod); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), inset 0 0 0 .5px rgba(255, 255, 255, .16);
+  -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); transition: scale .3s var(--ap-studs), background-color .2s; }
+.film-knapp:active { scale: .96; }
+
+/* 04 väljare och chips: Företag | Idrott som en iOS-segmentväljare (grå bana, vit platta med mjuk skugga) */
+.persona { padding: 3px; border: 0; background: rgba(11, 21, 32, .07); box-shadow: inset 0 0 0 .5px rgba(11, 21, 32, .05);
+  -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
+.persona button { min-height: 40px; padding: 8px 22px; font: 600 .9375rem/1 var(--font-brod); letter-spacing: -.012em; color: var(--text-2); transition: color .25s, scale .3s var(--ap-studs); }
+.persona button[aria-pressed="true"] { color: var(--ink); }
+.persona button:active { scale: .97; }
+.persona-markor { top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); background: var(--vit);
+  box-shadow: 0 0 0 .5px rgba(11, 21, 32, .06), 0 1px 2px rgba(11, 21, 32, .1), 0 4px 12px -4px rgba(11, 21, 32, .2); transition: transform .45s var(--ap-fjader); }
+.chip { font: 600 .75rem/1 var(--font-brod); letter-spacing: -.004em; padding: 6px 11px; }
+.varld-lista li, .anpassa-chips li { border: 0; font: 500 .8125rem/1.2 var(--font-brod); letter-spacing: -.006em; }
+.varld-lista li { background: rgba(246, 244, 239, .16); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.varld .chip { border: 0; background: rgba(246, 244, 239, .18); -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%); }
+.anpassa-chips li { padding: 8px 14px; background: rgba(11, 21, 32, .06); }
+.anpassa-chips li:hover { transform: none; background: rgba(11, 21, 32, .11); color: var(--ink); }
+
+/* 05 kort och ikonrutor: hårfin kant, mjuk skugga, lugnare lyft – ikonrutorna fyllda som appikoner med vit symbol */
+.kort { border: 0; border-radius: var(--radie-stor); box-shadow: var(--skugga); }
+.lyft { transition: transform .5s var(--ap-fjader), box-shadow .5s var(--ap-fjader); }
+.lyft:hover { transform: translateY(-4px); box-shadow: 0 0 0 .5px rgba(11, 21, 32, .08), 0 1px 2px rgba(11, 21, 32, .04), 0 30px 60px -30px rgba(24, 54, 83, .42); }
+.glas { border: 0; box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .8), inset 0 1px 0 rgba(255, 255, 255, .9), 0 0 0 .5px rgba(11, 21, 32, .06), 0 24px 60px -30px rgba(24, 54, 83, .35);
+  -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); }
+.steg-ikon { width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(180deg, #2f7fb0, var(--navy));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 0 0 .5px rgba(255, 255, 255, .12), 0 10px 22px -12px rgba(24, 54, 83, .8); }
+.steg-kort:nth-child(2) .steg-ikon { background: linear-gradient(180deg, #3fcfa9, var(--accent-djup)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 10px 22px -12px rgba(15, 110, 87, .7); }
+.steg-kort:nth-child(3) .steg-ikon { background: linear-gradient(180deg, #5aa9f0, #2f6fc4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 10px 22px -12px rgba(47, 111, 196, .7); }
+.steg-kort:hover .steg-ikon { transform: scale(1.06); }
+.steg-kort h3 { letter-spacing: -.028em; }
+.profil-ikon { border-radius: 9px; color: #fff; background: linear-gradient(180deg, #3a78a8, var(--navy)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); }
+.flytetikett { border: 0; border-radius: 18px; background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .9), 0 0 0 .5px rgba(11, 21, 32, .06), 0 14px 30px -16px rgba(11, 21, 32, .3);
+  -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); }
+.flytetikett strong { font: 600 .875rem/1.2 var(--font-brod); letter-spacing: -.012em; }
+.flytetikett span.ikonruta { border-radius: 9px; color: #fff; background: linear-gradient(180deg, #3fcfa9, var(--accent-djup)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3); }
+.omrade { border: 0; border-radius: 22px; background: rgba(246, 244, 239, .06); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .12), inset 0 1px 0 rgba(255, 255, 255, .06); }
+.omrade:hover { transform: translateY(-3px); background: rgba(246, 244, 239, .1); }
+.omrade strong { font: 600 1rem/1.25 var(--font-brod); letter-spacing: -.016em; }
+.resa-nod { border: 0; color: #fff; background: linear-gradient(180deg, #2f7fb0, var(--navy)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 6px 14px -8px rgba(24, 54, 83, .7); font: 650 .9rem/1 var(--font-siffror); }
+.resa-lista li:last-child .resa-nod { color: var(--ink); background: linear-gradient(180deg, #a6edd8, var(--accent)); }
+.resa-bana::before { height: 1px; top: 21.5px; background: var(--ap-har); }
+.resa-lista strong { font: 600 1rem/1.25 var(--font-brod); letter-spacing: -.016em; }
+.profil-rad, .vaxel-rad { border-top-width: .5px; }
+.vaxel { width: 51px; height: 31px; background: rgba(120, 120, 128, .2); }
+.vaxel::after { top: 2px; left: 2px; width: 27px; height: 27px; box-shadow: 0 3px 8px rgba(0, 0, 0, .15), 0 1px 1px rgba(0, 0, 0, .12); transition: transform .3s var(--ap-fjader); }
+.vaxel-rad input:checked + .vaxel { background: #34c759; }
+.vaxel-rad input:checked + .vaxel::after { transform: translateX(20px); }
+
+/* 06 hjälten, omgjord (användaren: "göra om den helt så den passar företaget mer och mer iOS-känsla och cool animering och 3D"):
+   en mörk premiumyta i Uperformances bläck med norrsken i mint och is, och bakom rubriken en 3D-scen (.hero-3d, index.html) – se "Pulsvågor" nedan. Rubriken stiger fram ur oskärpa en gång. Texten och knapparna är desamma.
+   PRESTANDA: det som rör sig hela tiden är bara transform/opacity, och allt pausas när hjälten är ur bild (data-pausad). */
+.hero { color: var(--ben); border-radius: 0 0 44px 44px; padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+.hero-bakgrund { background: radial-gradient(120% 80% at 50% 0%, #12263a 0%, var(--ink) 55%, #070f18 100%); }
+.hero-bakgrund span:nth-child(1) { background: radial-gradient(closest-side, rgba(90, 160, 255, .32), transparent); }
+.hero-bakgrund span:nth-child(2) { background: radial-gradient(closest-side, rgba(126, 224, 195, .26), transparent); }
+.hero-bakgrund span:nth-child(3) { background: radial-gradient(closest-side, rgba(126, 224, 195, .12), transparent); }
+.hero.rutnat::before { background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px); }
+.hero-rubrik, #top h1 { color: #fff; font-weight: 700; letter-spacing: -.05em; text-shadow: 0 2px 40px rgba(7, 15, 24, .6); }
+.hero .skimmer { background-image: linear-gradient(-45deg, #fff 28%, var(--is) 40%, #8fe6cf 48%, var(--accent) 56%, #fff 70%); }
+.hero-ingress { color: rgba(235, 240, 245, .78); }
+.hero-ingress em { color: #fff; }
+.hero-not { color: rgba(235, 240, 245, .5); }
+.hero .persona { background: rgba(118, 118, 128, .28); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .12); }
+.hero .persona button { color: rgba(235, 240, 245, .7); }
+.hero .persona button[aria-pressed="true"] { color: #fff; }
+.hero .persona-markor { background: rgba(255, 255, 255, .2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 0 0 .5px rgba(255, 255, 255, .14), 0 4px 14px -4px rgba(0, 0, 0, .5); }
+.hero .knapp-kontur { color: #fff; background: rgba(255, 255, 255, .13); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), inset 0 0 0 .5px rgba(255, 255, 255, .16);
+  -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); }
+.hero .knapp-kontur:hover { color: #fff; background: rgba(255, 255, 255, .2); }
+.hero .knapp-accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 0 0 .5px rgba(255, 255, 255, .45), 0 0 34px -6px rgba(126, 224, 195, .55), 0 12px 28px -12px rgba(15, 110, 87, .8); }
+.hero .tillit { color: rgba(235, 240, 245, .66); }
+.hero .tillit .ikon { color: var(--accent); }
+.hero .scen-not { color: rgba(235, 240, 245, .45); }
+.hero .scen .scen-glod { background: radial-gradient(closest-side at 50% 45%, rgba(126, 224, 195, .22), transparent), radial-gradient(closest-side, rgba(90, 160, 255, .18), transparent); }
+.hero .scen .scen-kort { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 0 0 .5px rgba(255, 255, 255, .18), 0 50px 100px -40px rgba(0, 0, 0, .85), 0 0 60px -30px rgba(126, 224, 195, .35); }
+
+/* Pulsvågor (användaren: "gör om animeringen helt på bakgrunden, en helt ny idé som är mer stilren"): det enda som rör sig bakom rubriken är
+   tunna ringar som långsamt breder ut sig från rubrikens mitt och tonar bort – ett lugnt hjärtslag, det Uperformance mäter – över det
+   stilla norrskenet (.hero-bakgrund). Inga linjer genom texten, inga föremål. Ringarna glider några pixlar efter musen (--hx/--hy, up.js).
+   Bara transform/opacity rör sig; pausas när hjälten är ur bild. */
+.hero-3d { --hx: 0; --hy: 0; position: absolute; left: 50%; top: 372px; z-index: -1; width: min(1500px, 190vw); aspect-ratio: 1; pointer-events: none;
+  translate: calc(-50% + var(--hx) * 14px) calc(-50% + var(--hy) * 10px); transition: translate 1.4s cubic-bezier(.22, 1, .36, 1);
+  -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent 96%); mask-image: radial-gradient(closest-side, #000 30%, transparent 96%); }
+/* ett mjukt sken i mitten, bakom rubriken */
+.hero-3d::before { content: ''; position: absolute; inset: 30%; border-radius: 50%; background: radial-gradient(closest-side, rgba(126, 224, 195, .16), rgba(90, 160, 255, .07) 60%, transparent); }
+.hero-3d i { position: absolute; inset: 0; border-radius: 50%; opacity: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2), inset 0 0 60px -20px rgba(126, 224, 195, .3);
+  animation: h3-vag 9s cubic-bezier(.2, .55, .35, 1) infinite; animation-delay: calc(var(--n) * -2.25s); }
+.hero-3d i:nth-child(1) { --n: 0; } .hero-3d i:nth-child(2) { --n: 1; } .hero-3d i:nth-child(3) { --n: 2; } .hero-3d i:nth-child(4) { --n: 3; }
+@keyframes h3-vag { 0% { transform: scale(.14); opacity: 0; } 12% { opacity: .9; } 70% { opacity: .35; } 100% { transform: scale(1); opacity: 0; } }
+.hero[data-pausad] .hero-3d * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: no-preference) { .js .hero-3d { animation: h3-in 1.6s ease-out .15s both; } }
+@keyframes h3-in { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .hero-3d i { animation: none; opacity: .3; } .hero-3d i:nth-child(1) { transform: scale(.3); } .hero-3d i:nth-child(2) { transform: scale(.5); } .hero-3d i:nth-child(3) { transform: scale(.72); } }
+@media (max-width: 640px) { .hero-3d { top: 330px; width: 230vw; } }
+
+/* entrén: rubriken stiger fram ur oskärpa, resten följer – en gång */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero .persona { animation: h-in .9s var(--ap-fjader) both; }
+}
+@keyframes h-in { from { opacity: 0; transform: translateY(14px); } }
+@keyframes h-in-rubrik { from { opacity: 0; transform: translateY(26px) scale(.97); filter: blur(14px); } to { filter: blur(0); } }
+@media (max-width: 640px) {
+  .hero { border-radius: 0 0 32px 32px; }
+}
+
+/* 06b hjältens kort som iOS-widgets (användaren: "fixa dem mer iOS och snyggare och fixa designbuggar"): lugnt mörkt glas med hårfin
+   kant – den vandrande ljusstrimman (som såg ut som en trasig kant i ett hörn) är borta –, raderna med fyllda färgrutor och vit symbol
+   som i Inställningar, mätaren som ett iOS-reglage, ringen som en aktivitetsring utan streck (talet ryms innanför), platta rundade
+   staplar och tonade kapslar utan glöd. Korten svävar som förut (transform). */
+.scen .scen-kort { border: 0; border-radius: 30px;
+  background: radial-gradient(130% 70% at 0% 0%, rgba(255, 255, 255, .07), transparent 55%), linear-gradient(180deg, #17293b, #0d1926 70%, #0b1520);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), inset 0 0 0 .5px rgba(255, 255, 255, .14), 0 50px 100px -44px rgba(11, 21, 32, .7), 0 24px 48px -28px rgba(24, 54, 83, .5); }
+.scen .scen-kant { display: none; }
+.scen .scen-profil { padding: 20px 20px 18px; }
+.scen .scen-sida { padding: 18px; }
+.scen .scen-glod { background: radial-gradient(closest-side at 55% 45%, rgba(126, 224, 195, .2), transparent), radial-gradient(closest-side, rgba(24, 54, 83, .26), transparent); }
+/* huvudet */
+.scen .avatar { width: 44px; height: 44px; color: #fff; font: 700 .875rem/1 var(--font-siffror); background: linear-gradient(180deg, #45c8ee, #1f7fc4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); }
+.scen .avatar::after { right: -1px; bottom: -1px; width: 12px; height: 12px; background: #34c759; border: 2px solid #14263a; box-shadow: none; animation: none; }
+.scen .profil-namn { font: 650 1.0625rem/1.2 var(--font-brod); letter-spacing: -.02em; }
+.scen .profil-roll { font-size: .8125rem; letter-spacing: -.008em; color: rgba(235, 235, 245, .6); }
+.scen .profil-index { margin: 16px 0 8px; font-size: .8125rem; }
+.scen .profil-index span { color: rgba(235, 235, 245, .6); }
+.scen .profil-index strong { font: 650 .875rem/1 var(--font-siffror); }
+/* mätaren: iOS-reglage */
+.scen .stapel { height: 6px; background: rgba(120, 120, 128, .36); box-shadow: none; }
+.scen .stapel-fyll { background: linear-gradient(90deg, #5ac8fa, var(--accent)); box-shadow: none; }
+.scen .stapel-fyll::before { display: none; }
+.scen .stapel::after { width: 16px; height: 16px; margin: -8px 0 0 -12px; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .35), 0 3px 8px rgba(0, 0, 0, .25); }
+/* raderna: fyllda färgrutor, linjen börjar efter rutan */
+.scen .profil-rader { margin-top: 12px; }
+.scen .profil-rad { position: relative; gap: 12px; padding: 10px 0; border-top: 0; }
+.scen .profil-rad::before { content: ''; position: absolute; left: 46px; right: 0; top: 0; height: .5px; background: rgba(84, 84, 88, .65); }
+.scen .profil-ikon { width: 34px; height: 34px; border-radius: 9px; color: #fff; background: linear-gradient(180deg, #4cd964, #2bb24c); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28); }
+.scen .profil-rad:nth-child(2) .profil-ikon { background: linear-gradient(180deg, #ffb340, #ff9500); }
+.scen .profil-rad:nth-child(3) .profil-ikon { background: linear-gradient(180deg, #5ac8fa, #0a84ff); }
+.scen .profil-rad:nth-child(4) .profil-ikon { background: linear-gradient(180deg, #c58bf2, #af52de); }
+.scen .profil-rad-text strong { font: 600 .9375rem/1.25 var(--font-brod); letter-spacing: -.016em; }
+.scen .profil-rad-text span { font-size: .78rem; color: rgba(235, 235, 245, .58); }
+.scen .profil-fot { margin-top: 10px; padding: 12px 14px; border-radius: 16px; background: rgba(118, 118, 128, .2); box-shadow: none; font-size: .8125rem; letter-spacing: -.008em; color: rgba(255, 255, 255, .88); }
+/* kapslarna: tonade, ingen ring, ingen pulserande glöd */
+.scen .chip { padding: 5px 10px; font: 600 .75rem/1 var(--font-brod); box-shadow: none; }
+.scen .chip-ok { color: #63e6a0; background: rgba(52, 199, 89, .2); box-shadow: none; }
+.scen .chip-folj { color: #ffd060; background: rgba(255, 159, 10, .22); box-shadow: none; }
+.scen .chip-neutral { color: rgba(255, 255, 255, .92); background: rgba(118, 118, 128, .32); box-shadow: none; }
+.scen .chip-ok::before, .scen .chip-folj::before { box-shadow: none; animation: none; }
+/* ringen: aktivitetsring */
+.scen .ring { width: 128px; height: 128px; margin-bottom: 10px; }
+.scen .ring::before { display: none; }
+.scen .ring circle { stroke-width: 11; }
+.scen .ring .ring-spar { stroke: rgba(126, 224, 195, .16); }
+.scen .ring .ring-fyll { filter: none; }
+.scen .ring-tal strong { font: 700 1.55rem/1 var(--font-siffror); letter-spacing: -.03em; color: #fff; background: none; -webkit-background-clip: border-box; background-clip: border-box; }
+.scen .ring-tal small { margin-top: 3px; font: 500 .6875rem/1 var(--font-brod); color: rgba(235, 235, 245, .6); }
+.scen .scen-sida p { font: 500 .8125rem/1.35 var(--font-brod); letter-spacing: -.008em; color: rgba(235, 235, 245, .7); }
+/* staplarna: platta och rundade */
+.scen .mini-titel { font: 650 .9375rem/1.25 var(--font-brod); letter-spacing: -.016em; }
+.scen .mini-under { font-size: .75rem; color: rgba(235, 235, 245, .58); }
+.scen .mini-staplar { gap: 10px; height: 88px; padding-bottom: 0; border-bottom: .5px solid rgba(84, 84, 88, .65); background: none; }
+.scen .mini-staplar span { border-radius: 7px 7px 2px 2px; background: linear-gradient(180deg, #7cc4ff, #2f8fe0); box-shadow: none; }
+.scen .mini-staplar span.varm { background: linear-gradient(180deg, #ffc65a, #ff9f0a); box-shadow: none; }
+.scen .mini-etiketter { gap: 10px; margin-top: 7px; font: 500 .65rem/1 var(--font-brod); color: rgba(235, 235, 245, .58); }
+.scen .mini-rad { margin-top: 12px; font: 500 .78rem/1 var(--font-brod); color: rgba(235, 235, 245, .7); }
+.scen .mini-rad { gap: 6px; white-space: nowrap; }
+@media (max-width: 900px) { .scen .mini-rad { font-size: .7rem; } .scen .mini-rad .chip { padding: 4px 8px; font-size: .68rem; } .scen .ring { width: 104px; height: 104px; } .scen .ring-tal strong { font-size: 1.3rem; } .scen .scen-kort { border-radius: 26px; } }
+
+/* 07 sektionerna: bildkorten och personkorten med större radie och lugnare zoom */
+.varld { border-radius: 32px; box-shadow: 0 0 0 .5px rgba(11, 21, 32, .1), 0 30px 60px -36px rgba(11, 21, 32, .5); }
+.varld h3 { letter-spacing: -.04em; font-weight: 700; }
+.varld:hover img, .varld:hover .loopfilm { transform: scale(1.03); }
+.person h3 { letter-spacing: -.03em; }
+.person li::before { background: var(--accent-djup); }
+.person:hover .person-bild img { transform: scale(1.03); }
+.tal-kort .kalla { text-transform: none; font-weight: 500; letter-spacing: 0; }
+.kontakt-info { border-radius: var(--radie-stor); }
+.kontakt-steg span { border: 0; color: #0b1520; background: var(--accent); font: 650 .8125rem/1 var(--font-siffror); }
+
+/* 07b rundade sektioner (användaren: "gör alla sektioner runda i kanterna upptill och nedtill om det passar"): de färgade sektionerna
+   (sand, filmen, idrotten, berättelsen) är stora rundade ytor som i iOS, och sidfoten är rundad upptill. Sidans botten (ben) syns i hörnen. */
+.sektion-sand, .film, .sektion.mork, .berattelse { border-radius: 44px; }
+.film, .berattelse, .sektion.mork { overflow: clip; }
+/* filmen: videon ligger i ett eget lager (filter) och klipptes inte av overflow + radie medan man rullade (hörnen blev raka, användarens
+   bild) – clip-path klipper även det lagret, och videon och dess slöjor har samma radie */
+.film { clip-path: inset(0 round 44px); }
+.film video, .film .film-poster, .film::before, .film::after { border-radius: inherit; }
+@media (max-width: 640px) { .film { clip-path: inset(0 round 30px); } }
+.loggband { border: 0; background: none; }
+.sidfot { border-radius: 44px 44px 0 0; }
+@media (max-width: 640px) { .sektion-sand, .film, .sektion.mork, .berattelse { border-radius: 30px; } .sidfot { border-radius: 30px 30px 0 0; } }
+
+/* 07c resten av sektionerna (användaren: "fixa iOS design på resten av sektionerna också") – detaljerna som inte var iOS ännu:
+   logoraden som en lugn glasrad, talkorten med rundade siffror, checklistorna med gröna fyllda bockar, idrottens löften som en
+   grupperad lista med fyllda färgrutor, områdeskorten med ikonrutor, paketkorten med hårfin kant och runda bockar, citatkortet,
+   bilderna med samma stora radie och prisnoten som en grå kapsel. */
+/* logoraden */
+.loggband { padding-block: clamp(2rem, 4vw, 3rem); }
+.loggband-inre { padding: 18px clamp(18px, 3vw, 32px); border-radius: 26px; background: rgba(255, 255, 255, .6); box-shadow: 0 0 0 .5px rgba(11, 21, 32, .07), 0 10px 30px -22px rgba(11, 21, 32, .25); }
+.loggband p { font: 500 .9375rem/1.4 var(--font-brod); letter-spacing: -.01em; }
+.loggor span { font: 600 .8125rem/1.2 var(--font-brod); letter-spacing: -.008em; }
+.loggor img { height: 46px; }
+/* talkorten */
+.tal-kort { border-radius: 30px; min-height: 280px; }
+.tal-kort .tal { font-family: var(--font-siffror); font-weight: 700; }
+.tal-kort p { letter-spacing: -.01em; }
+.tal-kort-mork { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), inset 0 0 0 .5px rgba(255, 255, 255, .12), 0 40px 80px -40px rgba(11, 21, 32, .6); }
+/* stegkorten och resan */
+.steg-kort { padding: 28px; }
+.steg-nr { display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(118, 118, 128, .12); font: 650 .75rem/1 var(--font-siffror); letter-spacing: 0; color: var(--text-2); }
+.steg-ikon { margin: 22px 0 18px; }
+.resa { border-radius: 30px; }
+.resa-huvud h3 { letter-spacing: -.03em; }
+/* checklistan i plattformen: gröna fyllda bockar */
+.punktlista { gap: 0; margin-top: 1.5rem; border-radius: 20px; background: rgba(255, 255, 255, .7); box-shadow: 0 0 0 .5px rgba(11, 21, 32, .07); overflow: hidden; }
+.punktlista li { padding: 14px 16px; gap: 12px; }
+.punktlista li + li { box-shadow: inset 0 .5px 0 var(--ap-har); }
+.punktlista .bock { width: 24px; height: 24px; color: #fff; background: #34c759; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3); }
+.punktlista .bock .ikon { width: 13px; height: 13px; }
+.punktlista strong { font-family: var(--font-brod); font-weight: 650; letter-spacing: -.012em; }
+.prisnot { border: 0; background: rgba(118, 118, 128, .12); font: 500 .875rem/1.2 var(--font-brod); }
+.prisnot strong { font-family: var(--font-brod); }
+/* idrotten: löftena som en grupperad lista, ikonerna som fyllda rutor */
+.idrott-lofte { gap: 0; border: 0; border-radius: 22px; background: rgba(255, 255, 255, .07); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), inset 0 0 0 .5px rgba(255, 255, 255, .12); }
+.idrott-lofte li { position: relative; align-items: center; gap: 14px; padding: 14px 16px; background: none; font-size: .95rem; letter-spacing: -.01em; color: rgba(255, 255, 255, .9); }
+.idrott-lofte li + li::before { content: ''; position: absolute; left: 62px; right: 0; top: 0; height: .5px; background: rgba(84, 84, 88, .65); }
+.idrott-lofte .ikon { box-sizing: border-box; width: 32px; height: 32px; padding: 7px; margin: 0; border-radius: 9px; color: #fff; background: linear-gradient(180deg, #4cd964, #2bb24c); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28); }
+.idrott-lofte li:nth-child(2) .ikon { background: linear-gradient(180deg, #ffb340, #ff9500); }
+.idrott-lofte li:nth-child(3) .ikon { background: linear-gradient(180deg, #5ac8fa, #0a84ff); }
+.idrott-lofte li:nth-child(4) .ikon { background: linear-gradient(180deg, #c58bf2, #af52de); }
+.idrott-bilder { gap: 10px; }
+.idrott-bilder img { border-radius: 26px; }
+.omrade { padding: 20px; }
+.omrade .ikon { box-sizing: border-box; width: 38px; height: 38px; padding: 9px; border-radius: 11px; color: #fff; background: linear-gradient(180deg, #3fcfa9, var(--accent-djup)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28); }
+.omrade:nth-child(2) .ikon { background: linear-gradient(180deg, #5ac8fa, #0a84ff); }
+.omrade:nth-child(3) .ikon { background: linear-gradient(180deg, #ffb340, #ff9500); }
+.omrade:nth-child(4) .ikon { background: linear-gradient(180deg, #ff6b7a, #ff375f); }
+.omrade:nth-child(5) .ikon { background: linear-gradient(180deg, #c58bf2, #af52de); }
+.omrade strong { margin-top: 14px; }
+/* paketen */
+.paket { border-radius: 30px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), inset 0 0 0 .5px rgba(255, 255, 255, .12), 0 40px 80px -44px rgba(11, 21, 32, .7); }
+.paket-niva { font: 600 .78rem/1 var(--font-brod); letter-spacing: .02em; text-transform: none; color: rgba(235, 235, 245, .6); }
+.paket-pris { font-family: var(--font-siffror); font-weight: 700; }
+.paket-lista { border-top: .5px solid rgba(84, 84, 88, .65); gap: 10px; letter-spacing: -.01em; }
+.paket-lista .ikon { box-sizing: border-box; width: 20px; height: 20px; padding: 4px; margin-top: 2px; border-radius: 50%; color: #06231b; background: var(--accent); stroke-width: 3.2; }
+.paket-lista li.arv { font-weight: 650; }
+.anpassa { border-radius: 30px; }
+.anpassa-grupper h4 { text-transform: none; font: 600 .8125rem/1 var(--font-brod); letter-spacing: 0; }
+/* team, citat och ge tillbaka */
+.citat { border-radius: 32px; box-shadow: 0 0 0 .5px rgba(11, 21, 32, .1), 0 40px 80px -44px rgba(11, 21, 32, .6); }
+.citat blockquote p { font-weight: 600; letter-spacing: -.03em; }
+.citat figcaption strong { font-family: var(--font-brod); font-weight: 650; }
+.person { border-radius: 30px; }
+.person-roll { text-transform: none; font: 600 .8125rem/1 var(--font-brod); letter-spacing: 0; }
+.ge-bild img { border-radius: 32px; }
+@media (max-width: 640px) { .loggband-inre { border-radius: 22px; } .tal-kort, .paket, .anpassa, .person, .resa { border-radius: 26px; } .tal-kort { min-height: 0; } }
+
+/* 08 frågorna: en grupperad iOS-lista – ett kort, rader avdelade av hårfina linjer, plus som vrids till kryss */
+.faq { gap: 0; border-radius: 26px; background: var(--vit); box-shadow: var(--skugga); overflow: hidden; }
+.faq details { border: 0; border-radius: 0; background: none; box-shadow: none !important; }
+.faq details + details { box-shadow: inset 0 .5px 0 var(--ap-har) !important; }
+.faq summary { padding: 20px 22px; font: 600 1.0625rem/1.35 var(--font-brod); letter-spacing: -.018em; transition: background-color .2s; }
+.faq summary:hover { background: rgba(11, 21, 32, .025); }
+.faq summary:active { background: rgba(11, 21, 32, .05); }
+.faq summary .plus { width: 30px; height: 30px; background: rgba(11, 21, 32, .06); color: var(--text-2); transition: background-color .25s, color .25s, transform .45s var(--ap-fjader); }
+.faq details[open] summary .plus { background: var(--accent-djup); color: #fff; }
+.faq .svar { padding: 0 22px 22px; }
+/* iOS-känslan (användaren: "ios design känsla"): pilen är en chevron som vänder, raden trycks in lätt, och svaret fälls ut mjukt
+   (::details-content där webbläsaren stöder det – annars öppnas det direkt som förut). Öppen fråga i accent. */
+.faq { interpolate-size: allow-keywords; }
+.faq summary { padding: 18px 20px 18px 22px; transition: background-color .2s, color .2s; }
+.faq details[open] > summary { color: var(--accent-djup); }
+.faq summary .plus, .faq details[open] summary .plus { width: 28px; height: 28px; background: none; color: rgba(60, 60, 67, .45); transform: none; }
+.faq summary .plus .ikon { display: none; }
+.faq summary .plus::before { content: ''; width: 9px; height: 9px; margin-top: -4px; border: solid currentColor; border-width: 0 2.2px 2.2px 0; border-radius: 1px; transform: rotate(45deg); transition: transform .4s var(--ap-fjader), margin .4s var(--ap-fjader); }
+.faq details[open] summary .plus { color: var(--accent-djup); }
+.faq details[open] summary .plus::before { transform: rotate(-135deg); margin-top: 4px; }
+.faq details::details-content { block-size: 0; overflow: clip; opacity: 0; transition: block-size .45s var(--ap-fjader), opacity .3s ease, content-visibility .45s allow-discrete; }
+.faq details[open]::details-content { block-size: auto; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .faq details::details-content { transition: none; } }
+
+/* 09 formuläret: iOS-fält – fyllda utan ram, fokus som en mjuk accentring, etiketter i brödtypsnittet */
+.etikett { font: 600 .8125rem/1.3 var(--font-brod); letter-spacing: -.006em; color: var(--text-2); }
+.falt { min-height: 50px; padding: 12px 15px; border: 0; border-radius: 13px; background: rgba(118, 118, 128, .1); font: 400 1.0625rem/1.4 var(--font-brod); letter-spacing: -.014em;
+  box-shadow: inset 0 0 0 .5px rgba(11, 21, 32, .04); transition: box-shadow .25s var(--ap-fjader), background-color .2s; }
+.falt::placeholder { color: rgba(60, 60, 67, .5); }
+.falt:hover { background: rgba(118, 118, 128, .14); }
+.falt:focus { background: var(--vit); border: 0; box-shadow: inset 0 0 0 1.5px var(--accent-djup), 0 0 0 4px color-mix(in srgb, var(--accent) 38%, transparent); }
+.formular-svar { border-radius: 13px; }
+
+/* 10 berättelsen: korten som mörkt glas med hårfin ljus kant, navigeringsraden som en glaskapsel */
+.bs-kort { border: 0; border-radius: 26px; box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .16), inset 0 1px 0 rgba(255, 255, 255, .1); }
+.bs-kort:hover { transform: translateY(-3px); }
+.bs-kort small { text-transform: none; letter-spacing: 0; font-weight: 500; }
+/* navigeringsraden som en iOS-verktygskapsel (användaren: "ios"): en kompakt flytande kapsel i mitten i stället för en rad över hela
+   bredden – namnet, sidprickarna (vit aktiv prick som i iOS sidkontroll), räknaren och två runda glasknappar. Ingen backdrop-filter
+   (raden är sticky och skulle suddas om vid varje rullning – noten i up.css). */
+.bs-botten { width: fit-content; max-width: calc(100% - 2 * var(--kant-marginal)); gap: 14px; padding: 6px 6px 6px 20px; border: 0;
+  background: linear-gradient(180deg, rgba(44, 58, 74, .96), rgba(22, 33, 46, .96));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), inset 0 0 0 .5px rgba(255, 255, 255, .14), 0 18px 40px -20px rgba(0, 0, 0, .8), 0 2px 6px rgba(0, 0, 0, .25); }
+.bs-botten-namn { font: 600 .8125rem/1.2 var(--font-brod); letter-spacing: -.01em; color: rgba(255, 255, 255, .92); }
+.bs-prickar { gap: 7px; margin: 0 6px; padding: 0 4px; }
+.bs-prickar button { width: 7px; height: 7px; background: rgba(255, 255, 255, .3); transition: width .4s var(--ap-fjader), background-color .25s; }
+.bs-prickar button[aria-current="true"] { width: 22px; background: #fff; }
+.bs-raknare { font: 600 .78rem/1 var(--font-siffror); color: rgba(235, 235, 245, .6); }
+.bs-pil { width: 38px; height: 38px; border: 0; background: rgba(118, 118, 128, .32); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); transition: background-color .2s, scale .3s var(--ap-studs), opacity .2s; }
+.bs-pil .ikon { width: 17px; height: 17px; stroke-width: 2.4; }
+.bs-pil:hover:not(:disabled) { background: rgba(118, 118, 128, .5); color: #fff; transform: none; }
+.bs-pil:active:not(:disabled) { scale: .88; background: var(--accent); color: var(--ink); }
+@media (max-width: 640px) { .bs-botten { gap: 8px; padding-left: 14px; } .bs-botten-namn { max-width: 34vw; } .bs-prickar { gap: 5px; margin: 0 2px; } .bs-prickar button[aria-current="true"] { width: 16px; } }
+
+/* U-märket i Mötet (användaren: "gör om den helt, mer snyggare, mer iOS-stil och känsla"): en appikon i stället för instrumentringen –
+   en mintfärgad squircle i glas med vit U, glans uppifrån, mjuk skugga och en lugn puls (två ringar i ikonens form). Strecken och
+   kometen är borta, linjerna in mot ikonen hårfina, namnet under som en appetikett. Bara transform/opacity rör sig (som förut). */
+.bs-motet-u { padding-bottom: 38px; }
+.bs-motet-u span { width: clamp(84px, 7.6vw, 108px); border-radius: 23%;
+  background: radial-gradient(120% 70% at 30% 0%, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 60%), linear-gradient(180deg, #86e6c9, #34b892 55%, #0f7a60);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 .5px rgba(255, 255, 255, .35), inset 0 -6px 14px rgba(8, 70, 54, .35),
+    0 22px 44px -18px rgba(15, 110, 87, .85), 0 4px 10px -2px rgba(0, 0, 0, .35); }
+.bs-motet-u span::before, .bs-motet-u span::after { height: .5px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .45)); }
+.bs-motet-u svg { width: 56%; color: #fff; filter: drop-shadow(0 1px 1px rgba(8, 70, 54, .35)); }
+.bs-motet-u i { border-radius: 23%; }
+.bs-motet-u .u-streck, .bs-motet-u .u-komet { display: none; }
+.bs-motet-u .u-glod { inset: -32%; border-radius: 50%; background: radial-gradient(closest-side, rgba(126, 224, 195, .32), transparent); }
+.bs-motet-u .u-puls { border: 1px solid rgba(255, 255, 255, .55); }
+.bs-motet-u .u-puls + .u-puls { border-color: rgba(126, 224, 195, .6); }
+.bs-motet-u .u-flode { border-radius: 0; }
+.bs-motet-u small { margin-top: -18px; font: 600 .8125rem/1 var(--font-brod); letter-spacing: -.01em; text-transform: none; color: rgba(246, 244, 239, .92); }
+.js .bs .bs-motet-u small { letter-spacing: -.01em; translate: -50% 6px; transition: translate .9s var(--ap-fjader) .9s, opacity .9s ease .9s; }
+.js .bs[data-synlig] .bs-motet-u small { letter-spacing: -.01em; translate: -50% 0; }
+
+/* 11 sidfoten */
+.sidfot h4 { text-transform: none; font: 600 .8125rem/1 var(--font-brod); letter-spacing: 0; color: rgba(246, 244, 239, .55); }
+.sidfot a { letter-spacing: -.012em; }
+
+/* 12 mobil: menyn som ett iOS-ark med stora rader, knapparna i full bredd med 50 px höjd */
+.mobilmeny a:not(.knapp) { border-bottom-width: .5px; letter-spacing: -.02em; font-family: var(--font-brod); font-weight: 600; }
+@media (max-width: 640px) {
+  .kort, .varld, .kontakt-info { border-radius: 26px; }
+  .faq { border-radius: 22px; }
+  .faq summary { padding: 18px; font-size: 1rem; }
+  .faq .svar { padding: 0 18px 18px; }
+  .persona button { padding-inline: 18px; }
+}
+
+/* 13 rörelse: respekt för reducerad rörelse */
+@media (prefers-reduced-motion: reduce) {
+  .knapp, .meny-lank, .persona button, .film-knapp, .lyft, .omrade, .bs-kort { transition: none; }
+  .knapp:active, .meny-lank:active, .persona button:active { scale: 1; }
+}
+/* pulsvågorna ritas på en canvas (up.js) när skript finns – då vilar CSS-ringarna och det egna skenet (canvasen ritar kärnan) */
+.hero-3d .h3-duk { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-3d[data-duk] i, .hero-3d[data-duk]::before { display: none; }
+/* med canvas (Flödet, up.js) täcker ytan hela hjältens övre del och tonas ut mot sidorna och nedåt */
+.hero-3d[data-duk] { left: 0; top: 0; width: 100%; height: min(100%, 1040px); aspect-ratio: auto; translate: none; transition: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%), linear-gradient(180deg, #000 82%, transparent 100%);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%), linear-gradient(180deg, #000 82%, transparent 100%); mask-composite: intersect; }
+
+/* Rubriken i hjälten (användaren: "fixa så den animeras och renderas snyggt"). Ordet "elitstandard." blev grått: rubrikens mörka skugga
+   lyste igenom den genomskinliga tonade texten, och toningen stod ofta mitt i ett svep. Nu: ingen skugga på det tonade ordet, en klar
+   stilla toning vit → mint → is, och ETT ljussvep över ordet när det har kommit fram (inte i loop – prestandaregeln). Bokstäverna i
+   "Hälsa med" (up.js delar dem) stiger fram en i taget ur oskärpa; det tonade ordet sveps fram från vänster. */
+.hero-rubrik { text-shadow: none; }
+.hero-rubrik .hr-ord { display: inline-block; white-space: nowrap; }
+.hero-rubrik .hr-b { display: inline-block; text-shadow: 0 2px 40px rgba(7, 15, 24, .6); }
+.hero .hero-rubrik .skimmer { display: inline-block; padding-bottom: .08em; text-shadow: none; animation: none;
+  background-image: linear-gradient(100deg, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, .95) 50%, rgba(255, 255, 255, 0) 58%), linear-gradient(100deg, #ffffff 0%, #d6fbef 20%, #7ee0c3 50%, #a7d2ff 80%, #ffffff 100%);
+  background-size: 260% 100%, 100% 100%; background-position: 160% 0, 0 0; background-repeat: no-repeat;
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; } /* ingen glöd: ett filter på tonad text ritade en svag ljus ruta bakom ordet */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero-rubrik[data-delad] .hr-b { animation: hr-in .9s var(--ap-fjader) both; animation-delay: calc(var(--i) * 42ms + .12s); }
+  .js .hero .hero-rubrik[data-delad] .skimmer { animation: hr-ord 1.15s var(--ap-fjader) both, hr-glans 1.7s cubic-bezier(.4, 0, .2, 1) both; animation-delay: calc(var(--i) * 42ms + .2s), calc(var(--i) * 42ms + 1.15s); }
+}
+@keyframes hr-in { from { opacity: 0; transform: translateY(.42em) scale(.92); filter: blur(10px); } to { filter: blur(0); } }
+@keyframes hr-ord { from { opacity: 0; transform: translateY(.3em); clip-path: inset(0 100% -20% 0); filter: blur(12px); } to { clip-path: inset(0 0 -20% 0); filter: none; } }
+@keyframes hr-glans { from { background-position: 160% 0, 0 0; } to { background-position: -60% 0, 0 0; } }
+
+/* Berättelsens bilder utan skarv (2026-11-23, användarens bild: hård kant mellan två bilder – grönt nere till höger i en bild mot blått
+   uppe till vänster i nästa). Skenen ligger nu en bit in från kanterna och tonar ut i bläcket innan bilden slutar, så att bilderna
+   flyter ihop till en enda mörk yta; den hårfina linjen mellan bilderna är borta. Samma färger som förut. */
+.bs { background: radial-gradient(62% 48% at 18% 34%, rgb(22 54 90 / .92), transparent 72%), radial-gradient(58% 48% at 84% 66%, rgba(15, 110, 87, .42), transparent 72%), var(--ink); }
+.bs + .bs { border-top: 0; }
+
+/* Mjuka val på hemsidan (crm/mjuka-val.js, 2026-11-23, användaren: "samma mjuka känsla på hemsidan också"): bubblan som glider mellan
+   Företag/Idrott, menyns val och Berättelsens prickar. Under glidningen är det nya valdas egen platta dold; bubblan ligger under texten. */
+.mjuk-bubbla { position: absolute; left: 0; top: 0; z-index: -1; pointer-events: none; will-change: transform; }
+[data-mjuk-glid] { isolation: isolate; }
+html body [data-mjuk-glid][data-mjuk-glid][data-mjuk-glid] :is([aria-pressed="true"], [aria-selected="true"], [aria-current="page"], [aria-current="true"]) { background: transparent !important; box-shadow: none !important; }
+/* Företag/Idrott: markören har redan en egen glidning (up.css) – samma fjäder som de mjuka valen. */
+.persona-markor { transition: transform .5s cubic-bezier(.32, 1.22, .48, 1); }
+@media (prefers-reduced-motion: reduce) { .persona-markor { transition: none; } }
+
+/* Ärendet överst i kontaktformuläret (Fråga | Boka genomgång | Välja paket) – iOS-segment; det valda glider (crm/mjuka-val.js). */
+.formular-arende { display: flex; gap: 0; margin-bottom: 18px; padding: 3px; border-radius: 99px; background: rgb(11 21 32 / .06); }
+.formular-arende button { flex: 1; min-height: 36px; padding: 0 12px; border: 0; border-radius: 99px; background: none; font: 600 .86rem/1.2 var(--font-rubrik, inherit); color: var(--text-2, #4a5563); cursor: pointer; transition: color .25s ease, background-color .25s ease; }
+.formular-arende button[aria-pressed="true"] { color: var(--ink, #0b1520); background: #fff; box-shadow: 0 0 0 .5px rgb(11 21 32 / .08), 0 3px 8px -2px rgb(11 21 32 / .22); }
+@media (max-width: 480px) { .formular-arende button { font-size: .78rem; padding: 0 6px; } }
+
+/* Appikonen i Mötet (2026-11-23, användaren: "fixa om den till den rätta originalfärgen"): logotypens navy i stället för mint, med
+   den gemensamma loggan (vit cirkel, navy U – assets/logga.js). Skenet runt om i isblått. */
+.bs-motet-u span { background: radial-gradient(120% 70% at 30% 0%, rgba(255, 255, 255, .28), rgba(255, 255, 255, 0) 60%), linear-gradient(180deg, #2a5178, #183653 55%, #0d1f33);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 .5px rgba(255, 255, 255, .22), inset 0 -6px 14px rgba(5, 14, 25, .45), 0 22px 44px -18px rgba(24, 54, 83, .9), 0 4px 10px -2px rgba(0, 0, 0, .35); }
+.bs-motet-u .u-glod { background: radial-gradient(closest-side, rgba(167, 210, 255, .3), transparent); }
+.bs-motet-u .u-puls + .u-puls { border-color: rgba(167, 210, 255, .6); }
+
+/* GDPR i formuläret (2026-11-23): rutan för att ha läst integritetspolicyn och raden om hälsouppgifter */
+.formular-halsa { margin: 0; font-size: .82rem; color: var(--text-2, #4a5563); }
+.formular-integritet { display: flex; align-items: flex-start; gap: 10px; font-size: .86rem; line-height: 1.5; color: var(--text-2, #4a5563); cursor: pointer; }
+/* rutan som en iOS-kryssruta (2026-11-23, användaren: 'snyggare och animerad känsla när man trycker'): trycket krymper den,
+   den fylls med mint, bocken fjädrar in och en ljusring pulserar ut. Bara vid klick – inget rör sig i vila. */
+.formular-integritet input { flex: none; position: relative; width: 24px; height: 24px; margin: 0; border-radius: 8px; cursor: pointer;
+  -webkit-appearance: none; appearance: none; background: #fff no-repeat center; background-size: 0 0, 100% 100%;
+  box-shadow: inset 0 0 0 1.5px rgba(11, 21, 32, .22), 0 1px 2px rgba(11, 21, 32, .06);
+  transition: box-shadow .25s ease, background-size .32s cubic-bezier(.34, 1.56, .64, 1) .05s, transform .2s cubic-bezier(.32, .72, 0, 1); }
+.formular-integritet:hover input:not(:checked) { box-shadow: inset 0 0 0 1.5px rgba(15, 110, 87, .55), 0 1px 2px rgba(11, 21, 32, .06); }
+.formular-integritet input:active { transform: scale(.86); }
+.formular-integritet input:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"), linear-gradient(180deg, #46d1a4, #0f8f6c);
+  background-size: 15px 15px, 100% 100%; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 4px 10px -4px rgba(15, 143, 108, .6); animation: ip-ruta-in .45s cubic-bezier(.34, 1.56, .64, 1); }
+.formular-integritet input:checked::after { content: ''; position: absolute; inset: -2px; border-radius: 10px; box-shadow: 0 0 0 2px rgba(126, 224, 195, .7); opacity: 0; animation: ip-ruta-ring .6s ease-out; pointer-events: none; }
+.formular-integritet input:focus-visible { outline: 2px solid #0f6e57; outline-offset: 3px; }
+.formular-integritet { align-items: center; padding: 12px 14px; border-radius: 16px; background: rgba(11, 21, 32, .035); transition: background-color .25s; }
+.formular-integritet:has(input:checked) { background: rgba(126, 224, 195, .16); }
+@keyframes ip-ruta-in { 0% { transform: scale(.82); } 55% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes ip-ruta-ring { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.7); } }
+@media (prefers-reduced-motion: reduce) { .formular-integritet input, .formular-integritet input::after { animation: none; transition: none; } }
+.formular-integritet a, .formular-fot a { color: #0f6e57; text-underline-offset: 3px; }
+.sidfot-botten a { color: inherit; text-underline-offset: 3px; }

@@ -1,0 +1,545 @@
+/* Uperformance CRM – Abonnemang och bindningstid (abonnemang.js, 2026-11-23). Färgerna är temats tokens; lägets färg sätts med
+   --ab-f (mint = bunden, gul = snart/förlängs, röd = agera/uppsagt, is = tills vidare). */
+.ab-rum { display: grid; gap: var(--hjalte-luft, 12px); }
+:where(.ab-pass, .ab-bkort, .ab-mark, .ab-lst-rad, .ab-tl-detalj, .ab-tips, .ab-kd-lista li, .ab-matare) { --ab-f: var(--accent-text, var(--accent-djup, #0f6e57)); }
+[data-lage="snart"], [data-lage="forlangs"] { --ab-f: var(--gul, #f0b545); }
+[data-lage="agera"], [data-lage="uppsagt"] { --ab-f: var(--rod, #e5674f); }
+[data-lage="tillsvidare"] { --ab-f: var(--is, #a7d2ff); }
+[data-lage="avslutat"] { --ab-f: var(--text-3, #5f6a76); }
+.ab-forklaring { margin: 0 0 12px; max-width: 52rem; font-size: .9rem; line-height: 1.5; color: var(--text-2); }
+
+/* mätaren: hur långt in i bindningsperioden kunden är */
+.ab-matare { display: block; height: 6px; border-radius: 99px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .09); overflow: hidden; }
+.ab-matare i { display: block; height: 100%; border-radius: inherit; background: var(--ab-f); transform-origin: left; transform: scaleX(var(--p, 0)); }
+.vy-in .ab-matare i { animation: ab-vax .9s cubic-bezier(.22, 1, .36, 1) backwards; }
+@keyframes ab-vax { from { transform: scaleX(0); } }
+
+/* Att agera på */
+.ab-agera-knappar, .ab-knappar { display: flex; flex-wrap: wrap; gap: 6px; }
+.ab-ikonknapp .ikon { width: 15px; height: 15px; }
+
+   ett lager över alla rader. Verktygen är iOS-segment. Kortet vid hovring (.ab-tips) ligger under body. */
+.ab-tidslinje .kort-huvud { flex-wrap: wrap; gap: 10px 16px; }
+.ab-seg { display: inline-flex; padding: 3px; border-radius: 99px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-seg button { min-height: 30px; padding: 0 13px; border: 0; border-radius: 99px; background: none; font: 600 .76rem/1 var(--font-rubrik); color: var(--text-2); cursor: pointer; transition: color .2s, background-color .2s, transform .15s; }
+.ab-seg button[aria-pressed="true"] { color: var(--text); background: var(--vit-tack, var(--vit, #fff)); box-shadow: 0 1px 3px rgb(var(--t-skugga-rgb, 11 21 32) / .18); }
+.ab-tips { position: fixed; top: 0; left: 0; z-index: 9000; width: min(340px, calc(100vw - 24px)); padding: 14px; border-radius: 16px; pointer-events: none; color: var(--text); background: var(--vit-tack, var(--vit, #fff)); box-shadow: 0 0 0 1px rgb(var(--t-blaeck-rgb, 11 21 32) / .08), 0 18px 44px -12px rgb(var(--t-skugga-rgb, 11 21 32) / .38); animation: ab-tips .18s ease-out; }
+.ab-tips[hidden] { display: none; }
+@keyframes ab-tips { from { opacity: 0; } }
+.ab-tips-topp { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.ab-tips-topp span:first-child { display: grid; gap: 2px; min-width: 0; }
+.ab-tips-topp strong { font: 600 .9rem/1.25 var(--font-rubrik); }
+.ab-tips-topp small { font-size: .76rem; color: var(--text-2); }
+.ab-tips dl { display: grid; gap: 0; margin: 10px 0 0; }
+.ab-tips dl div { display: flex; justify-content: space-between; gap: 14px; padding: 7px 0; border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); font-size: .78rem; }
+.ab-tips dt { color: var(--text-2); white-space: nowrap; }
+.ab-tips dd { margin: 0; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ab-tips p { margin: 8px 0 0; font-size: .72rem; color: var(--text-3); }
+
+/* Alla abonnemang */
+.ab-filter { display: flex; flex-wrap: wrap; gap: 6px; }
+.ab-filterknapp { display: inline-flex; align-items: center; gap: 7px; min-height: 32px; padding: 0 12px; border: 0; border-radius: 999px; cursor: pointer; font: 600 .78rem/1 var(--font-rubrik); color: var(--text-2); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); transition: background-color .2s, color .2s; }
+.ab-filterknapp span { font-variant-numeric: tabular-nums; color: var(--text-3); }
+.ab-filterknapp:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .1); }
+.ab-filterknapp[aria-pressed="true"] { color: var(--pa-mork, #f6f4ef); background: var(--ink, #0b1520); }
+.ab-filterknapp[aria-pressed="true"] span { color: inherit; opacity: .7; }
+.ab-fakta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; margin: 0; }
+.ab-fakta dt { font: 600 .66rem/1.2 var(--font-rubrik); letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+.ab-fakta dd { margin: 3px 0 0; font: 600 .9rem/1.3 var(--font-rubrik); font-variant-numeric: tabular-nums; }
+.ab-skal { margin: 0; padding: 10px 12px; border-radius: 12px; font-size: .84rem; line-height: 1.5; color: var(--text-2); background: color-mix(in srgb, var(--ab-f) 9%, transparent); }
+.ab-not { display: block; margin-top: 4px; font-style: italic; color: var(--text-3); }
+.ab-tomt .kort-inre { display: grid; justify-items: center; gap: 10px; padding: clamp(28px, 5vw, 56px) 20px; text-align: center; }
+.ab-tomt h2 { margin: 6px 0 0; font-size: 1.3rem; }
+.ab-tomt p { margin: 0 0 6px; max-width: 34rem; color: var(--text-2); }
+
+/* kortet på kundsidan */
+.ab-kd-lista { display: grid; gap: 2px; margin: 0; padding: 4px 14px 14px; list-style: none; }
+.ab-kd-lista li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 0; }
+.ab-kd-lista li + li { border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-kd-text { display: grid; gap: 4px; min-width: 0; }
+.ab-kd-text strong { font: 600 .9rem/1.25 var(--font-rubrik); }
+.ab-kd-text small { font-size: .78rem; color: var(--text-2); }
+.ab-kd-tom { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; width: calc(100% - 28px); margin: 4px 14px 14px; padding: 12px; border: 1.5px dashed rgb(var(--t-blaeck-rgb, 11 21 32) / .18); border-radius: 14px; background: none; color: inherit; text-align: left; cursor: pointer; transition: border-color .2s, background-color .2s; }
+.ab-kd-tom:hover { border-color: var(--accent-text, #0f6e57); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .03); }
+.ab-kd-tom span { display: grid; gap: 2px; }
+.ab-kd-tom strong { font: 600 .9rem/1.25 var(--font-rubrik); }
+.ab-kd-tom small { font-size: .78rem; color: var(--text-2); }
+.ab-kd-tom > .ikon { width: 18px; height: 18px; color: var(--accent-text, #0f6e57); }
+
+/* arket */
+.ab-form { display: grid; gap: 14px; }
+.ab-form-rad { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ab-form-tre { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ab-form [hidden] { display: none; }
+.ab-summa { padding: 14px 16px; border-radius: 16px; background: color-mix(in srgb, var(--accent) 12%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent); }
+.ab-summa dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 16px; margin: 0 0 8px; }
+.ab-summa dt { font: 600 .64rem/1.2 var(--font-rubrik); letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); }
+.ab-summa dd { margin: 3px 0 0; font: 600 .95rem/1.3 var(--font-rubrik); font-variant-numeric: tabular-nums; }
+.ab-summa p { margin: 0; font-size: .84rem; line-height: 1.5; color: var(--text-2); }
+.ab-radera { margin-right: auto; color: var(--f-9c2f1c, #9c2f1c); }
+.ark-fel[data-ab-fel] { margin: 0; padding: 10px 12px; border-radius: 12px; font-size: .86rem; color: var(--f-9c2f1c, #9c2f1c); background: var(--y-fde8e3, #fde8e3); }
+
+@media (max-width: 760px) {
+  .ab-seg button { padding: 0 10px; }
+  .ab-form-rad, .ab-form-tre { grid-template-columns: minmax(0, 1fr); }
+  .ab-summa dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .vy-in .ab-matare i, .ab-tips { animation: none; } }
+
+/* Framåt (gjord om helt 2026-11-23): tre tal, vyerna Beslut (golvet i perspektiv – projektionen räknas i JS) och Intäkt (staplar).
+   Rörelse bara transform/opacity: korten reser sig ur golvet en i taget, staplarna växer, de som är inom 30 dagar pulserar i foten. */
+
+/* ---- Beslut: golvet ---- */
+.ab-bk { position: relative; container-type: inline-size; margin: 4px 0 6px; color: var(--accent-text, #0f6e57); }
+
+/* ---- Beslut: korten på pinnar ---- */
+.ab-ft-vy[data-nytt] { animation: ab-ft-vy .45s cubic-bezier(.23, 1, .32, 1); }
+
+/* mobil: listan i stället för golvet */
+.ab-bk-tomt { display: flex; align-items: center; gap: 10px; margin: 0; padding: 18px; border-radius: 16px; color: var(--text-2); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .035); }
+.ab-bk-tomt .ikon { width: 18px; height: 18px; color: var(--accent-text, #0f6e57); }
+.ab-bk-noter { display: grid; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.ab-bk-noter li { display: flex; align-items: flex-start; gap: 8px; font-size: .8rem; line-height: 1.45; color: var(--text-2); }
+.ab-bk-noter .ikon { flex: none; width: 15px; height: 15px; margin-top: 2px; color: var(--text-3); }
+
+/* ---- Intäkt: staplarna ---- */
+.ab-ik { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); height: 260px; margin-top: 4px; padding-bottom: 24px; }
+.ab-ik-axel { position: relative; }
+.ab-ik-axel span { position: absolute; left: 0; height: 0; }
+.ab-ik { container-type: inline-size; }
+.ab-ik-axel span { width: calc(100cqw); border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-ik-axel b { position: absolute; top: -.6em; left: 0; font: 600 .66rem/1.2 var(--font-rubrik); font-variant-numeric: tabular-nums; color: var(--text-3); }
+.ab-ik-staplar { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: clamp(3px, .8cqw, 12px); align-items: end; }
+.ab-ik-kol { position: relative; display: grid; height: 100%; align-items: end; border-radius: 8px; outline: none; cursor: default; }
+.ab-ik-stapel { display: flex; flex-direction: column-reverse; height: 100%; justify-content: flex-start; gap: 2px; transform-origin: 50% 100%; }
+.ab-ik-stapel i { display: block; flex: none; min-height: 3px; border-radius: 5px; transition: filter .2s; }
+.ab-ik-kol:hover .ab-ik-stapel i, .ab-ik-kol:focus-visible .ab-ik-stapel i { filter: brightness(1.08) saturate(1.1); }
+[data-k="saker"] { --k: var(--accent-text, #0f6e57); }
+[data-k="fornyas"] { --k: color-mix(in srgb, var(--accent, #7ee0c3) 45%, transparent); }
+[data-k="tillsvidare"] { --k: var(--is, #a7d2ff); }
+[data-k="slutar"] { --k: var(--rod, #e5674f); }
+.ab-ik-stapel i { background: var(--k); }
+.ab-ik-stapel i[data-k="slutar"] { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--k) 30%, transparent) 0 4px, transparent 4px 8px); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--k) 60%, transparent); }
+.ab-ik-man { position: absolute; top: calc(100% + 7px); left: 50%; transform: translateX(-50%); font: 600 .64rem/1 var(--font-rubrik); letter-spacing: .04em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
+.ab-ik-man[data-ar] { color: var(--text); }
+.ab-ik[style*="--n:24"] .ab-ik-kol:nth-child(even) .ab-ik-man:not([data-ar]) { visibility: hidden; }
+.ab-ik-info { position: absolute; top: 8px; left: 50%; z-index: 5; display: grid; gap: 4px; width: 210px; padding: 12px; border-radius: 14px; pointer-events: none; opacity: 0; transform: translate(-50%, 4px); transition: opacity .15s, transform .2s cubic-bezier(.23, 1, .32, 1); background: var(--vit-tack, var(--vit, #fff)); box-shadow: 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .1), 0 16px 36px -12px rgb(var(--t-skugga-rgb, 11 21 32) / .4); }
+.ab-ik-kol[data-sida="v"] .ab-ik-info { left: 0; transform: translate(0, 4px); }
+.ab-ik-kol[data-sida="h"] .ab-ik-info { left: auto; right: 0; transform: translate(0, 4px); }
+.ab-ik-kol:hover .ab-ik-info, .ab-ik-kol:focus-visible .ab-ik-info { opacity: 1; transform: translate(-50%, 0); }
+.ab-ik-kol[data-sida="v"]:is(:hover, :focus-visible) .ab-ik-info, .ab-ik-kol[data-sida="h"]:is(:hover, :focus-visible) .ab-ik-info { transform: translate(0, 0); }
+.ab-ik-kol:hover, .ab-ik-kol:focus-visible { z-index: 6; }
+.ab-ik-info strong { font: 600 .8rem/1.3 var(--font-rubrik); }
+.ab-ik-info > span { display: flex; align-items: center; gap: 7px; font-size: .74rem; color: var(--text-2); }
+.ab-ik-info > span i { width: 9px; height: 9px; border-radius: 3px; background: var(--k); }
+.ab-ik-info > span b { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); }
+.vy-in .ab-ik-stapel, .ab-ft-vy[data-nytt] .ab-ik-stapel { animation: ab-ik-vax .8s cubic-bezier(.23, 1, .32, 1) backwards; animation-delay: calc(var(--i, 0) * 35ms); }
+@keyframes ab-ik-vax { from { transform: scaleY(0); } }
+
+/* foten: förklaring */
+.ab-ft-fot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+.ab-ft-forklaring { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: .74rem; color: var(--text-2); }
+.ab-ft-forklaring i { display: inline-block; width: 10px; height: 10px; margin-right: -10px; border-radius: 3px; background: var(--k, var(--ab-f)); }
+.ab-ft-forklaring i[data-k="rod"] { --k: var(--rod, #e5674f); border-radius: 50%; }
+.ab-ft-forklaring i[data-k="gul"] { --k: var(--gul, #f0b545); border-radius: 50%; }
+.ab-ft-forklaring i[data-k="mint"] { --k: var(--accent-text, #0f6e57); border-radius: 50%; }
+.ab-ft-forklaring i[data-k="is"] { --k: var(--is, #a7d2ff); border-radius: 50%; }
+.ab-ft-forklaring i[data-k="slutar"] { background: none; box-shadow: inset 0 0 0 1.5px var(--k); }
+.ab-ft-tips { font-size: .72rem; color: var(--text-3); }
+
+/* detaljerna under vyn */
+.ab-tl-detalj { display: grid; gap: 14px; margin-top: 16px; padding: 16px; border-radius: 20px; background: color-mix(in srgb, var(--ab-f) 7%, var(--vit-tack, var(--vit, #fff))); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ab-f) 28%, transparent), 0 16px 36px -22px rgb(var(--t-skugga-rgb, 11 21 32) / .5); }
+.ab-tl-detalj[data-nytt] { animation: ab-detalj .38s cubic-bezier(.23, 1, .32, 1); }
+@keyframes ab-detalj { from { opacity: 0; transform: translateY(-8px) scale(.99); } }
+.ab-dt-topp { display: flex; align-items: center; gap: 12px; }
+.ab-dt-topp > span:first-child { display: grid; gap: 2px; min-width: 0; margin-right: auto; }
+.ab-dt-topp strong { font: 600 1.05rem/1.25 var(--font-rubrik); letter-spacing: -.015em; }
+.ab-dt-topp small { font-size: .82rem; color: var(--text-2); }
+.ab-dt-stang { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; color: var(--text-2); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .07); cursor: pointer; }
+.ab-dt-stang:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .12); }
+.ab-dt-stang .ikon { width: 14px; height: 14px; }
+.ab-dt-insikt { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.ab-dt-insikt li { display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-radius: 14px; background: color-mix(in srgb, var(--vit-tack, #fff) 70%, transparent); box-shadow: 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+.ab-dt-insikt .ikon { flex: none; width: 30px; height: 30px; padding: 7px; border-radius: 9px; color: #fff; background: var(--accent-text, #0f6e57); }
+.ab-dt-insikt li:nth-child(2) .ikon { background: color-mix(in srgb, var(--ab-f) 80%, var(--text)); }
+.ab-dt-insikt li:nth-child(3) .ikon { background: var(--navy, #183653); }
+.ab-dt-insikt span { display: grid; gap: 2px; min-width: 0; }
+.ab-dt-insikt strong { font: 600 .84rem/1.3 var(--font-rubrik); }
+.ab-dt-insikt small { font-size: .74rem; line-height: 1.35; color: var(--text-2); }
+
+@media (max-width: 760px) {
+  .ab-bk { display: none; }
+  .ab-ft-tips { display: none; }
+  .ab-ik { grid-template-columns: 42px minmax(0, 1fr); height: 220px; }
+  .ab-ik[style*="--n:12"] .ab-ik-kol:nth-child(even) .ab-ik-man:not([data-ar]), .ab-ik[style*="--n:24"] .ab-ik-kol:not(:nth-child(3n+1)) .ab-ik-man:not([data-ar]) { visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vy-in .ab-ft-tal > div, .vy-in .ab-bk-golv, .vy-in .ab-bk-pin .ab-bk-kort, .vy-in .ab-bk-pin .ab-bk-pinne, .ab-ft-vy[data-vy], .ab-ik-stapel, .ab-tl-detalj { animation: none !important; }
+}
+
+/* ==== iOS-formen på resten av sidan (2026-11-23, användaren: "fixa ios design på resten av abonnemang sidan också") ====
+   Samma recept som apple.css och hälsoappen: inset-grupperade listor med hårfina avdelare, fyllda färgrutor med vit text, tonade
+   kapslar i lägets färg, segment med ljus platta i stället för svarta brickor, fakta som inställningsrader (etikett vänster, värde
+   höger) i stället för versala etiketter. Bara form och material – färgerna är temats tokens och lägets --ab-f. */
+.ab-rum { --ab-yta: color-mix(in srgb, var(--vit-tack, #fff) 62%, transparent); --ab-hår: rgb(var(--t-blaeck-rgb, 11 21 32) / .08); --ab-grupp-r: 18px; }
+
+/* lägets kapsel: tonad bakgrund + text i lägets färg (blandad mot texten så att den läses) */
+.ab-rum .chip, .kd-abonnemang .chip, .ab-tips .chip { padding: 5px 10px; font-weight: 600; letter-spacing: -.005em; color: color-mix(in srgb, var(--ab-f) 52%, var(--text)); background: color-mix(in srgb, var(--ab-f) 17%, transparent); }
+.ab-tips { --ab-f: var(--accent-text, #0f6e57); }
+
+/* Att agera på – en inset-grupp: dagarna som en fylld ruta (som Kalenderns datumikon), raderna med hårfina avdelare */
+
+/* Filtret – ett segment med ljus platta (samma som tidslinjens), räknaren som grå siffra */
+.ab-alla .kort-huvud { flex-wrap: wrap; gap: 10px 16px; }
+.ab-filter { gap: 0; margin-left: auto; padding: 3px; border-radius: 99px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-filterknapp { min-height: 30px; padding: 0 12px; gap: 6px; font-size: .76rem; background: none; transition: color .2s, background-color .2s, transform .15s; }
+.ab-filterknapp:hover { background: none; color: var(--text); }
+.ab-filterknapp[aria-pressed="true"] { color: var(--text); background: var(--vit-tack, var(--vit, #fff)); box-shadow: 0 1px 3px rgb(var(--t-skugga-rgb, 11 21 32) / .18); }
+.ab-filterknapp span { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; font-size: .66rem; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-filterknapp[aria-pressed="true"] span { opacity: 1; color: var(--text-2); }
+
+/* Korten – iOS-widgets: glasyta med hårfin kant, fakta som en inset-lista, skälet som vanlig text */
+@media (hover: hover) { .ab-rad:hover { transform: translateY(-2px); box-shadow: 0 0 0 .5px var(--ab-hår), 0 2px 4px rgb(var(--t-skugga-rgb, 11 21 32) / .06), 0 18px 36px -18px rgb(var(--t-skugga-rgb, 11 21 32) / .42); } }
+.ab-rad .ab-fakta, .ab-tl-detalj .ab-fakta { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 14px; border-radius: 14px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .035); }
+.ab-rad .ab-fakta div, .ab-tl-detalj .ab-fakta div { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 10px 0; }
+.ab-rad .ab-fakta div + div, .ab-tl-detalj .ab-fakta div + div { border-top: 1px solid var(--ab-hår); }
+.ab-rad .ab-fakta dt, .ab-tl-detalj .ab-fakta dt { font: 500 .84rem/1.3 var(--font-brod); letter-spacing: 0; text-transform: none; color: var(--text-2); }
+.ab-rad .ab-fakta dd, .ab-tl-detalj .ab-fakta dd { margin: 0; text-align: right; font-size: .86rem; }
+
+/* Knapparna – kapslar: tonade sekundära, ikonknappen rund */
+.ab-rum .knapp-kontur.knapp-liten, .kd-abonnemang .knapp-kontur.knapp-liten { border: 0; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); box-shadow: none; }
+.ab-rum .knapp-kontur.knapp-liten:hover, .kd-abonnemang .knapp-kontur.knapp-liten:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .1); }
+
+/* Kortet på kundsidan – inset-lista */
+.ab-kd-lista { gap: 0; margin: 4px 14px 14px; padding: 0 14px; border-radius: 16px; background: var(--ab-yta, color-mix(in srgb, var(--vit-tack, #fff) 62%, transparent)); box-shadow: 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+.ab-kd-lista li { padding: 12px 0; }
+.ab-kd-text .ab-matare { height: 5px; }
+
+/* Arket – summan som en inset-grupp med inställningsrader */
+.ab-summa { padding: 0; overflow: hidden; border-radius: 16px; background: color-mix(in srgb, var(--vit-tack, #fff) 62%, transparent); box-shadow: 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .1); }
+.ab-summa dl { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; }
+.ab-summa dl div { padding: 12px 14px; }
+.ab-summa dl div + div { box-shadow: inset 1px 0 0 rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+.ab-summa dt { font: 500 .74rem/1.3 var(--font-brod); letter-spacing: 0; text-transform: none; }
+.ab-summa dd { font-size: 1.02rem; letter-spacing: -.01em; }
+.ab-summa p { padding: 11px 14px; border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .08); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+
+@media (max-width: 760px) {
+  .ab-filter { width: 100%; margin-left: 0; overflow-x: auto; scrollbar-width: none; }
+  .ab-filter::-webkit-scrollbar { display: none; }
+  .ab-filterknapp { flex: none; }
+  .ab-summa dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ab-summa dl div:nth-child(3) { box-shadow: inset 0 1px 0 rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+  .ab-summa dl div:nth-child(4) { box-shadow: inset 1px 0 0 rgb(var(--t-blaeck-rgb, 11 21 32) / .08), inset 0 1px 0 rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+}
+@media (prefers-reduced-motion: reduce) { .ab-rad { transition: none; } .ab-rad:hover { transform: none; } }
+
+/* ==== Liquid glass (2026-11-23, användaren: "höj designnivån … apple iOS … snyggare animeringar och rutor, liquid glas typ") ====
+   Ett material för sidans alla rutor: genomskinlig fyllning i temats glanston, oskärpa + mättnad bakom, ljus överkant (spekulär rand),
+   svag ljus underkant, hårfin ljus ring och en mjuk skugga. Bara form och material – färgerna är temats tokens och lägets --ab-f. */
+.ab-rum, .kd-abonnemang, .ab-tips {
+  --lg-fyll: linear-gradient(180deg, color-mix(in srgb, var(--vit-tack, #fff) 62%, transparent), color-mix(in srgb, var(--vit-tack, #fff) 34%, transparent));
+  --lg-kant: inset 0 1px 0 rgb(255 255 255 / calc(.85 * var(--ab-ljus, 1))), inset 0 -1px 0 rgb(255 255 255 / calc(.22 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.55 * var(--ab-ljus, 1))), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .07);
+  --lg-skugga: 0 1px 2px rgb(var(--t-skugga-rgb, 11 21 32) / .05), 0 12px 30px -14px rgb(var(--t-skugga-rgb, 11 21 32) / .38);
+  --lg-blur: blur(22px) saturate(1.8);
+}
+.ab-ft-tal > div, .ab-rad, .ab-agera-lista, .ab-tl-detalj, .ab-bk-lista, .ab-kd-lista, .ab-summa {
+  background: var(--lg-fyll); -webkit-backdrop-filter: var(--lg-blur); backdrop-filter: var(--lg-blur); box-shadow: var(--lg-kant), var(--lg-skugga);
+}
+.ab-tl-detalj { background: linear-gradient(180deg, color-mix(in srgb, var(--ab-f) 12%, color-mix(in srgb, var(--vit-tack, #fff) 66%, transparent)), color-mix(in srgb, var(--vit-tack, #fff) 38%, transparent)); box-shadow: var(--lg-kant), 0 0 0 1px color-mix(in srgb, var(--ab-f) 26%, transparent), var(--lg-skugga); }
+.ab-dt-insikt li, .ab-rad .ab-fakta { background: color-mix(in srgb, var(--vit-tack, #fff) 45%, transparent); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.7 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.45 * var(--ab-ljus, 1))), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .06); }
+
+/* korten på golvet: glas med lägets färg som ett sken uppifrån och en glansrand som drar förbi vid hovring */
+
+/* segmenten och filtret: glasränna med en glasdroppe för det valda */
+.ab-seg, .ab-filter { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); box-shadow: inset 0 1px 2px rgb(var(--t-skugga-rgb, 11 21 32) / .08), inset 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .05); }
+.ab-seg button[aria-pressed="true"], .ab-filterknapp[aria-pressed="true"] { color: var(--text); background: var(--vit-tack, #fff); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.9 * var(--ab-ljus, 1))), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .1), 0 3px 8px -2px rgb(var(--t-skugga-rgb, 11 21 32) / .25); }
+.ab-seg button, .ab-filterknapp { transition: color .2s, background-color .2s, box-shadow .25s, transform .3s cubic-bezier(.34, 1.4, .64, 1); }
+/* filtret på EN rad – rullar i sidled när det inte ryms (förut bröts det på två rader i kapseln) */
+.ab-filter { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.ab-filter::-webkit-scrollbar { display: none; }
+.ab-filterknapp { flex: none; white-space: nowrap; }
+.ab-alla .kort-huvud > h2 { flex: none; }
+
+/* talen överst: ett tonat sken i hörnet och en lugn glansrand när de kommer in */
+@keyframes ab-svep { to { transform: translateX(320%) skewX(-12deg); } }
+
+/* abonnemangskorten: lyfts som glas vid hovring */
+@media (hover: hover) { .ab-rad:hover { transform: translateY(-3px); box-shadow: var(--lg-kant), 0 2px 4px rgb(var(--t-skugga-rgb, 11 21 32) / .06), 0 22px 40px -18px rgb(var(--t-skugga-rgb, 11 21 32) / .45); } }
+
+/* hovringskortet och staplarnas kort: glas som flyter ovanpå */
+.ab-tips, .ab-ik-info { background: linear-gradient(180deg, color-mix(in srgb, var(--vit-tack, #fff) 86%, transparent), color-mix(in srgb, var(--vit-tack, #fff) 66%, transparent)); -webkit-backdrop-filter: blur(24px) saturate(1.9); backdrop-filter: blur(24px) saturate(1.9); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.9 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.6 * var(--ab-ljus, 1))), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .08), 0 22px 48px -16px rgb(var(--t-skugga-rgb, 11 21 32) / .45); border-radius: 18px; }
+.ab-tips { animation: ab-tips .28s cubic-bezier(.34, 1.4, .64, 1); }
+@keyframes ab-tips { from { opacity: 0; } }
+/* staplarna: rundade toppar och en ljus glansrand i varje del */
+.ab-ik-stapel i { position: relative; border-radius: 7px; box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.35 * var(--ab-ljus, 1))); }
+.ab-ik-stapel i[data-k="saker"] { background: linear-gradient(180deg, color-mix(in srgb, var(--k) 82%, #fff), var(--k)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ab-seg button[aria-pressed="true"], .ab-filterknapp[aria-pressed="true"], .vy-in .ab-rad, .ab-tips { animation: none; }
+}
+@media (hover: none), (max-width: 760px) {
+  .ab-ft-tal > div, .ab-rad, .ab-agera-lista, .ab-bk-lista, .ab-kd-lista { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* ==== Sidan gjord om helt (2026-11-23): Plånboken, Nästa beslut, Intäkt + Portfölj, inset-listan ====
+   Liquid glass överallt (--lg-* ovan), rörelse bara transform/opacity (ringarna ritas fram en gång med stroke-dashoffset). */
+.ab-rum { gap: 14px; }
+/* rutnätets barn får aldrig växa efter innehållet (kortraden som rullar i sidled gjorde annars sidan 860 px bred på mobilen) */
+.ab-rum > *, .ab-par > *, .ab-rum .kort-inre, .ab-ft-vy { min-width: 0; }
+.ab-rum > .kort, .ab-par > .kort { border-radius: 28px; }
+
+/* ---- 1. Hjälten: fyra tal som glaspiller + Plånboken ---- */
+.sidhjalte-ab { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; min-height: 360px; }
+.ab-hj-tal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; margin-top: 6px; }
+.ab-hj-tal > span { display: grid; gap: 2px; min-width: 0; padding: 11px 12px; border-radius: 16px; background: linear-gradient(180deg, rgb(255 255 255 / calc(.1 * var(--ab-ljus, 1))), rgb(255 255 255 / calc(.04 * var(--ab-ljus, 1)))); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.16 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.12 * var(--ab-ljus, 1))); }
+.ab-hj-tal small { font: 600 .62rem/1.2 var(--font-rubrik); letter-spacing: .08em; text-transform: uppercase; color: var(--z-t58, rgba(246, 244, 239, .58)); }
+.ab-hj-tal b { font: 700 1.35rem/1.1 var(--font-rubrik); letter-spacing: -.025em; font-variant-numeric: tabular-nums; color: var(--z-text, var(--pa-mork, #f6f4ef)); }
+.ab-hj-tal em { overflow: hidden; font-style: normal; font-size: .7rem; color: var(--z-t58, rgba(246, 244, 239, .58)); text-overflow: ellipsis; white-space: nowrap; }
+.ab-hj-tal > span[data-varm] b { color: var(--zf-ffd98f, #ffd98f); }
+.vy-in .ab-hj-tal > span { animation: ab-ft-in .6s cubic-bezier(.23, 1, .32, 1) backwards; animation-delay: calc(.2s + var(--n, 0) * 60ms); }
+.ab-hj-tal > span:nth-child(2) { --n: 1; } .ab-hj-tal > span:nth-child(3) { --n: 2; } .ab-hj-tal > span:nth-child(4) { --n: 3; }
+@keyframes ab-ft-in { from { opacity: 0; transform: translateY(10px) scale(.98); } }
+
+.ab-planbok { --px: 0; --py: 0; position: relative; display: grid; justify-items: center; gap: 14px; padding: 6px 8px 4px; perspective: 1300px; }
+.ab-pb-stack { --pass-h: 158px; --steg: 58px; position: relative; width: min(100%, 400px); height: calc(var(--pass-h) + (var(--n) - 1) * var(--steg)); transform-style: preserve-3d;
+  transform: rotateX(calc(16deg - var(--py) * 6deg)) rotateY(calc(-14deg + var(--px) * 10deg)) rotateZ(2deg); transition: transform .9s cubic-bezier(.23, 1, .32, 1); }
+.ab-planbok:hover .ab-pb-stack { transition-duration: .25s; }
+.ab-pass { --f: var(--ab-f); position: absolute; left: 0; right: 0; top: calc(var(--i) * var(--steg)); height: var(--pass-h); display: grid; grid-template-rows: auto 1fr; padding: 14px 16px 14px; overflow: hidden; border: 0; border-radius: 20px; color: #fff; text-align: left; cursor: pointer;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--f) 82%, #0b1520) 0%, color-mix(in srgb, var(--f) 42%, #0b1520) 70%, color-mix(in srgb, var(--f) 30%, #0b1520) 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.38 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.22 * var(--ab-ljus, 1))), 0 -1px 0 rgb(0 0 0 / .08), 0 18px 34px -16px rgb(0 0 0 / .65);
+  transform: translateZ(calc(var(--bak) * -14px)); transform-origin: 50% 0;
+  transition: transform .55s cubic-bezier(.34, 1.35, .64, 1), box-shadow .3s, filter .3s; }
+.ab-pass[data-lage="snart"], .ab-pass[data-lage="forlangs"] { background: linear-gradient(150deg, color-mix(in srgb, var(--f) 78%, #3a2600) 0%, color-mix(in srgb, var(--f) 40%, #1b1406) 75%); }
+.ab-pass[data-lage="tillsvidare"] { background: linear-gradient(150deg, color-mix(in srgb, var(--f) 62%, #0b1520) 0%, color-mix(in srgb, var(--f) 26%, #0b1520) 75%); }
+.ab-pass:not([data-fram]) { filter: brightness(calc(1 - var(--bak) * .05)); }
+.ab-pass::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(120% 80% at 0% 0%, rgb(255 255 255 / calc(.28 * var(--ab-ljus, 1))), transparent 55%), radial-gradient(90% 70% at 100% 100%, rgb(255 255 255 / calc(.08 * var(--ab-ljus, 1))), transparent 60%); pointer-events: none; }
+.ab-pass-glans { position: absolute; inset: -30% auto -30% 0; width: 40%; background: linear-gradient(100deg, transparent, rgb(255 255 255 / calc(.35 * var(--ab-ljus, 1))), transparent); transform: translateX(-180%) skewX(-14deg); pointer-events: none; }
+.ab-pass:hover .ab-pass-glans, .ab-pass:focus-visible .ab-pass-glans { transform: translateX(360%) skewX(-14deg); transition: transform 1s cubic-bezier(.23, 1, .32, 1); }
+.ab-pass > span { position: relative; }
+.ab-pass:hover, .ab-pass:focus-visible { transform: translateZ(calc(var(--bak) * -14px + 26px)) translateY(-22px); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.45 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.3 * var(--ab-ljus, 1))), 0 28px 44px -16px rgb(0 0 0 / .7); filter: none; }
+.ab-pass[data-fram]:hover, .ab-pass[data-fram]:focus-visible { transform: translateZ(24px) translateY(-6px); }
+.ab-pass:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.ab-pass-topp { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+.ab-pass-ikon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgb(255 255 255 / calc(.2 * var(--ab-ljus, 1))); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.35 * var(--ab-ljus, 1))); }
+.ab-pass-ikon .ikon { width: 16px; height: 16px; color: #fff; }
+.ab-pass-namn { display: grid; gap: 1px; min-width: 0; }
+.ab-pass-namn strong { overflow: hidden; font: 600 .9rem/1.2 var(--font-rubrik); letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+.ab-pass-namn small { font-size: .7rem; color: rgb(255 255 255 / calc(.7 * var(--ab-ljus, 1))); }
+.ab-pass-dag { display: grid; justify-items: end; gap: 1px; }
+.ab-pass-dag b { font: 700 1.15rem/1 var(--font-rubrik); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.ab-pass-dag small { font-size: .62rem; color: rgb(255 255 255 / calc(.72 * var(--ab-ljus, 1))); white-space: nowrap; }
+.ab-pass-botten { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 12px; align-items: end; padding-top: 10px; border-top: 1px solid rgb(255 255 255 / calc(.16 * var(--ab-ljus, 1))); }
+.ab-pass-botten > span { display: grid; gap: 2px; min-width: 0; }
+.ab-pass-botten small { font: 600 .58rem/1.2 var(--font-rubrik); letter-spacing: .07em; text-transform: uppercase; color: rgb(255 255 255 / calc(.62 * var(--ab-ljus, 1))); }
+.ab-pass-botten b { overflow: hidden; font: 600 .86rem/1.2 var(--font-rubrik); font-variant-numeric: tabular-nums; text-overflow: ellipsis; white-space: nowrap; }
+.ab-pass .ab-ring { width: 40px; height: 40px; }
+.ab-pass .ab-ring-spar { stroke: rgb(255 255 255 / calc(.2 * var(--ab-ljus, 1))); }
+.ab-pass .ab-ring-del { stroke: #fff; filter: drop-shadow(0 0 4px rgb(255 255 255 / calc(.5 * var(--ab-ljus, 1)))); }
+.ab-pb-fot { font-size: .72rem; color: var(--z-t58, rgba(246, 244, 239, .58)); }
+.vy-in .ab-pass { animation: ab-pass-in .9s cubic-bezier(.23, 1, .32, 1) backwards; animation-delay: calc(.15s + var(--i) * 90ms); }
+@keyframes ab-pass-in { from { opacity: 0; transform: translateZ(calc(var(--bak) * -14px)) translateY(60px) rotateX(-30deg); } }
+@media (prefers-reduced-motion: no-preference) {
+  .ab-pb-stack { animation: ab-sva 7s ease-in-out infinite; }
+  .ab-planbok:hover .ab-pb-stack { animation-play-state: paused; }
+}
+@keyframes ab-sva { 50% { translate: 0 -6px; } }
+[data-vilar] .ab-pb-stack { animation-play-state: paused; }
+
+/* ---- ringen (Fitness) ---- */
+.ab-ring { flex: none; width: 52px; height: 52px; transform: rotate(-90deg); }
+.ab-ring circle { fill: none; stroke-linecap: round; }
+.ab-ring-spar { stroke: color-mix(in srgb, var(--f, var(--ab-f)) 18%, transparent); }
+.ab-ring-del { stroke: var(--f, var(--ab-f)); stroke-dashoffset: var(--slut); filter: drop-shadow(0 0 3px color-mix(in srgb, var(--f, var(--ab-f)) 50%, transparent)); }
+.vy-in .ab-ring-del, .ab-ft-vy[data-nytt] .ab-ring-del { animation: ab-ring 1.3s cubic-bezier(.23, 1, .32, 1) .45s backwards; }
+@keyframes ab-ring { from { stroke-dashoffset: var(--o); } }
+
+/* ---- 2. Nästa beslut: verktygen (banan står sist i filen) ---- */
+.ab-beslut .kort-huvud, .ab-alla .kort-huvud { flex-wrap: wrap; gap: 10px 16px; }
+.ab-tl-verktyg { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+/* ---- 2. Nästa beslut: korten ---- */
+.ab-bkort-rad { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.ab-bkort { --f: var(--ab-f); position: relative; display: grid; gap: 12px; padding: 14px 14px 15px; overflow: hidden; border: 0; border-radius: 24px; color: var(--text); text-align: left; cursor: pointer;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--vit-tack, #fff) 72%, transparent), color-mix(in srgb, var(--vit-tack, #fff) 40%, transparent));
+  -webkit-backdrop-filter: blur(22px) saturate(1.9); backdrop-filter: blur(22px) saturate(1.9);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.9 * var(--ab-ljus, 1))), inset 0 -1px 0 rgb(255 255 255 / calc(.25 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.6 * var(--ab-ljus, 1))), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .07), 0 1px 2px rgb(var(--t-skugga-rgb, 11 21 32) / .05), 0 14px 32px -16px rgb(var(--t-skugga-rgb, 11 21 32) / .4);
+  transition: transform .45s cubic-bezier(.34, 1.35, .64, 1), box-shadow .3s; }
+.ab-bkort::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(120% 75% at 100% 0%, color-mix(in srgb, var(--f) 24%, transparent), transparent 62%); pointer-events: none; }
+.ab-bkort > * { position: relative; }
+@media (hover: hover) { .ab-bkort:hover { transform: translateY(-4px); } }
+.ab-bkort[data-hl], .ab-bkort[aria-expanded="true"] { box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.9 * var(--ab-ljus, 1))), inset 0 0 0 1.5px color-mix(in srgb, var(--f) 60%, transparent), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .07), 0 24px 40px -18px rgb(var(--t-skugga-rgb, 11 21 32) / .5); }
+.ab-bkort:focus-visible { outline: 2px solid color-mix(in srgb, var(--f) 70%, var(--text)); outline-offset: 2px; }
+.ab-bkort-topp { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ab-bkort-datum { flex: none; white-space: nowrap; padding: 5px 10px; border-radius: 99px; font: 700 .72rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; color: #fff; background: linear-gradient(180deg, color-mix(in srgb, var(--f) 82%, #fff), var(--f)); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.4 * var(--ab-ljus, 1))), 0 3px 8px -3px color-mix(in srgb, var(--f) 80%, transparent); }
+.ab-bkort[data-lage="snart"] .ab-bkort-datum, .ab-bkort[data-lage="forlangs"] .ab-bkort-datum, .ab-bkort[data-lage="tillsvidare"] .ab-bkort-datum { color: #1d1500; }
+.ab-bkort-typ { min-width: 0; overflow: hidden; font-size: .68rem; font-weight: 600; color: var(--text-3); text-overflow: ellipsis; white-space: nowrap; }
+.ab-bkort-mitt { display: flex; align-items: center; gap: 12px; }
+.ab-bkort-tal { display: grid; gap: 2px; min-width: 0; }
+.ab-bkort-tal b { font: 700 1.6rem/1 var(--font-rubrik); letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: color-mix(in srgb, var(--f) 50%, var(--text)); }
+.ab-bkort-tal small { font-size: .72rem; color: var(--text-2); }
+.ab-bkort-namn { display: grid; gap: 2px; min-width: 0; padding-top: 11px; border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-bkort-namn strong { overflow: hidden; font: 600 .9rem/1.25 var(--font-rubrik); letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+.ab-bkort-namn small { font-size: .74rem; color: var(--text-2); }
+.vy-in .ab-bkort, .ab-ft-vy[data-nytt] .ab-bkort { animation: ab-bkort .75s cubic-bezier(.23, 1, .32, 1) backwards; animation-delay: calc(.25s + var(--i, 0) * 60ms); }
+@keyframes ab-bkort { from { opacity: 0; transform: translateY(18px) scale(.96); } }
+.ab-bk-tomt { display: flex; align-items: center; gap: 10px; margin: 0; padding: 18px; border-radius: 18px; color: var(--text-2); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .035); }
+.ab-bk-tomt .ikon { width: 18px; height: 18px; color: var(--accent-text, #0f6e57); }
+.ab-bk-noter { display: grid; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; }
+.ab-bk-noter li { display: flex; align-items: flex-start; gap: 8px; font-size: .8rem; line-height: 1.45; color: var(--text-2); }
+.ab-bk-noter .ikon { flex: none; width: 15px; height: 15px; margin-top: 2px; color: var(--text-3); }
+
+/* ---- 3. Intäkt framåt + Portföljen ---- */
+.ab-par { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr); gap: 14px; align-items: stretch; }
+.ab-intakt-spann { margin-left: auto; padding: 4px 10px; border-radius: 99px; font: 600 .72rem/1 var(--font-rubrik); color: var(--text-2); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); }
+.ab-intakt-tal { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 14px; }
+.ab-intakt-tal span { display: grid; gap: 1px; padding-left: 12px; box-shadow: inset 3px 0 0 var(--k); }
+.ab-intakt-tal small { font-size: .74rem; color: var(--text-2); }
+.ab-intakt-tal b { font: 700 1.3rem/1.15 var(--font-rubrik); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.ab-pf { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; }
+.ab-pf-ring { position: relative; width: 148px; height: 148px; }
+.ab-pf-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ab-pf-spar { fill: none; stroke: rgb(var(--t-blaeck-rgb, 11 21 32) / .07); stroke-width: 15; }
+.ab-pf-bage { fill: none; stroke-width: 15; stroke-linecap: round; filter: drop-shadow(0 2px 4px rgb(var(--t-skugga-rgb, 11 21 32) / .18)); }
+.vy-in .ab-pf-bage { animation: ab-pf .9s cubic-bezier(.23, 1, .32, 1) backwards; animation-delay: calc(.4s + var(--i, 0) * 180ms); }
+@keyframes ab-pf { from { opacity: 0; transform: rotate(-40deg); } }
+.ab-pf-bage { transform-origin: 70px 70px; }
+.ab-pf-mitt { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ab-pf-mitt b { font: 700 1.4rem/1.1 var(--font-rubrik); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.ab-pf-mitt small { font-size: .7rem; color: var(--text-2); }
+.ab-pf-lista { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.ab-pf-lista li { display: flex; align-items: center; gap: 8px; font-size: .84rem; }
+.ab-pf-lista i { flex: none; width: 10px; height: 10px; border-radius: 4px; box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.4 * var(--ab-ljus, 1))); }
+.ab-pf-lista span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ab-pf-lista b { margin-left: auto; font-variant-numeric: tabular-nums; }
+.ab-pf-fakta { display: grid; gap: 0; margin: 18px 0 0; padding: 0 14px; border-radius: 16px; background: color-mix(in srgb, var(--vit-tack, #fff) 45%, transparent); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.7 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.45 * var(--ab-ljus, 1))), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .06); }
+.ab-pf-fakta div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; }
+.ab-pf-fakta div + div { border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-pf-fakta dt { font-size: .82rem; color: var(--text-2); }
+.ab-pf-fakta dd { margin: 0; overflow: hidden; font: 600 .84rem/1.3 var(--font-rubrik); text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---- 4. Alla abonnemang: sök + inset-listan ---- */
+.ab-sok { display: flex; align-items: center; gap: 8px; width: min(100%, 300px); margin-left: auto; padding: 0 12px; height: 36px; border-radius: 12px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); box-shadow: inset 0 1px 2px rgb(var(--t-skugga-rgb, 11 21 32) / .06); transition: box-shadow .2s, background-color .2s; }
+.ab-sok:focus-within { background: color-mix(in srgb, var(--vit-tack, #fff) 80%, transparent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #7ee0c3) 40%, transparent); }
+.ab-sok .ikon { flex: none; width: 15px; height: 15px; color: var(--text-3); }
+.ab-sok input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; background: none; font: 500 .88rem/1 var(--font-brod); color: var(--text); outline: none; }
+.ab-alla .ab-filter { width: fit-content; margin: 0 0 14px; }
+.ab-lst { margin: 0; padding: 0; list-style: none; overflow: hidden; border-radius: 20px; background: var(--lg-fyll); -webkit-backdrop-filter: var(--lg-blur); backdrop-filter: var(--lg-blur); box-shadow: var(--lg-kant), var(--lg-skugga); }
+.ab-lst-rad + .ab-lst-rad { border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ab-lst-knapp { display: grid; grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) minmax(88px, auto) auto 16px; gap: 14px; align-items: center; width: 100%; min-height: 64px; padding: 10px 16px; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; transition: background-color .2s; }
+.ab-lst-knapp:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .03); }
+.ab-lst-rad[data-vald] > .ab-lst-knapp { background: color-mix(in srgb, var(--ab-f) 8%, transparent); }
+.ab-lst-knapp:focus-visible { outline: 2px solid var(--accent-text, #0f6e57); outline-offset: -2px; }
+.ab-lst-namn { display: grid; gap: 2px; min-width: 0; }
+.ab-lst-namn strong { overflow: hidden; font: 600 .92rem/1.25 var(--font-rubrik); letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+.ab-lst-namn small { overflow: hidden; font-size: .76rem; color: var(--text-2); text-overflow: ellipsis; white-space: nowrap; }
+.ab-lst-bind { display: grid; gap: 5px; min-width: 0; }
+.ab-lst-bind small { overflow: hidden; font-size: .74rem; font-variant-numeric: tabular-nums; color: var(--text-2); text-overflow: ellipsis; white-space: nowrap; }
+.ab-lst-man { display: grid; justify-items: end; gap: 1px; }
+.ab-lst-man b { font: 700 .92rem/1.2 var(--font-rubrik); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ab-lst-man small { font-size: .68rem; color: var(--text-3); }
+.ab-lst-pil .ikon { width: 14px; height: 14px; color: var(--text-3); transition: transform .3s cubic-bezier(.34, 1.4, .64, 1); }
+.ab-lst-knapp[aria-expanded="true"] .ab-lst-pil .ikon { transform: rotate(180deg); }
+.ab-lst-rad .ab-tl-detalj { margin: 0 12px 12px; }
+.ab-lst-tom { padding: 18px; font-size: .86rem; color: var(--text-2); text-align: center; }
+.vy-in .ab-lst-rad { animation: ab-ft-in .5s cubic-bezier(.23, 1, .32, 1) backwards; }
+
+@media (max-width: 1100px) {
+  .sidhjalte-ab { grid-template-columns: minmax(0, 1fr); }
+  .ab-par { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .ab-hj-tal { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ab-pb-stack { --pass-h: 150px; --steg: 52px; }
+  .ab-bkort-rad { display: flex; gap: 10px; margin: 0 -16px; padding: 4px 16px 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 16px; scrollbar-width: none; }
+  .ab-bkort-rad::-webkit-scrollbar { display: none; }
+  .ab-bkort { flex: 0 0 74%; scroll-snap-align: start; }
+  .ab-sok { width: 100%; margin-left: 0; }
+  .ab-lst-knapp { grid-template-columns: auto minmax(0, 1fr) auto 14px; grid-template-areas: "ikon namn chip pil" "ikon bind man man"; gap: 6px 12px; }
+  .ab-lst-knapp > .emo { grid-area: ikon; align-self: start; }
+  .ab-lst-namn { grid-area: namn; } .ab-lst-bind { grid-area: bind; } .ab-lst-man { grid-area: man; } .ab-lst-knapp > .chip { grid-area: chip; } .ab-lst-pil { grid-area: pil; }
+  .ab-lst-man small { display: none; }
+  .ab-pf { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .ab-pf-lista { width: 100%; }
+}
+@media (hover: none), (max-width: 760px) { .ab-bkort, .ab-lst { -webkit-backdrop-filter: none; backdrop-filter: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .ab-pass, .ab-ring-del, .ab-bkort, .ab-pf-bage, .ab-lst-rad, .ab-hj-tal > span { animation: none !important; }
+  .ab-pb-stack { transform: none; }
+}
+
+/* ==== Banan, tredje formen (2026-11-23): skena + prickar + etiketter i glas i fyra fack ====
+   --uppe/--nere = hur många fack som används ovanför/under; höjden följer. Rörelse: skenan fylls, prickarna poppar, linjen växer,
+   etiketten fjädrar in – en gång (vy-in / data-nytt). Hovring: etiketten lyfts och tänds, de andra tonas ned. */
+.ab-bana { --fack: 40px; position: relative; padding: calc(14px + var(--uppe, 1) * var(--fack)) 18px calc(48px + var(--nere, 0) * var(--fack)); }
+.ab-bana-yta { position: relative; height: 22px; container-type: inline-size; }
+.ab-bana-spar { position: absolute; left: 0; right: 0; top: 8px; height: 6px; border-radius: 99px; overflow: hidden; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .1); box-shadow: inset 0 1px 1px rgb(var(--t-skugga-rgb, 11 21 32) / .12); }
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.95 * var(--ab-ljus, 1))), inset 0 0 0 .5px rgb(255 255 255 / calc(.6 * var(--ab-ljus, 1))), inset 0 1px 3px rgb(var(--t-skugga-rgb, 11 21 32) / .1), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .08), 0 6px 16px -8px rgb(var(--t-skugga-rgb, 11 21 32) / .35); }
+.ab-bana-fyll { position: absolute; top: 0; bottom: 0; left: 2%; width: 96%; border-radius: 99px; background: linear-gradient(90deg, color-mix(in srgb, var(--rod, #e5674f) 70%, transparent), color-mix(in srgb, var(--gul, #f0b545) 60%, transparent) 30%, color-mix(in srgb, var(--accent, #7ee0c3) 55%, transparent) 65%); transform-origin: left; transform: scaleX(var(--p, 0)); }
+.ab-bana-man { position: absolute; top: 4px; bottom: 4px; width: 1px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .16); z-index: 1; }
+.ab-bana-man[data-ar] { top: 0; bottom: 0; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .3); }
+.ab-bana-man span { position: absolute; top: calc(100% + 12px + var(--nere, 0) * var(--fack)); left: 0; transform: translateX(-50%); font: 600 .64rem/1 var(--font-rubrik); letter-spacing: .05em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
+.ab-bana-man[data-ar] span { color: var(--text); }
+.ab-bana-idag { position: absolute; left: 2%; top: 1px; bottom: 1px; width: 2px; margin-left: -1px; border-radius: 2px; background: var(--rod, #e5674f); z-index: 2; }
+.ab-bana-idag span { position: absolute; top: calc(100% + 8px + var(--nere, 0) * var(--fack)); left: 0; transform: translateX(-30%); padding: 3px 8px; border-radius: 99px; font: 700 .62rem/1 var(--font-rubrik); letter-spacing: .03em; color: #fff; background: var(--rod, #e5674f); box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(.35 * var(--ab-ljus, 1))); white-space: nowrap; }
+.ab-mark { position: absolute; top: 11px; z-index: 3; }
+.ab-mark-prick { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; cursor: default; background: var(--ab-f); box-shadow: 0 0 0 3px var(--vit-tack, var(--vit, #fff)), 0 2px 6px -1px color-mix(in srgb, var(--ab-f) 70%, transparent); transition: transform .4s cubic-bezier(.34, 1.6, .64, 1); }
+.ab-mark-linje { position: absolute; left: -.5px; width: 1px; background: color-mix(in srgb, var(--ab-f) 55%, transparent); transform-origin: 50% 100%; }
+.ab-mark[data-fack="-1"] .ab-mark-linje { bottom: 8px; height: calc(var(--fack, 40px) - 22px); }
+.ab-mark[data-fack="-2"] .ab-mark-linje { bottom: 8px; height: calc(var(--fack, 40px) * 2 - 22px); }
+.ab-mark[data-fack="1"] .ab-mark-linje, .ab-mark[data-fack="2"] .ab-mark-linje { top: 8px; transform-origin: 50% 0; }
+.ab-mark[data-fack="1"] .ab-mark-linje { height: calc(var(--fack, 40px) - 22px); }
+.ab-mark[data-fack="2"] .ab-mark-linje { height: calc(var(--fack, 40px) * 2 - 22px); }
+.ab-mark-lapp { position: absolute; left: 0; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px 0 9px; border-radius: 99px; white-space: nowrap; cursor: default;
+  transform: translateX(calc(-50% + var(--dx, 0cqw))); color: var(--text); background: var(--vit-tack, var(--vit, #fff));
+  box-shadow: 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .12), 0 1px 2px rgb(var(--t-skugga-rgb, 11 21 32) / .08), 0 6px 14px -8px rgb(var(--t-skugga-rgb, 11 21 32) / .4);
+  transition: transform .4s cubic-bezier(.34, 1.5, .64, 1), box-shadow .25s, opacity .2s; }
+.ab-mark-lapp::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ab-f); }
+.ab-mark-lapp b { font: 700 .78rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; color: var(--text); }
+.ab-mark-lapp span { max-width: 84px; overflow: hidden; font: 500 .74rem/1 var(--font-rubrik); color: var(--text-2); text-overflow: ellipsis; }
+.ab-mark[data-fack="-1"] .ab-mark-lapp { bottom: calc(var(--fack, 40px) - 14px); }
+.ab-mark[data-fack="-2"] .ab-mark-lapp { bottom: calc(var(--fack, 40px) * 2 - 14px); }
+.ab-mark[data-fack="1"] .ab-mark-lapp { top: calc(var(--fack, 40px) - 14px); }
+.ab-mark[data-fack="2"] .ab-mark-lapp { top: calc(var(--fack, 40px) * 2 - 14px); }
+/* hovring: den här lyfts, de andra tonas */
+.ab-ft-vy[data-hl] .ab-mark:not([data-hl]) { opacity: .4; transition: opacity .2s; }
+.ab-mark[data-hl] { z-index: 6; }
+.ab-mark[data-hl] .ab-mark-prick { transform: scale(1.3); }
+.ab-mark[data-hl] .ab-mark-lapp { transform: translateX(calc(-50% + var(--dx, 0cqw))) translateY(-2px); box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--ab-f) 70%, transparent), 0 10px 20px -10px rgb(var(--t-skugga-rgb, 11 21 32) / .5); }
+/* entrén */
+.vy-in .ab-bana-spar, .ab-ft-vy[data-nytt] .ab-bana-spar { animation: ab-spar-in .7s cubic-bezier(.23, 1, .32, 1) backwards; }
+@keyframes ab-spar-in { from { opacity: 0; transform: scaleX(.92); } }
+.vy-in .ab-bana-fyll, .ab-ft-vy[data-nytt] .ab-bana-fyll { animation: ab-vax 1.3s cubic-bezier(.23, 1, .32, 1) .2s backwards; }
+.vy-in .ab-mark-prick, .ab-ft-vy[data-nytt] .ab-mark-prick { animation: ab-prick .6s cubic-bezier(.34, 1.7, .64, 1) backwards; animation-delay: calc(.35s + var(--i, 0) * 80ms); }
+@keyframes ab-prick { from { opacity: 0; transform: scale(0); } }
+.vy-in .ab-mark-linje, .ab-ft-vy[data-nytt] .ab-mark-linje { animation: ab-linje .45s cubic-bezier(.23, 1, .32, 1) backwards; animation-delay: calc(.5s + var(--i, 0) * 80ms); }
+@keyframes ab-linje { from { transform: scaleY(0); } }
+.vy-in .ab-mark-lapp, .ab-ft-vy[data-nytt] .ab-mark-lapp { animation: ab-lapp .7s cubic-bezier(.34, 1.45, .64, 1) backwards; animation-delay: calc(.62s + var(--i, 0) * 80ms); }
+@keyframes ab-lapp { from { opacity: 0; transform: translateX(calc(-50% + var(--dx, 0cqw))) translateY(8px) scale(.8); } }
+.ab-bana[data-smal] { --fack: 36px; padding-left: 6px; padding-right: 6px; }
+.ab-bana[data-smal] .ab-bana-man span[data-udda] { display: none; }
+.ab-bana[data-smal] .ab-mark-lapp { padding: 0 8px 0 7px; height: 24px; }
+@media (hover: none), (max-width: 760px) { .ab-mark-lapp { -webkit-backdrop-filter: none; backdrop-filter: none; } }
+@media (prefers-reduced-motion: reduce) { .ab-bana-spar, .ab-bana-fyll, .ab-mark-prick, .ab-mark-linje, .ab-mark-lapp { animation: none !important; } }
+
+/* Kontrasten i alla teman (2026-11-23, användaren: "fixa kontrasten på allt på sidan"): ljusa reflexer dämpas i Mörk, "förnyas" har en
+   kant i säkrat-färgen, chippen och de små texterna får textens färg blandad med lägets (aldrig ren lägesfärg på tonad botten). */
+:root[data-tema="mork"] { --ab-ljus: .28; }
+.ab-pass { --ab-ljus: 1; }
+.ab-ik-stapel i[data-k="fornyas"], .ab-ik-info i[data-k="fornyas"], .ab-ft-forklaring i[data-k="fornyas"] { box-shadow: inset 0 0 0 1.5px var(--accent-text, #0f6e57); }
+.ab-rum .chip, .kd-abonnemang .chip, .ab-tips .chip { color: color-mix(in srgb, var(--ab-f) 40%, var(--text)); background: color-mix(in srgb, var(--ab-f) 20%, transparent); box-shadow: inset 0 0 0 .5px color-mix(in srgb, var(--ab-f) 45%, transparent); }
+.ab-bkort-tal b, .ab-lst-man b, .ab-ft-tal strong, .ab-intakt-tal b { color: color-mix(in srgb, var(--f, var(--text)) 35%, var(--text)); }
+.ab-intakt-tal b, .ab-lst-man b { color: var(--text); }
+.ab-bkort-typ, .ab-lst-man small, .ab-ik-man, .ab-bana-man span, .ab-ik-axel b { color: var(--text-2); }
+.ab-matare { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .12); }
+
+/* Efter slutgranskningen: Idag-brickan mörkare röd (vit text ≥ 4,5:1), namnen på mobilen bryts i stället för att få … */
+.ab-bana-idag span { background: #c8372d; }
+@media (max-width: 760px) { .ab-lst-namn strong, .ab-lst-namn small { white-space: normal; } }
+
+/* Smal telefon (320–480 px): stapelns ruta "Intäkt framåt" spänner över hela diagrammet i stället för att utgå från stapeln –
+   den osynliga rutan (210 px från en stapel i första tredjedelen) gjorde annars sidan 336 px bred vid 320 px (guidens fynd 2026-11-23) */
+@media (max-width: 480px) {
+  .ab-ik-kol { position: static; }
+  .ab-ik-info, .ab-ik-kol[data-sida="v"] .ab-ik-info, .ab-ik-kol[data-sida="h"] .ab-ik-info { left: 0; right: 0; width: auto; transform: translateY(4px); }
+  .ab-ik-kol:is(:hover, :focus-visible) .ab-ik-info, .ab-ik-kol[data-sida]:is(:hover, :focus-visible) .ab-ik-info { transform: none; }
+}

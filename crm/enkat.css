@@ -1,0 +1,150 @@
+/* Uperformance – enkätens kundsidor (2026-11-03): svarssidan enkat.html och resultatsidan enkat-resultat.html.
+   Bygger på crm.css, premium.css och kund.css (topprad, välkomstkortet med ringen, kort, valknappar, skickat, ogiltig).
+   Mobil först: varje fråga är ett kort, skalan är fem lika stora rutor som ryms i 320 px. Inget rör sig hela tiden. */
+.enkat-sida .portal { width: min(860px, 100% - 2 * clamp(16px, 4vw, 40px)); }
+.enkat-resultat-sida .portal { width: min(1120px, 100% - 2 * clamp(16px, 4vw, 40px)); }
+/* Toppraden under telefonens statusrad: env() på en riktig iPhone (viewport-fit=cover, hemskärmsläget), --iphone-topp i telefonramen –
+   förut låg loggan och "Resultat – sammanställt" under klockan och ön. Toasterna följer med under toppraden. */
+.enkat-sida .portal-topp { padding-top: max(12px, env(safe-area-inset-top), calc(var(--iphone-topp, 0px) + 8px)); }
+@media (max-width: 1060px) { .enkat-sida .toaster { top: calc(72px + var(--iphone-topp, 0px)); } }
+@media (max-width: 640px) { .enkat-sida .toaster { top: calc(64px + max(env(safe-area-inset-top), var(--iphone-topp, 0px))); } }
+/* Ögonraden bryts mellan delarna, inte inne i företagsnamnet ("Solvik Energi" / "AB" på var sin rad); ett för långt namn bryts ändå inuti */
+.enk-hel { display: inline-block; }
+/* 320 px: chippet "Anonym – inga namn eller e-post" bröts på två rader i pillret – lite mindre text och luft så att det ryms */
+@media (max-width: 360px) { .enk-valkommen .valkommen-chips span { gap: 6px; padding-inline: 10px; font-size: .74rem; } }
+.enk-valkommen h1 { overflow-wrap: anywhere; }
+.enk-valkommen h1:focus { outline: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Frågorna */
+.enk-svar { display: grid; gap: 14px; margin-top: 18px; }
+.enk-fragor { display: grid; gap: 12px; }
+.enk-fraga { display: flow-root; padding: clamp(18px, 3vw, 26px); scroll-margin-top: 90px; transition: box-shadow .3s; }
+/* Rubriken är fältgruppens legend: flytande, så att den hamnar inne i kortet och inte i ramen */
+.enk-fraga > .enk-fraga-rubrik { float: left; width: 100%; margin-bottom: 14px; }
+.enk-fraga > :not(legend) { clear: both; }
+.enk-fraga > :not(legend) + :not(legend) { margin-top: 14px; }
+.enk-fraga > .enk-skala-ander { margin-top: 8px; }
+.enk-fraga[data-fel] { box-shadow: 0 0 0 2px var(--rod), var(--skugga); }
+.enk-fraga-rubrik { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: 0; font: 600 clamp(1rem, .95rem + .3vw, 1.12rem)/1.35 var(--font-rubrik); color: var(--text); letter-spacing: -.01em; }
+.enk-fraga-rubrik > span:last-child { padding-top: 5px; overflow-wrap: anywhere; }
+.enk-fraga-rubrik em { margin-left: 6px; font: 500 .74rem/1 var(--font-brod); font-style: normal; color: var(--text-3); white-space: nowrap; }
+.enk-fraga-nr .ikon { width: 15px; height: 15px; stroke-width: 3; }
+.enk-fraga[data-ok] .enk-fraga-nr { background: var(--accent); color: var(--ink); }
+.enk-hint { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 0; color: var(--text-3); font-size: .8rem; }
+.enk-hint > span:last-child:not(:first-child) { margin-left: auto; font-variant-numeric: tabular-nums; } /* räknaren står till höger även när raden bryts (mobil) */
+
+/* Skala 1–5: fem rutor i rad */
+.enk-skala { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.enk-skala label { position: relative; }
+.enk-skala input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.enk-skala span { display: grid; place-items: center; min-height: 54px; border-radius: 14px; border: 1.5px solid var(--kant); background: #fbfaf7; color: var(--ink); transition: border-color .2s, background-color .2s, color .2s, transform .35s var(--mjuk), box-shadow .3s; }
+.enk-skala b { font: 600 1.15rem/1 var(--font-rubrik); }
+.enk-skala label:hover span { border-color: var(--kant-2); transform: translateY(-1px); }
+.enk-skala label:active span { transform: scale(.97); }
+/* Valt svar har ETT färgspråk (fynd ux-G14, sanna-A8a): mint som flervalet – förut navy i skalan och ja/nej (valknappar i kund.css) */
+.enk-skala input:checked + span, .enk-janej input:checked + span { border-color: var(--accent-djup); background: var(--accent-ljus); color: var(--ink); box-shadow: 0 0 0 1px var(--accent-djup), 0 12px 24px -18px rgba(15, 110, 87, .7); }
+.enk-skala input:focus-visible + span { outline: 3px solid var(--accent-djup); outline-offset: 2px; }
+.enk-skala-ander { display: flex; justify-content: space-between; gap: 12px; color: var(--text-3); font-size: .78rem; line-height: 1.3; }
+.enk-skala-ander span:last-child { text-align: right; }
+.enk-janej { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.enk-janej span { width: 100%; justify-content: center; min-height: 54px; font-size: 1rem; } /* samma höjd som skalans rutor */
+.enk-janej input:checked + span .ikon { color: var(--accent-djup); }
+
+/* Flerval: rader med bock */
+.enk-val { display: grid; gap: 8px; }
+.enk-val label { position: relative; }
+.enk-val input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.enk-val span { display: flex; align-items: center; gap: 12px; min-height: 50px; padding: 11px 16px; border-radius: 14px; border: 1.5px solid var(--kant); background: #fbfaf7; font: 500 .94rem/1.3 var(--font-brod); color: var(--ink); transition: border-color .2s, background-color .2s, transform .35s var(--mjuk); }
+.enk-val span i { display: grid; place-items: center; width: 22px; height: 22px; flex: none; border-radius: 7px; border: 1.5px solid var(--kant-2); background: #fff; transition: background-color .2s, border-color .2s; }
+.enk-val input[type="radio"] + span i { border-radius: 50%; }
+.enk-val span i .ikon { width: 14px; height: 14px; stroke-width: 3; color: var(--ink); opacity: 0; transform: scale(.5); transition: opacity .2s, transform .3s var(--mjuk); }
+.enk-val label:hover span { border-color: var(--kant-2); }
+.enk-val input:checked + span { border-color: var(--accent-djup); background: var(--accent-ljus); }
+.enk-val input:checked + span i { background: var(--accent); border-color: var(--accent); }
+.enk-val input:checked + span i .ikon { opacity: 1; transform: none; }
+.enk-val input:focus-visible + span { outline: 3px solid var(--accent-djup); outline-offset: 2px; }
+.enk-fritext { min-height: 112px; resize: vertical; line-height: 1.5; }
+
+/* Skicka */
+.enk-skicka { display: grid; gap: 12px; padding: clamp(18px, 3vw, 26px); }
+.enk-skicka h2 { font-size: 1.15rem; }
+.enk-skicka p { color: var(--text-2); }
+.enk-skicka-knapp { justify-self: start; min-height: 50px; padding-inline: 26px; }
+.enk-skicka-not { display: flex; gap: 8px; align-items: flex-start; color: var(--text-3) !important; font-size: .8rem; line-height: 1.45; }
+.enk-skicka-not .ikon { width: 14px; height: 14px; flex: none; margin-top: 2px; }
+.enk-skicka-fel { margin: 0; font-size: .86rem; }
+@media (max-width: 640px) { .enk-skicka-knapp { justify-self: stretch; justify-content: center; } }
+/* Skicka + Rensa mina svar (delad dator, 2026-11-04) */
+.enk-skicka-knappar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.enk-rensa[hidden] { display: none; }
+@media (max-width: 640px) { .enk-skicka-knappar { display: grid; } .enk-skicka-knappar .knapp { justify-content: center; min-height: 44px; } }
+/* Vem ser vad? (fynd sanna-A7) – utfällbar rad under välkomstkortet */
+.enk-vem { margin-top: 12px; padding: 0; }
+.enk-vem summary { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 12px clamp(16px, 3vw, 22px); cursor: pointer; list-style: none; font: 600 .94rem/1.3 var(--font-rubrik); color: var(--ink); }
+.enk-vem summary::-webkit-details-marker { display: none; }
+.enk-vem summary::after { content: ''; width: 8px; height: 8px; margin-left: auto; flex: none; border-right: 2px solid var(--text-3); border-bottom: 2px solid var(--text-3); transform: rotate(45deg) translateY(-2px); transition: transform .3s var(--mjuk); }
+.enk-vem[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+.enk-vem summary small { color: var(--text-2); font: 500 .78rem/1.3 var(--font-brod); }
+.enk-vem summary > .ikon { width: 16px; height: 16px; flex: none; color: var(--accent-djup); }
+.enk-vem summary:focus-visible { outline: 3px solid var(--accent-djup); outline-offset: -3px; border-radius: inherit; }
+.enk-vem ul { display: grid; gap: 10px; margin: 0; padding: 0 clamp(16px, 3vw, 22px) 18px; list-style: none; }
+.enk-vem li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; color: var(--text-2); font-size: .88rem; line-height: 1.5; }
+.enk-vem li b { color: var(--ink); }
+.enk-vem li .ikon { width: 15px; height: 15px; margin-top: 3px; color: var(--accent-djup); }
+@media (max-width: 400px) { .enk-vem summary small { display: none; } }
+
+/* Tack */
+.enk-tack { margin-top: 18px; }
+.enk-tack h1 { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem); letter-spacing: -.035em; }
+.enk-tack h1:focus { outline: none; }
+.enk-tack p { max-width: 34rem; color: var(--text-2); }
+.enk-tack-steg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; max-width: 640px; margin: 6px 0 4px; text-align: left; }
+.enk-tack-steg li { display: grid; align-content: start; gap: 4px; padding: 14px; border-radius: 16px; border: 1px solid var(--kant); background: #fbfaf7; }
+.enk-tack-steg span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: var(--ben); font: 600 .78rem/1 var(--font-rubrik); }
+.enk-tack-steg b { font: 600 .9rem/1.3 var(--font-rubrik); }
+.enk-tack-steg small { color: var(--text-3); font-size: .78rem; line-height: 1.4; }
+@media (max-width: 640px) { .enk-tack-steg { grid-template-columns: minmax(0, 1fr); } }
+
+/* Resultatsidan */
+.enk-tal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.enk-tal-kort { display: grid; gap: 6px; padding: 16px 18px; }
+.enk-tal-kort strong { font: 600 clamp(1.4rem, 1.1rem + 1vw, 1.9rem)/1 var(--font-rubrik); letter-spacing: -.03em; overflow-wrap: anywhere; }
+.enk-tal-kort small { color: var(--text-3); font-size: .78rem; }
+@media (max-width: 760px) { .enk-tal { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.enk-resultat { margin-top: 14px; padding: clamp(16px, 2.4vw, 26px); }
+.enk-resultat-huvud { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.enk-resultat-huvud h2 { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; }
+.enk-resultat-huvud h2 .ikon { width: 20px; height: 20px; color: var(--accent-djup); }
+.enk-grans-kort { display: grid; justify-items: center; gap: 14px; margin-top: 14px; padding: clamp(28px, 5vw, 44px) clamp(18px, 4vw, 32px); text-align: center; }
+.enk-grans-kort h2 { font-size: clamp(1.2rem, 1rem + .8vw, 1.5rem); letter-spacing: -.02em; }
+.enk-grans-kort p { max-width: 36rem; color: var(--text-2); }
+.enk-grans-kort .enk-grans-prickar { display: flex; gap: 8px; }
+.enk-grans-kort .enk-grans-prickar i { width: 34px; height: 34px; border-radius: 50%; border: 2px dashed rgba(11, 21, 32, .2); }
+.enk-grans-kort .enk-grans-prickar i[data-pa] { border: 0; background: radial-gradient(circle at 35% 30%, var(--accent-hover), var(--accent) 60%, var(--accent-djup)); }
+/* Skriv ut och CSV under chipraden (fynd ux-G15 – förut stod Skriv ut ensam på en rad på mobilen), omgångsraden, skärm/papper */
+.enk-res-verktyg { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+@media (max-width: 640px) { .enk-res-verktyg .knapp { flex: 1 1 calc(50% - 8px); justify-content: center; min-height: 44px; } }
+.enk-omgang { display: flex; gap: 8px; align-items: flex-start; margin: -2px 0 14px; padding: 10px 14px; border-radius: 12px; background: var(--is-ljus); color: var(--navy-text); font-size: .84rem; line-height: 1.45; }
+.enk-omgang .ikon { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+.enk-utskrift { display: none; }
+
+/* Utskrift av resultatsidan: bara rubriken, talen och frågorna – A4 */
+@media print {
+  .enkat-resultat-sida .portal-topp, .enkat-resultat-sida .portal-bakgrund, .enkat-resultat-sida [data-skriv], .enkat-resultat-sida .valkommen-hoger, .enkat-resultat-sida .toaster,
+  .enkat-resultat-sida .enk-res-verktyg, .enkat-resultat-sida .enk-skarm { display: none !important; }
+  .enkat-resultat-sida .enk-utskrift { display: inline !important; }
+  .enkat-resultat-sida { background: #fff; }
+  .enkat-resultat-sida .portal { width: 100%; padding: 0; }
+  .enkat-resultat-sida .valkommen { display: block; padding: 0 0 10px; border-radius: 0; color: #0b1520; background: none !important; box-shadow: none; border-bottom: 2px solid #0b1520; }
+  .enkat-resultat-sida .valkommen::before, .enkat-resultat-sida .valkommen::after { display: none; }
+  .enkat-resultat-sida .valkommen .etikett-liten, .enkat-resultat-sida .valkommen p { color: #465260; }
+  .enkat-resultat-sida .valkommen-chips span { border-color: rgba(11, 21, 32, .2); background: none; }
+  .enkat-resultat-sida .kort { box-shadow: none; border: 1px solid rgba(11, 21, 32, .12); }
+  .enkat-resultat-sida .er-fraga { break-inside: avoid; }
+  /* Märkningen följer med på papperet/PDF:en (regel 1: exempeldata märks) – lugn rad överst */
+  .enkat-resultat-sida .prototypvarning { display: flex !important; margin: 0 0 10px; padding: 6px 10px; border: 1px solid rgba(11, 21, 32, .18); border-radius: 8px; background: none !important; color: #465260; box-shadow: none; font-size: .8rem; }
+  .enkat-resultat-sida .prototypvarning .ikon { color: #465260; }
+  .enkat-resultat-sida * { -webkit-print-color-adjust: exact; print-color-adjust: exact; animation: none !important; }
+  @page { size: A4; margin: 14mm; }
+}

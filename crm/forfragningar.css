@@ -1,0 +1,66 @@
+/* Uperformance CRM – Förfrågningar från hemsidan (forfragningar.js, 2026-11-23). iOS-form: inkorgen som en inset-lista per dag,
+   segment för status och typ, detaljerna fälls ut under raden. Färgerna är temats tokens; statusens färg i --ff-f. */
+.ff-lada { border-radius: 28px; }
+.ff-lada .kort-huvud { flex-wrap: wrap; gap: 10px 16px; }
+.ff-sok { margin-left: auto; }
+.ff-verktyg { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.ff-seg button span { display: inline-grid; place-items: center; min-width: 18px; height: 18px; margin-left: 6px; padding: 0 5px; border-radius: 99px; font-size: .66rem; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+.ff-lista { margin: 0; padding: 0; list-style: none; overflow: hidden; border-radius: 20px; background: color-mix(in srgb, var(--vit-tack, #fff) 62%, transparent); box-shadow: inset 0 1px 0 rgb(255 255 255 / .7), inset 0 0 0 .5px rgb(255 255 255 / .5), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .08), 0 12px 30px -16px rgb(var(--t-skugga-rgb, 11 21 32) / .35); }
+:root[data-tema="mork"] .ff-lista { box-shadow: inset 0 1px 0 rgb(255 255 255 / .08), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .12), 0 12px 30px -16px rgb(0 0 0 / .5); }
+.ff-dag { padding: 14px 16px 6px; font: 600 .7rem/1 var(--font-rubrik); letter-spacing: .04em; text-transform: uppercase; color: var(--text-2); }
+.ff-rad { --ff-f: var(--accent-text, #0f6e57); border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ff-dag + .ff-rad { border-top: 0; }
+.ff-rad[data-status="ny"] { --ff-f: var(--rod, #e5674f); }
+.ff-rad[data-status="pagar"] { --ff-f: var(--gul, #f0b545); }
+.ff-rad-knapp { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto auto 16px; gap: 14px; align-items: center; width: 100%; min-height: 64px; padding: 10px 16px; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; transition: background-color .25s ease; }
+.ff-rad-knapp:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .03); }
+.ff-rad[data-vald] > .ff-rad-knapp { background: color-mix(in srgb, var(--ff-f) 8%, transparent); }
+.ff-rad-knapp:focus-visible { outline: 2px solid var(--accent-text, #0f6e57); outline-offset: -2px; }
+.ff-rad[data-status="ny"] .ff-rad-namn strong::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; vertical-align: .1em; background: var(--ff-f); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ff-f) 22%, transparent); }
+.ff-rad-namn { display: grid; gap: 3px; min-width: 0; }
+.ff-rad-namn strong { overflow: hidden; font: 600 .92rem/1.3 var(--font-rubrik); letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+.ff-rad-namn em { font-style: normal; font-weight: 500; color: var(--text-2); }
+.ff-rad-namn small { overflow: hidden; font-size: .78rem; line-height: 1.35; color: var(--text-2); text-overflow: ellipsis; white-space: nowrap; }
+.ff-rad-tid { font-size: .74rem; font-variant-numeric: tabular-nums; color: var(--text-2); white-space: nowrap; }
+.ff-ingen { width: 28px; height: 28px; border-radius: 50%; border: 1.5px dashed rgb(var(--t-blaeck-rgb, 11 21 32) / .2); }
+.ff-pil .ikon { width: 14px; height: 14px; color: var(--text-3); transition: transform .35s cubic-bezier(.34, 1.4, .64, 1); }
+.ff-rad-knapp[aria-expanded="true"] .ff-pil .ikon { transform: rotate(180deg); }
+.ff-rad .chip { color: color-mix(in srgb, var(--ff-f) 40%, var(--text)); background: color-mix(in srgb, var(--ff-f) 18%, transparent); }
+
+.ff-detalj { display: grid; gap: 14px; margin: 0 12px 14px; padding: 16px; border-radius: 18px; background: color-mix(in srgb, var(--ff-f) 6%, var(--vit-tack, #fff)); box-shadow: 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .08), 0 10px 26px -16px rgb(var(--t-skugga-rgb, 11 21 32) / .4); }
+.ff-detalj[data-nytt] { animation: ff-in .4s cubic-bezier(.23, 1, .32, 1); }
+@keyframes ff-in { from { opacity: 0; transform: translateY(-6px); } }
+.ff-kontakt { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 8px; }
+.ff-kanal { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 10px 12px; border-radius: 14px; color: inherit; text-decoration: none; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .04); transition: background-color .25s; }
+.ff-kanal:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ff-kanal > .ikon { flex: none; width: 30px; height: 30px; padding: 7px; border-radius: 9px; color: #fff; background: #0a84ff; }
+.ff-kanal:nth-child(2) > .ikon { background: #34c759; }
+.ff-kanal span { display: grid; gap: 1px; min-width: 0; }
+.ff-kanal small { font-size: .7rem; color: var(--text-2); }
+.ff-kanal strong { overflow: hidden; font: 600 .86rem/1.3 var(--font-rubrik); text-overflow: ellipsis; white-space: nowrap; }
+.ff-meddelande { margin: 0; padding: 12px 14px; border-radius: 14px; font-size: .9rem; line-height: 1.55; white-space: pre-wrap; color: var(--text); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .035); box-shadow: inset 3px 0 0 var(--ff-f); }
+.ff-fakta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; margin: 0; padding: 0 14px; border-radius: 14px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .03); }
+.ff-fakta div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.ff-fakta div:nth-child(-n+2) { border-top: 0; }
+.ff-fakta dt { font-size: .8rem; color: var(--text-2); }
+.ff-fakta dd { margin: 0; overflow: hidden; font: 600 .82rem/1.3 var(--font-rubrik); text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+.ff-mejl, .ff-lank { display: flex; align-items: flex-start; gap: 8px; margin: 0; font-size: .8rem; line-height: 1.45; color: var(--text-2); }
+.ff-mejl .ikon, .ff-lank .ikon { flex: none; width: 15px; height: 15px; margin-top: 2px; }
+.ff-knappar { display: flex; flex-wrap: wrap; gap: 8px; }
+.ff-tomt { display: grid; justify-items: center; gap: 10px; padding: 40px 20px; text-align: center; }
+.ff-tomt h2 { margin: 6px 0 0; font-size: 1.25rem; }
+.ff-tomt p { max-width: 34rem; margin: 0 0 6px; color: var(--text-2); }
+.ff-inga { margin: 0; padding: 18px; color: var(--text-2); }
+
+@media (max-width: 760px) {
+  .ff-sok { width: 100%; margin-left: 0; }
+  .ff-verktyg .ab-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .ff-verktyg .ab-seg button { flex: none; }
+  .ff-rad-knapp { grid-template-columns: auto minmax(0, 1fr) auto 14px; grid-template-areas: "ikon namn chip pil" "ikon tid tid tid"; gap: 4px 12px; }
+  .ff-rad-knapp > .emo { grid-area: ikon; align-self: start; } .ff-rad-namn { grid-area: namn; } .ff-rad-knapp > .chip { grid-area: chip; } .ff-pil { grid-area: pil; } .ff-rad-tid { grid-area: tid; }
+  .ff-rad-knapp > .avatar, .ff-ingen { display: none; }
+  .ff-fakta { grid-template-columns: minmax(0, 1fr); }
+  .ff-fakta div:nth-child(2) { border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+  .ff-rad-namn strong, .ff-rad-namn small { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) { .ff-detalj[data-nytt] { animation: none; } .ff-pil .ikon { transition: none; } }

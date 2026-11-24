@@ -1,0 +1,102 @@
+/* Hälsoappen i tre telefoner (sektionen Plattform, 2026-11-23). Tre iPhone 17 Pro i riktig storlek (skärm 402 × 874) i ett riktigt
+   3D-rum (perspektiv + preserve-3d, så att webbläsaren djupsorterar – inga z-index-hopp). Plats 0 = framme (appen körs), 1 = bakom till
+   vänster, 2 = bakom till höger. Telefonerna har tjocklek (::before/::after bakom ramen) och hela högen lutar lite efter musen.
+   Bytet (apptrio.js) i tre steg så att två telefoner aldrig är på samma djup där de överlappar:
+   A) den valda dras ut åt sidan tills den är fri från den främre, B) den främre backar rakt in i djupet,
+   C) den valda glider fram och den gamla tar dess plats längst bak. Bara transform/opacity rör sig. */
+.apptrio { --s: .64; --ut: .4; --w: calc(426px * var(--s)); --h: calc(898px * var(--s)); }
+#plattform { overflow-x: clip; }
+.at-hog { position: relative; height: calc(var(--h) + 40px); margin: 8px 0 0; perspective: 1500px; perspective-origin: 50% 42%; }
+.at-scen { --tx: 3deg; --ty: -9deg; position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--tx)) rotateY(var(--ty));
+  transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
+/* skuggan på golvet under högen */
+.at-golv { position: absolute; left: 50%; bottom: 0; width: calc(var(--w) * 2); height: 60px; margin-left: calc(var(--w) * -1); border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(11, 21, 32, .28), rgba(11, 21, 32, .1) 55%, transparent); transform: translateZ(-200px); }
+
+.at-tel { --x: 0px; --y: 0px; --z: 0px; --ry: 0deg; --rz: 0deg; --hov: 0px;
+  /* skalan sker runt 40 % av höjden – lådan flyttas upp så att den skalade telefonen börjar 10 px ner */
+  position: absolute; left: 50%; top: calc(10px - 898px * .4 * (1 - var(--s))); width: 426px; height: 898px; transform-origin: 50% 40%; transform-style: preserve-3d;
+  transform: translateX(-50%) translate3d(var(--x), calc(var(--y) + var(--hov)), var(--z)) rotateY(var(--ry)) rotateZ(var(--rz)) scale(var(--s));
+  transition: transform var(--at-tid, .9s) var(--at-kurva, cubic-bezier(.22, 1, .36, 1)); }
+.at-tel[data-plats="1"] { --x: calc(var(--w) * var(--ut) * -1); --y: calc(var(--h) * .02); --z: -300px; --ry: 20deg; --rz: -3deg; }
+.at-tel[data-plats="2"] { --x: calc(var(--w) * var(--ut)); --y: calc(var(--h) * .02); --z: -300px; --ry: -20deg; --rz: 3deg; }
+/* steg A: den valda dras ut åt sidan (fri från den främre), lite framåt och nästan rak */
+.at-hog[data-fas="a"] .at-tel { --at-tid: .34s; --at-kurva: cubic-bezier(.3, .75, .35, 1); }
+.at-tel[data-drar][data-plats="1"] { --x: calc(var(--w) * -.92); --y: calc(var(--h) * -.02); --z: -70px; --ry: 8deg; --rz: -2deg; }
+.at-tel[data-drar][data-plats="2"] { --x: calc(var(--w) * .92); --y: calc(var(--h) * -.02); --z: -70px; --ry: -8deg; --rz: 2deg; }
+/* steg B: den främre backar rakt in i djupet */
+.at-hog[data-fas="b"] .at-tel { --at-tid: .26s; --at-kurva: cubic-bezier(.4, 0, .6, 1); }
+/* … och glider lite bort från den valda ("1" = den valda kom från vänster), så att de aldrig överlappar på samma djup */
+.at-tel[data-sjunk] { --z: -150px; --y: calc(var(--h) * .015); }
+.at-tel[data-sjunk="1"] { --x: calc(var(--w) * .1); } .at-tel[data-sjunk="2"] { --x: calc(var(--w) * -.1); }
+/* steg C: alla till sina nya platser – mjukt, med en liten eftersving */
+.at-hog[data-fas="c"] .at-tel { --at-tid: .72s; --at-kurva: cubic-bezier(.2, 1.08, .32, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .at-hog:not([data-fas]) .at-tel:not([data-plats="0"]):hover { --hov: -16px; }
+}
+
+/* telefonen: titanram med tjocklek, skärm, Dynamic Island, hemstreck */
+.at-tel::before, .at-tel::after { content: ''; position: absolute; inset: 0; border-radius: 68px; pointer-events: none;
+  background: linear-gradient(145deg, #4a525c, #171b20 30%, #2d343c 60%, #121519); }
+.at-tel::before { transform: translateZ(-8px); }
+.at-tel::after { transform: translateZ(-16px); background: #0b0e12; box-shadow: 0 60px 100px -36px rgba(11, 21, 32, .55); }
+.at-ram { position: relative; width: 426px; height: 898px; padding: 12px; border-radius: 68px;
+  background: linear-gradient(145deg, #6a737d, #262c33 22%, #434b55 50%, #1d2228 78%, #59616b);
+  box-shadow: 0 0 0 1.5px #0d1116, inset 0 0 0 1.5px rgba(255, 255, 255, .22), inset 0 2px 1px rgba(255, 255, 255, .25); }
+.at-ram::before, .at-ram::after { content: ''; position: absolute; width: 4px; border-radius: 3px; background: linear-gradient(90deg, #2a3038, #5a636d); }
+.at-ram::before { left: -3px; top: 190px; height: 64px; box-shadow: 0 84px 0 #3a424b; }
+.at-ram::after { right: -3px; top: 240px; height: 100px; }
+.at-skarm { position: relative; width: 402px; height: 874px; border-radius: 56px; overflow: hidden; background: #0b1520; box-shadow: 0 0 0 2px #000; isolation: isolate; }
+.at-affisch { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.at-skarm iframe { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity .5s ease; }
+.at-tel[data-klar] .at-skarm iframe { opacity: 1; }
+.at-statusrad { position: absolute; z-index: 4; inset: 0 0 auto; height: 54px; display: flex; justify-content: space-between; align-items: center; padding: 6px 34px 0 46px;
+  font: 600 16px/1 -apple-system, "SF Pro Text", Inter, sans-serif; color: var(--sr, #fff); pointer-events: none; transition: color .5s; }
+.at-status-ik { display: flex; gap: 6px; align-items: center; }
+.at-status-ik svg { height: 12px; width: auto; fill: currentColor; }
+.at-on { position: absolute; z-index: 5; left: 50%; top: 11px; width: 126px; height: 37px; margin-left: -63px; border-radius: 20px; background: #000; pointer-events: none; }
+.at-hem { position: absolute; z-index: 4; left: 50%; bottom: 8px; width: 140px; height: 5px; margin-left: -70px; border-radius: 3px; background: var(--sr, #fff); opacity: .9; pointer-events: none; transition: background-color .5s; }
+/* glansen på glaset: starkare på de vridna telefonerna, så att de ser ut att fånga ljuset */
+.at-reflex { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(118deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .04) 28%, transparent 46%); opacity: .6; transition: opacity .6s; }
+.at-tel:not([data-plats="0"]) .at-reflex { opacity: 1; }
+/* bakre telefoner: lite mörkare, hela skärmen är en knapp som blandar fram dem */
+.at-skarm::after { content: ''; position: absolute; inset: 0; z-index: 6; background: rgba(11, 21, 32, .3); opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+.at-tel:not([data-plats="0"]) .at-skarm::after { opacity: 1; }
+.at-tel:not([data-plats="0"]):hover .at-skarm::after { opacity: .4; }
+.at-fram { position: absolute; inset: 0; z-index: 7; border: 0; padding: 0; background: none; cursor: pointer; }
+.at-tel[data-plats="0"] .at-fram { display: none; }
+
+/* växeln och raden under */
+.at-under { position: relative; z-index: 4; display: grid; justify-items: center; gap: 10px; margin-top: 6px; }
+.at-vaxel { display: inline-flex; gap: 2px; padding: 4px; border-radius: 99px; background: rgba(11, 21, 32, .06); box-shadow: inset 0 0 0 .5px rgba(11, 21, 32, .06); }
+.at-vaxel button { min-height: 38px; padding: 0 16px; border: 0; border-radius: 99px; background: transparent; color: var(--text-2, #4a5563);
+  font: 600 .88rem/1 var(--font-brod, inherit); letter-spacing: -.01em; cursor: pointer; transition: color .3s; white-space: nowrap; }
+.at-vaxel button:hover { color: var(--ink, #0b1520); }
+.at-vaxel button[aria-pressed="true"] { color: var(--ink, #0b1520); background: #fff; box-shadow: 0 1px 2px rgba(11, 21, 32, .08), 0 6px 14px -8px rgba(11, 21, 32, .3); }
+.at-vaxel button:focus-visible { outline: 2px solid var(--accent-djup, #0f6e57); outline-offset: 2px; }
+.at-not { margin: 0; max-width: 46ch; min-height: 2.9em; font-size: .82rem; line-height: 1.45; text-align: center; color: var(--text-2, #4a5563); transition: opacity .25s; }
+.at-not[data-byter] { opacity: 0; }
+/* flytetiketterna (Riskprofil, Dagens pass) täckte telefonerna och passar bara Uperformance-versionen – dolda här */
+.apptrio .flytetikett { display: none; }
+
+@media (max-width: 1100px) { .apptrio { --s: .58; --ut: .36; } }
+@media (max-width: 560px) { .apptrio { --s: .5; --ut: .3; } .at-scen { --ty: -6deg; } .at-vaxel button { padding: 0 12px; font-size: .82rem; } }
+@media (max-width: 370px) { .apptrio { --s: .43; --ut: .28; } .at-vaxel button { padding: 0 9px; font-size: .76rem; } }
+@media (prefers-reduced-motion: reduce) { .at-tel, .at-scen { transition: none; } }
+
+/* Listan bredvid telefonerna (2026-11-23, användaren: 'så den passar in med designen och mobilerna'): ikonrutor i Uperformances toner
+   i stället för gröna bockar, samma djup och skugga som telefonerna, raderna tonar fram en i taget när sektionen syns. */
+.punktlista.pl-app { border-radius: 24px; background: #fff; box-shadow: 0 0 0 .5px rgba(11, 21, 32, .07), 0 1px 2px rgba(11, 21, 32, .04), 0 30px 60px -38px rgba(11, 21, 32, .4); }
+.pl-app li { align-items: center; padding: 15px 18px; gap: 14px; transition: background-color .25s; }
+.pl-app li:hover { background: rgba(11, 21, 32, .025); }
+.pl-app .bock { width: 36px; height: 36px; margin: 0; border-radius: 10px; color: #fff; background: linear-gradient(180deg, #2f5b85, #183653);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 4px 10px -5px rgba(11, 21, 32, .45); }
+.pl-app .bock[data-ton="mint"] { background: linear-gradient(180deg, #46d1a4, #0f8f6c); }
+.pl-app .bock[data-ton="is"] { background: linear-gradient(180deg, #5ab0ff, #1e78e0); }
+.pl-app .bock[data-ton="gul"] { background: linear-gradient(180deg, #ffc94a, #f29d0c); color: #3a2600; }
+.pl-app .bock .ikon { width: 19px; height: 19px; stroke-width: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  [data-in]:not([data-synlig]) .pl-app li { opacity: 0; transform: translateY(10px); }
+  .pl-app li { transition: opacity .6s cubic-bezier(.22, 1, .36, 1), transform .6s cubic-bezier(.22, 1, .36, 1), background-color .25s; }
+  .pl-app li:nth-child(2) { transition-delay: .07s; } .pl-app li:nth-child(3) { transition-delay: .14s; } .pl-app li:nth-child(4) { transition-delay: .21s; }
+}

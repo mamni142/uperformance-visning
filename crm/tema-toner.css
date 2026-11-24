@@ -1,0 +1,500 @@
+/* GENERERAD av _underlag/tema/tema-generator.cjs – ändra där, inte här (handskrivna temavärden: tema.css).
+   --y-<hex> = ljus yta, --f-<hex> = text på ljus yta. Namnet är originalfärgen: var(--y-faf9f6, #faf9f6) ger exakt den i Original
+   (tokenen är inte satt då) och på kundens sidor. Här står bara det andra teman byter till.
+   --z-* = zonerna (hjältar, band, menyn, chatten …): sätts bara inne i zonerna. --zy-<hex> mörk yta, --zf-<hex> ljus färgad text, --z-t<alfa> text. */
+:root[data-tema="mork"] {
+  --y-faf9f6: #15222f; --y-fcfbf8: #14212e; --y-faf9f5: #152230; --y-f8f7f3: #162231; --y-eef0f2: #172433; --y-f1fbf7: #162230; 
+  --y-f9fbfe: #14202e; --y-f7d9b5: #44311a; --y-fbfaf7: #15212f; --y-fff7f5: #14212e; --y-f6f9fc: #15212f; --y-fffaf0: #152230; 
+  --y-f2f6fa: #162230; --y-f3fbf8: #152230; --y-d3f2e7: #1f3a30; --y-fffaf9: #14202d; --y-fffaf3: #15212f; --y-f7f6f2: #162331; 
+  --y-fafcfd: #14202e; --y-fbfdff: #14202d; --y-f4f8fb: #152230; --y-fff8f6: #14212e; --y-f4f3ee: #172433; --y-fde1c2: #442e16; 
+  --y-fdfcfa: #14202e; --y-eef2f6: #172432; --y-e6ebf0: #192636; --y-fbd9d1: #401f18; --y-fff6ea: #3f2c12; --y-f3faf7: #152230; 
+  --y-fff6f4: #15212f; --y-dff6ee: #1e382f; --y-e3f0ff: #132840; --y-ece8ff: #1a123f; --y-fff3d6: #423513; --y-e4edf6: #1f2a36; 
+  --y-f9fbfa: #14212e; --y-eeebe4: #192736; --y-f0faf6: #162331; --y-e8ebee: #192636; --y-ffe3b6: #483415; --y-e9edff: #121a3f; 
+  --y-e3f1ff: #132940; --y-f6f3ec: #172433; --y-e6e0d2: #393223; --y-e6fbf4: #193a2f; --y-bdeedb: #203f33; --y-eef6ff: #12273e; 
+  --y-c8e1fb: #172c42; --y-fdebd6: #402d16; --y-f3f6fa: #152230; --y-dfe8f2: #212b36; --y-ffe0a3: #4b3916; --y-f4f7f6: #162231; 
+  --y-e3f6ef: #1e362d; --y-edf6f1: #172432; --y-f3f5f0: #172432; --y-ffefe9: #3f1f12; --y-fff5f2: #15212f; --y-f0f6f2: #162332; 
+  --y-f2fbf7: #152230; --y-e2f5ed: #1f362c; --y-edf2f7: #172432; --y-f7f9fb: #15212f; --y-eef3f6: #172432; --y-eef1f4: #172433; 
+  --y-fff1c4: #453a14; --y-fff0d8: #423013; --y-ffe4c6: #452e14; --y-fff2e3: #402b13; --y-fff9f2: #15212f; --y-f3eee5: #182635; 
+  --y-fbf8f3: #152230; --y-f6f2eb: #172433; --y-ffe3c4: #452e14; --y-f0fbf7: #162231; --y-f6fbf8: #15212f; --y-fcfbf9: #14212e; 
+  --y-f4fcf8: #15222f; --y-fffaf8: #14202e; --y-f4f9fe: #15212f; --y-fde7cf: #422d16; --y-fbfcfb: #14202e; --y-f4f6f4: #162331; 
+  --y-fefefd: #13202d; --y-fff1cc: #443714; --y-eceffe: #141b3c; --y-ffd3c8: #451e14; --y-f7efe6: #362b1e; --y-efe6dc: #362c21; 
+  --y-eaf5f1: #172533; --y-e1eee9: #1a2837; --y-f6f2e6: #352f1f; --y-efe9da: #373122; --y-f6ecee: #172433; --y-efe3e5: #192736; 
+  --y-fffcf3: #15212f; --y-f1f4f7: #162331; --y-e7ecf1: #182635; --f-8a4a0c: #eeaa68; --f-1d5b8c: #8dbfe7; --f-a35a14: #edac6e; 
+  --f-2f5f88: #99bddc; --f-2f6fa8: #93bce1; --f-2a7f9a: #7bc4db; --f-a0581a: #e9ac77; --f-3d86e0: #95bdee; --f-26313d: #aab9ca; 
+  --f-c73a4b: #e6a8af; --f-5b47b8: #bdb5e3; --f-94640a: #eaae3e; --f-4a5563: #b0b9c4; --f-2a6f9a: #8bbfdf; --f-6b6455: #beb8ad; 
+  --f-8a4a12: #edac73; --f-5b8fc2: #9ebddb; --f-e5674f: #f0a89b; --f-b07a12: #eaaf3e; --f-7a6250: #c6b5a9; --f-a84d0c: #f0a875; 
+  --f-9a6200: #eaad43; --f-7f5500: #e9af3a; --f-3c4ea0: #adb7e0; --f-3a7bb8: #9abedf; --f-b8661c: #eaad76; --f-8a6200: #e8b330; 
+  --f-b83a4c: #e4aab2;
+}
+:root[data-tema="ljus"] {
+  --y-faf9f6: #fdfcfb; --y-fcfbf8: #fefdfc; --y-faf9f5: #fdfcfb; --y-f8f7f3: #fcfbfa; --y-eef0f2: #f7f8f9; --y-f1fbf7: #f9fdfb; 
+  --y-f9fbfe: #fcfdff; --y-f7d9b5: #fbeede; --y-fbfaf7: #fdfdfb; --y-fff7f5: #fffbfb; --y-f6f9fc: #fbfcfe; --y-fffaf0: #fffdf8; 
+  --y-f2f6fa: #f9fbfd; --y-f3fbf8: #fafdfc; --y-d3f2e7: #ebf9f4; --y-fffaf9: #fffdfc; --y-fffaf3: #fffdfa; --y-f7f6f2: #fbfbf9; 
+  --y-fafcfd: #fdfefe; --y-fbfdff: #fdfeff; --y-f4f8fb: #fafcfd; --y-fff8f6: #fffcfb; --y-f4f3ee: #fafaf7; --y-fde1c2: #fef2e4; 
+  --y-fdfcfa: #fefefd; --y-eef2f6: #f7f9fb; --y-e6ebf0: #f4f6f8; --y-fbd9d1: #fdeeea; --y-fff6ea: #fffbf6; --y-f3faf7: #fafdfb; 
+  --y-fff6f4: #fffbfa; --y-dff6ee: #f1fbf7; --y-e3f0ff: #f2f8ff; --y-ece8ff: #f6f5ff; --y-fff3d6: #fffaed; --y-e4edf6: #f3f7fb; 
+  --y-f9fbfa: #fcfdfd; --y-eeebe4: #f7f6f3; --y-f0faf6: #f8fdfb; --y-e8ebee: #f5f6f7; --y-ffe3b6: #fff2de; --y-e9edff: #f5f7ff; 
+  --y-e3f1ff: #f2f9ff; --y-f6f3ec: #fbfaf6; --y-e6e0d2: #f4f1eb; --y-e6fbf4: #f4fdfa; --y-bdeedb: #e1f7ef; --y-eef6ff: #f7fbff; 
+  --y-c8e1fb: #e6f2fd; --y-fdebd6: #fef6ed; --y-f3f6fa: #fafbfd; --y-dfe8f2: #f1f5f9; --y-ffe0a3: #fff1d6; --y-f4f7f6: #fafbfb; 
+  --y-e3f6ef: #f2fbf8; --y-edf6f1: #f7fbf9; --y-f3f5f0: #fafbf8; --y-ffefe9: #fff8f5; --y-fff5f2: #fffbf9; --y-f0f6f2: #f8fbf9; 
+  --y-f2fbf7: #f9fdfb; --y-e2f5ed: #f2fbf7; --y-edf2f7: #f7f9fb; --y-f7f9fb: #fbfcfd; --y-eef3f6: #f7fafb; --y-eef1f4: #f7f9fa; 
+  --y-fff1c4: #fff9e4; --y-fff0d8: #fff8ed; --y-ffe4c6: #fff3e5; --y-fff2e3: #fff9f2; --y-fff9f2: #fffcf9; --y-f3eee5: #faf7f3; 
+  --y-fbf8f3: #fdfcfa; --y-f6f2eb: #fbf9f6; --y-ffe3c4: #fff2e4; --y-f0fbf7: #f8fdfb; --y-f6fbf8: #fbfdfc; --y-fcfbf9: #fefdfc; 
+  --y-f4fcf8: #fafefc; --y-fffaf8: #fffdfc; --y-f4f9fe: #fafcff; --y-fde7cf: #fef4e9; --y-fbfcfb: #fdfefd; --y-f4f6f4: #fafbfa; 
+  --y-fefefd: #fffffe; --y-fff1cc: #fff9e8; --y-eceffe: #f6f8ff; --y-ffd3c8: #ffebe6; --y-f7efe6: #fbf8f4; --y-efe6dc: #f8f4ef; 
+  --y-eaf5f1: #f6fbf9; --y-e1eee9: #f2f7f5; --y-f6f2e6: #fbf9f4; --y-efe9da: #f8f5ee; --y-f6ecee: #fbf6f7; --y-efe3e5: #f8f2f3; 
+  --y-fffcf3: #fffefa; --y-f1f4f7: #f9fafb; --y-e7ecf1: #f4f6f9;
+}
+:root[data-tema="fargglad"] {
+  --y-faf9f6: #eefaf4; --y-fcfbf8: #eefaf5; --y-faf9f5: #eefaf4; --y-f8f7f3: #edf9f3; --y-eef0f2: #e9f6f3; --y-f1fbf7: #eafaf5; 
+  --y-f9fbfe: #edfaf7; --y-f7d9b5: #fcd6a9; --y-fbfaf7: #eefaf5; --y-fff7f5: #f0f9f4; --y-f6f9fc: #ecfaf6; --y-fffaf0: #f0faf2; 
+  --y-f2f6fa: #ebf8f6; --y-f3fbf8: #ebfaf5; --y-d3f2e7: #c9f4e5; --y-fffaf9: #f0faf5; --y-fffaf3: #f0faf3; --y-f7f6f2: #ecf8f3; 
+  --y-fafcfd: #eefbf7; --y-fbfdff: #eefbf8; --y-f4f8fb: #ebf9f6; --y-fff8f6: #f0f9f4; --y-f4f3ee: #ebf7f1; --y-fde1c2: #ffddb8; 
+  --y-fdfcfa: #effbf6; --y-eef2f6: #e9f7f4; --y-e6ebf0: #e6f4f2; --y-fbd9d1: #fed1c7; --y-fff6ea: #fff3e2; --y-f3faf7: #ebfaf5; 
+  --y-fff6f4: #f0f8f3; --y-dff6ee: #d6f7ec; --y-e3f0ff: #dbecff; --y-ece8ff: #e6e0ff; --y-fff3d6: #fff1ce; --y-e4edf6: #dce9f7; 
+  --y-f9fbfa: #edfaf6; --y-eeebe4: #e9f4ed; --y-f0faf6: #eafaf4; --y-e8ebee: #e7f4f1; --y-ffe3b6: #ffe0ae; --y-e9edff: #e1e7ff; 
+  --y-e3f1ff: #dbedff; --y-f6f3ec: #ecf7f0; --y-e6e0d2: #e8dec8; --y-e6fbf4: #ddfcf2; --y-bdeedb: #b1f2d9; --y-eef6ff: #e6f2ff; 
+  --y-c8e1fb: #bdddfe; --y-fdebd6: #ffe8cc; --y-f3f6fa: #ebf8f6; --y-dfe8f2: #d6e4f3; --y-ffe0a3: #ffdd9b; --y-f4f7f6: #ebf9f4; 
+  --y-e3f6ef: #dbf7ec; --y-edf6f1: #e9f8f2; --y-f3f5f0: #ebf8f2; --y-ffefe9: #ffe9e1; --y-fff5f2: #f0f8f3; --y-f0f6f2: #eaf8f3; 
+  --y-f2fbf7: #ebfaf5; --y-e2f5ed: #daf6ea; --y-edf2f7: #e9f7f5; --y-f7f9fb: #ecfaf6; --y-eef3f6: #e9f7f4; --y-eef1f4: #e9f7f3; 
+  --y-fff1c4: #ffefbc; --y-fff0d8: #ffedd0; --y-ffe4c6: #ffe0be; --y-fff2e3: #ffeedb; --y-fff9f2: #f0faf3; --y-f3eee5: #ebf5ee; 
+  --y-fbf8f3: #eef9f3; --y-f6f2eb: #ecf7f0; --y-ffe3c4: #ffdfbc; --y-f0fbf7: #eafaf5; --y-f6fbf8: #ecfaf5; --y-fcfbf9: #eefaf5; 
+  --y-f4fcf8: #ebfbf5; --y-fffaf8: #f0faf5; --y-f4f9fe: #ebfaf7; --y-fde7cf: #ffe3c5; --y-fbfcfb: #eefbf6; --y-f4f6f4: #ebf8f3; 
+  --y-fefefd: #effcf7; --y-fff1cc: #ffefc4; --y-eceffe: #e3e8ff; --y-ffd3c8: #ffcdc0; --y-f7efe6: #f8ebde; --y-efe6dc: #f0e2d3; 
+  --y-eaf5f1: #e8f8f2; --y-e1eee9: #e4f5ef; --y-f6f2e6: #f6f0de; --y-efe9da: #f0e7d1; --y-f6ecee: #ecf5f1; --y-efe3e5: #e9f1ee; 
+  --y-fffcf3: #f0fbf3; --y-f1f4f7: #eaf8f5; --y-e7ecf1: #e6f5f2;
+}
+
+/* Glaset: de ljusa tonerna blir halvgenomskinliga, så att bakgrunden lyser igenom i varje rad och ruta */
+:root[data-tema="original"][data-glas] {
+  --y-faf9f6: rgb(250 249 246 / var(--g-ton, .62)); --y-fcfbf8: rgb(252 251 248 / var(--g-ton, .62)); --y-faf9f5: rgb(250 249 245 / var(--g-ton, .62)); --y-f8f7f3: rgb(248 247 243 / var(--g-ton, .62)); --y-eef0f2: rgb(238 240 242 / var(--g-ton, .62)); --y-f1fbf7: rgb(241 251 247 / var(--g-ton, .62)); 
+  --y-f9fbfe: rgb(249 251 254 / var(--g-ton, .62)); --y-f7d9b5: rgb(247 217 181 / var(--g-ton, .62)); --y-fbfaf7: rgb(251 250 247 / var(--g-ton, .62)); --y-fff7f5: rgb(255 247 245 / var(--g-ton, .62)); --y-f6f9fc: rgb(246 249 252 / var(--g-ton, .62)); --y-fffaf0: rgb(255 250 240 / var(--g-ton, .62)); 
+  --y-f2f6fa: rgb(242 246 250 / var(--g-ton, .62)); --y-f3fbf8: rgb(243 251 248 / var(--g-ton, .62)); --y-d3f2e7: rgb(211 242 231 / var(--g-ton, .62)); --y-fffaf9: rgb(255 250 249 / var(--g-ton, .62)); --y-fffaf3: rgb(255 250 243 / var(--g-ton, .62)); --y-f7f6f2: rgb(247 246 242 / var(--g-ton, .62)); 
+  --y-fafcfd: rgb(250 252 253 / var(--g-ton, .62)); --y-fbfdff: rgb(251 253 255 / var(--g-ton, .62)); --y-f4f8fb: rgb(244 248 251 / var(--g-ton, .62)); --y-fff8f6: rgb(255 248 246 / var(--g-ton, .62)); --y-f4f3ee: rgb(244 243 238 / var(--g-ton, .62)); --y-fde1c2: rgb(253 225 194 / var(--g-ton, .62)); 
+  --y-fdfcfa: rgb(253 252 250 / var(--g-ton, .62)); --y-eef2f6: rgb(238 242 246 / var(--g-ton, .62)); --y-e6ebf0: rgb(230 235 240 / var(--g-ton, .62)); --y-fbd9d1: rgb(251 217 209 / var(--g-ton, .62)); --y-fff6ea: rgb(255 246 234 / var(--g-ton, .62)); --y-f3faf7: rgb(243 250 247 / var(--g-ton, .62)); 
+  --y-fff6f4: rgb(255 246 244 / var(--g-ton, .62)); --y-dff6ee: rgb(223 246 238 / var(--g-ton, .62)); --y-e3f0ff: rgb(227 240 255 / var(--g-ton, .62)); --y-ece8ff: rgb(236 232 255 / var(--g-ton, .62)); --y-fff3d6: rgb(255 243 214 / var(--g-ton, .62)); --y-e4edf6: rgb(228 237 246 / var(--g-ton, .62)); 
+  --y-f9fbfa: rgb(249 251 250 / var(--g-ton, .62)); --y-eeebe4: rgb(238 235 228 / var(--g-ton, .62)); --y-f0faf6: rgb(240 250 246 / var(--g-ton, .62)); --y-e8ebee: rgb(232 235 238 / var(--g-ton, .62)); --y-ffe3b6: rgb(255 227 182 / var(--g-ton, .62)); --y-e9edff: rgb(233 237 255 / var(--g-ton, .62)); 
+  --y-e3f1ff: rgb(227 241 255 / var(--g-ton, .62)); --y-f6f3ec: rgb(246 243 236 / var(--g-ton, .62)); --y-e6e0d2: rgb(230 224 210 / var(--g-ton, .62)); --y-e6fbf4: rgb(230 251 244 / var(--g-ton, .62)); --y-bdeedb: rgb(189 238 219 / var(--g-ton, .62)); --y-eef6ff: rgb(238 246 255 / var(--g-ton, .62)); 
+  --y-c8e1fb: rgb(200 225 251 / var(--g-ton, .62)); --y-fdebd6: rgb(253 235 214 / var(--g-ton, .62)); --y-f3f6fa: rgb(243 246 250 / var(--g-ton, .62)); --y-dfe8f2: rgb(223 232 242 / var(--g-ton, .62)); --y-ffe0a3: rgb(255 224 163 / var(--g-ton, .62)); --y-f4f7f6: rgb(244 247 246 / var(--g-ton, .62)); 
+  --y-e3f6ef: rgb(227 246 239 / var(--g-ton, .62)); --y-edf6f1: rgb(237 246 241 / var(--g-ton, .62)); --y-f3f5f0: rgb(243 245 240 / var(--g-ton, .62)); --y-ffefe9: rgb(255 239 233 / var(--g-ton, .62)); --y-fff5f2: rgb(255 245 242 / var(--g-ton, .62)); --y-f0f6f2: rgb(240 246 242 / var(--g-ton, .62)); 
+  --y-f2fbf7: rgb(242 251 247 / var(--g-ton, .62)); --y-e2f5ed: rgb(226 245 237 / var(--g-ton, .62)); --y-edf2f7: rgb(237 242 247 / var(--g-ton, .62)); --y-f7f9fb: rgb(247 249 251 / var(--g-ton, .62)); --y-eef3f6: rgb(238 243 246 / var(--g-ton, .62)); --y-eef1f4: rgb(238 241 244 / var(--g-ton, .62)); 
+  --y-fff1c4: rgb(255 241 196 / var(--g-ton, .62)); --y-fff0d8: rgb(255 240 216 / var(--g-ton, .62)); --y-ffe4c6: rgb(255 228 198 / var(--g-ton, .62)); --y-fff2e3: rgb(255 242 227 / var(--g-ton, .62)); --y-fff9f2: rgb(255 249 242 / var(--g-ton, .62)); --y-f3eee5: rgb(243 238 229 / var(--g-ton, .62)); 
+  --y-fbf8f3: rgb(251 248 243 / var(--g-ton, .62)); --y-f6f2eb: rgb(246 242 235 / var(--g-ton, .62)); --y-ffe3c4: rgb(255 227 196 / var(--g-ton, .62)); --y-f0fbf7: rgb(240 251 247 / var(--g-ton, .62)); --y-f6fbf8: rgb(246 251 248 / var(--g-ton, .62)); --y-fcfbf9: rgb(252 251 249 / var(--g-ton, .62)); 
+  --y-f4fcf8: rgb(244 252 248 / var(--g-ton, .62)); --y-fffaf8: rgb(255 250 248 / var(--g-ton, .62)); --y-f4f9fe: rgb(244 249 254 / var(--g-ton, .62)); --y-fde7cf: rgb(253 231 207 / var(--g-ton, .62)); --y-fbfcfb: rgb(251 252 251 / var(--g-ton, .62)); --y-f4f6f4: rgb(244 246 244 / var(--g-ton, .62)); 
+  --y-fefefd: rgb(254 254 253 / var(--g-ton, .62)); --y-fff1cc: rgb(255 241 204 / var(--g-ton, .62)); --y-eceffe: rgb(236 239 254 / var(--g-ton, .62)); --y-ffd3c8: rgb(255 211 200 / var(--g-ton, .62)); --y-f7efe6: rgb(247 239 230 / var(--g-ton, .62)); --y-efe6dc: rgb(239 230 220 / var(--g-ton, .62)); 
+  --y-eaf5f1: rgb(234 245 241 / var(--g-ton, .62)); --y-e1eee9: rgb(225 238 233 / var(--g-ton, .62)); --y-f6f2e6: rgb(246 242 230 / var(--g-ton, .62)); --y-efe9da: rgb(239 233 218 / var(--g-ton, .62)); --y-f6ecee: rgb(246 236 238 / var(--g-ton, .62)); --y-efe3e5: rgb(239 227 229 / var(--g-ton, .62)); 
+  --y-fffcf3: rgb(255 252 243 / var(--g-ton, .62)); --y-f1f4f7: rgb(241 244 247 / var(--g-ton, .62)); --y-e7ecf1: rgb(231 236 241 / var(--g-ton, .62));
+}
+:root[data-tema="mork"][data-glas] {
+  --y-faf9f6: rgb(21 34 47 / var(--g-ton, .62)); --y-fcfbf8: rgb(20 33 46 / var(--g-ton, .62)); --y-faf9f5: rgb(21 34 48 / var(--g-ton, .62)); --y-f8f7f3: rgb(22 34 49 / var(--g-ton, .62)); --y-eef0f2: rgb(23 36 51 / var(--g-ton, .62)); --y-f1fbf7: rgb(22 34 48 / var(--g-ton, .62)); 
+  --y-f9fbfe: rgb(20 32 46 / var(--g-ton, .62)); --y-f7d9b5: rgb(68 49 26 / var(--g-ton, .62)); --y-fbfaf7: rgb(21 33 47 / var(--g-ton, .62)); --y-fff7f5: rgb(20 33 46 / var(--g-ton, .62)); --y-f6f9fc: rgb(21 33 47 / var(--g-ton, .62)); --y-fffaf0: rgb(21 34 48 / var(--g-ton, .62)); 
+  --y-f2f6fa: rgb(22 34 48 / var(--g-ton, .62)); --y-f3fbf8: rgb(21 34 48 / var(--g-ton, .62)); --y-d3f2e7: rgb(31 58 48 / var(--g-ton, .62)); --y-fffaf9: rgb(20 32 45 / var(--g-ton, .62)); --y-fffaf3: rgb(21 33 47 / var(--g-ton, .62)); --y-f7f6f2: rgb(22 35 49 / var(--g-ton, .62)); 
+  --y-fafcfd: rgb(20 32 46 / var(--g-ton, .62)); --y-fbfdff: rgb(20 32 45 / var(--g-ton, .62)); --y-f4f8fb: rgb(21 34 48 / var(--g-ton, .62)); --y-fff8f6: rgb(20 33 46 / var(--g-ton, .62)); --y-f4f3ee: rgb(23 36 51 / var(--g-ton, .62)); --y-fde1c2: rgb(68 46 22 / var(--g-ton, .62)); 
+  --y-fdfcfa: rgb(20 32 46 / var(--g-ton, .62)); --y-eef2f6: rgb(23 36 50 / var(--g-ton, .62)); --y-e6ebf0: rgb(25 38 54 / var(--g-ton, .62)); --y-fbd9d1: rgb(64 31 24 / var(--g-ton, .62)); --y-fff6ea: rgb(63 44 18 / var(--g-ton, .62)); --y-f3faf7: rgb(21 34 48 / var(--g-ton, .62)); 
+  --y-fff6f4: rgb(21 33 47 / var(--g-ton, .62)); --y-dff6ee: rgb(30 56 47 / var(--g-ton, .62)); --y-e3f0ff: rgb(19 40 64 / var(--g-ton, .62)); --y-ece8ff: rgb(26 18 63 / var(--g-ton, .62)); --y-fff3d6: rgb(66 53 19 / var(--g-ton, .62)); --y-e4edf6: rgb(31 42 54 / var(--g-ton, .62)); 
+  --y-f9fbfa: rgb(20 33 46 / var(--g-ton, .62)); --y-eeebe4: rgb(25 39 54 / var(--g-ton, .62)); --y-f0faf6: rgb(22 35 49 / var(--g-ton, .62)); --y-e8ebee: rgb(25 38 54 / var(--g-ton, .62)); --y-ffe3b6: rgb(72 52 21 / var(--g-ton, .62)); --y-e9edff: rgb(18 26 63 / var(--g-ton, .62)); 
+  --y-e3f1ff: rgb(19 41 64 / var(--g-ton, .62)); --y-f6f3ec: rgb(23 36 51 / var(--g-ton, .62)); --y-e6e0d2: rgb(57 50 35 / var(--g-ton, .62)); --y-e6fbf4: rgb(25 58 47 / var(--g-ton, .62)); --y-bdeedb: rgb(32 63 51 / var(--g-ton, .62)); --y-eef6ff: rgb(18 39 62 / var(--g-ton, .62)); 
+  --y-c8e1fb: rgb(23 44 66 / var(--g-ton, .62)); --y-fdebd6: rgb(64 45 22 / var(--g-ton, .62)); --y-f3f6fa: rgb(21 34 48 / var(--g-ton, .62)); --y-dfe8f2: rgb(33 43 54 / var(--g-ton, .62)); --y-ffe0a3: rgb(75 57 22 / var(--g-ton, .62)); --y-f4f7f6: rgb(22 34 49 / var(--g-ton, .62)); 
+  --y-e3f6ef: rgb(30 54 45 / var(--g-ton, .62)); --y-edf6f1: rgb(23 36 50 / var(--g-ton, .62)); --y-f3f5f0: rgb(23 36 50 / var(--g-ton, .62)); --y-ffefe9: rgb(63 31 18 / var(--g-ton, .62)); --y-fff5f2: rgb(21 33 47 / var(--g-ton, .62)); --y-f0f6f2: rgb(22 35 50 / var(--g-ton, .62)); 
+  --y-f2fbf7: rgb(21 34 48 / var(--g-ton, .62)); --y-e2f5ed: rgb(31 54 44 / var(--g-ton, .62)); --y-edf2f7: rgb(23 36 50 / var(--g-ton, .62)); --y-f7f9fb: rgb(21 33 47 / var(--g-ton, .62)); --y-eef3f6: rgb(23 36 50 / var(--g-ton, .62)); --y-eef1f4: rgb(23 36 51 / var(--g-ton, .62)); 
+  --y-fff1c4: rgb(69 58 20 / var(--g-ton, .62)); --y-fff0d8: rgb(66 48 19 / var(--g-ton, .62)); --y-ffe4c6: rgb(69 46 20 / var(--g-ton, .62)); --y-fff2e3: rgb(64 43 19 / var(--g-ton, .62)); --y-fff9f2: rgb(21 33 47 / var(--g-ton, .62)); --y-f3eee5: rgb(24 38 53 / var(--g-ton, .62)); 
+  --y-fbf8f3: rgb(21 34 48 / var(--g-ton, .62)); --y-f6f2eb: rgb(23 36 51 / var(--g-ton, .62)); --y-ffe3c4: rgb(69 46 20 / var(--g-ton, .62)); --y-f0fbf7: rgb(22 34 49 / var(--g-ton, .62)); --y-f6fbf8: rgb(21 33 47 / var(--g-ton, .62)); --y-fcfbf9: rgb(20 33 46 / var(--g-ton, .62)); 
+  --y-f4fcf8: rgb(21 34 47 / var(--g-ton, .62)); --y-fffaf8: rgb(20 32 46 / var(--g-ton, .62)); --y-f4f9fe: rgb(21 33 47 / var(--g-ton, .62)); --y-fde7cf: rgb(66 45 22 / var(--g-ton, .62)); --y-fbfcfb: rgb(20 32 46 / var(--g-ton, .62)); --y-f4f6f4: rgb(22 35 49 / var(--g-ton, .62)); 
+  --y-fefefd: rgb(19 32 45 / var(--g-ton, .62)); --y-fff1cc: rgb(68 55 20 / var(--g-ton, .62)); --y-eceffe: rgb(20 27 60 / var(--g-ton, .62)); --y-ffd3c8: rgb(69 30 20 / var(--g-ton, .62)); --y-f7efe6: rgb(54 43 30 / var(--g-ton, .62)); --y-efe6dc: rgb(54 44 33 / var(--g-ton, .62)); 
+  --y-eaf5f1: rgb(23 37 51 / var(--g-ton, .62)); --y-e1eee9: rgb(26 40 55 / var(--g-ton, .62)); --y-f6f2e6: rgb(53 47 31 / var(--g-ton, .62)); --y-efe9da: rgb(55 49 34 / var(--g-ton, .62)); --y-f6ecee: rgb(23 36 51 / var(--g-ton, .62)); --y-efe3e5: rgb(25 39 54 / var(--g-ton, .62)); 
+  --y-fffcf3: rgb(21 33 47 / var(--g-ton, .62)); --y-f1f4f7: rgb(22 35 49 / var(--g-ton, .62)); --y-e7ecf1: rgb(24 38 53 / var(--g-ton, .62));
+}
+:root[data-tema="ljus"][data-glas] {
+  --y-faf9f6: rgb(253 252 251 / var(--g-ton, .62)); --y-fcfbf8: rgb(254 253 252 / var(--g-ton, .62)); --y-faf9f5: rgb(253 252 251 / var(--g-ton, .62)); --y-f8f7f3: rgb(252 251 250 / var(--g-ton, .62)); --y-eef0f2: rgb(247 248 249 / var(--g-ton, .62)); --y-f1fbf7: rgb(249 253 251 / var(--g-ton, .62)); 
+  --y-f9fbfe: rgb(252 253 255 / var(--g-ton, .62)); --y-f7d9b5: rgb(251 238 222 / var(--g-ton, .62)); --y-fbfaf7: rgb(253 253 251 / var(--g-ton, .62)); --y-fff7f5: rgb(255 251 251 / var(--g-ton, .62)); --y-f6f9fc: rgb(251 252 254 / var(--g-ton, .62)); --y-fffaf0: rgb(255 253 248 / var(--g-ton, .62)); 
+  --y-f2f6fa: rgb(249 251 253 / var(--g-ton, .62)); --y-f3fbf8: rgb(250 253 252 / var(--g-ton, .62)); --y-d3f2e7: rgb(235 249 244 / var(--g-ton, .62)); --y-fffaf9: rgb(255 253 252 / var(--g-ton, .62)); --y-fffaf3: rgb(255 253 250 / var(--g-ton, .62)); --y-f7f6f2: rgb(251 251 249 / var(--g-ton, .62)); 
+  --y-fafcfd: rgb(253 254 254 / var(--g-ton, .62)); --y-fbfdff: rgb(253 254 255 / var(--g-ton, .62)); --y-f4f8fb: rgb(250 252 253 / var(--g-ton, .62)); --y-fff8f6: rgb(255 252 251 / var(--g-ton, .62)); --y-f4f3ee: rgb(250 250 247 / var(--g-ton, .62)); --y-fde1c2: rgb(254 242 228 / var(--g-ton, .62)); 
+  --y-fdfcfa: rgb(254 254 253 / var(--g-ton, .62)); --y-eef2f6: rgb(247 249 251 / var(--g-ton, .62)); --y-e6ebf0: rgb(244 246 248 / var(--g-ton, .62)); --y-fbd9d1: rgb(253 238 234 / var(--g-ton, .62)); --y-fff6ea: rgb(255 251 246 / var(--g-ton, .62)); --y-f3faf7: rgb(250 253 251 / var(--g-ton, .62)); 
+  --y-fff6f4: rgb(255 251 250 / var(--g-ton, .62)); --y-dff6ee: rgb(241 251 247 / var(--g-ton, .62)); --y-e3f0ff: rgb(242 248 255 / var(--g-ton, .62)); --y-ece8ff: rgb(246 245 255 / var(--g-ton, .62)); --y-fff3d6: rgb(255 250 237 / var(--g-ton, .62)); --y-e4edf6: rgb(243 247 251 / var(--g-ton, .62)); 
+  --y-f9fbfa: rgb(252 253 253 / var(--g-ton, .62)); --y-eeebe4: rgb(247 246 243 / var(--g-ton, .62)); --y-f0faf6: rgb(248 253 251 / var(--g-ton, .62)); --y-e8ebee: rgb(245 246 247 / var(--g-ton, .62)); --y-ffe3b6: rgb(255 242 222 / var(--g-ton, .62)); --y-e9edff: rgb(245 247 255 / var(--g-ton, .62)); 
+  --y-e3f1ff: rgb(242 249 255 / var(--g-ton, .62)); --y-f6f3ec: rgb(251 250 246 / var(--g-ton, .62)); --y-e6e0d2: rgb(244 241 235 / var(--g-ton, .62)); --y-e6fbf4: rgb(244 253 250 / var(--g-ton, .62)); --y-bdeedb: rgb(225 247 239 / var(--g-ton, .62)); --y-eef6ff: rgb(247 251 255 / var(--g-ton, .62)); 
+  --y-c8e1fb: rgb(230 242 253 / var(--g-ton, .62)); --y-fdebd6: rgb(254 246 237 / var(--g-ton, .62)); --y-f3f6fa: rgb(250 251 253 / var(--g-ton, .62)); --y-dfe8f2: rgb(241 245 249 / var(--g-ton, .62)); --y-ffe0a3: rgb(255 241 214 / var(--g-ton, .62)); --y-f4f7f6: rgb(250 251 251 / var(--g-ton, .62)); 
+  --y-e3f6ef: rgb(242 251 248 / var(--g-ton, .62)); --y-edf6f1: rgb(247 251 249 / var(--g-ton, .62)); --y-f3f5f0: rgb(250 251 248 / var(--g-ton, .62)); --y-ffefe9: rgb(255 248 245 / var(--g-ton, .62)); --y-fff5f2: rgb(255 251 249 / var(--g-ton, .62)); --y-f0f6f2: rgb(248 251 249 / var(--g-ton, .62)); 
+  --y-f2fbf7: rgb(249 253 251 / var(--g-ton, .62)); --y-e2f5ed: rgb(242 251 247 / var(--g-ton, .62)); --y-edf2f7: rgb(247 249 251 / var(--g-ton, .62)); --y-f7f9fb: rgb(251 252 253 / var(--g-ton, .62)); --y-eef3f6: rgb(247 250 251 / var(--g-ton, .62)); --y-eef1f4: rgb(247 249 250 / var(--g-ton, .62)); 
+  --y-fff1c4: rgb(255 249 228 / var(--g-ton, .62)); --y-fff0d8: rgb(255 248 237 / var(--g-ton, .62)); --y-ffe4c6: rgb(255 243 229 / var(--g-ton, .62)); --y-fff2e3: rgb(255 249 242 / var(--g-ton, .62)); --y-fff9f2: rgb(255 252 249 / var(--g-ton, .62)); --y-f3eee5: rgb(250 247 243 / var(--g-ton, .62)); 
+  --y-fbf8f3: rgb(253 252 250 / var(--g-ton, .62)); --y-f6f2eb: rgb(251 249 246 / var(--g-ton, .62)); --y-ffe3c4: rgb(255 242 228 / var(--g-ton, .62)); --y-f0fbf7: rgb(248 253 251 / var(--g-ton, .62)); --y-f6fbf8: rgb(251 253 252 / var(--g-ton, .62)); --y-fcfbf9: rgb(254 253 252 / var(--g-ton, .62)); 
+  --y-f4fcf8: rgb(250 254 252 / var(--g-ton, .62)); --y-fffaf8: rgb(255 253 252 / var(--g-ton, .62)); --y-f4f9fe: rgb(250 252 255 / var(--g-ton, .62)); --y-fde7cf: rgb(254 244 233 / var(--g-ton, .62)); --y-fbfcfb: rgb(253 254 253 / var(--g-ton, .62)); --y-f4f6f4: rgb(250 251 250 / var(--g-ton, .62)); 
+  --y-fefefd: rgb(255 255 254 / var(--g-ton, .62)); --y-fff1cc: rgb(255 249 232 / var(--g-ton, .62)); --y-eceffe: rgb(246 248 255 / var(--g-ton, .62)); --y-ffd3c8: rgb(255 235 230 / var(--g-ton, .62)); --y-f7efe6: rgb(251 248 244 / var(--g-ton, .62)); --y-efe6dc: rgb(248 244 239 / var(--g-ton, .62)); 
+  --y-eaf5f1: rgb(246 251 249 / var(--g-ton, .62)); --y-e1eee9: rgb(242 247 245 / var(--g-ton, .62)); --y-f6f2e6: rgb(251 249 244 / var(--g-ton, .62)); --y-efe9da: rgb(248 245 238 / var(--g-ton, .62)); --y-f6ecee: rgb(251 246 247 / var(--g-ton, .62)); --y-efe3e5: rgb(248 242 243 / var(--g-ton, .62)); 
+  --y-fffcf3: rgb(255 254 250 / var(--g-ton, .62)); --y-f1f4f7: rgb(249 250 251 / var(--g-ton, .62)); --y-e7ecf1: rgb(244 246 249 / var(--g-ton, .62));
+}
+:root[data-tema="fargglad"][data-glas] {
+  --y-faf9f6: rgb(238 250 244 / var(--g-ton, .62)); --y-fcfbf8: rgb(238 250 245 / var(--g-ton, .62)); --y-faf9f5: rgb(238 250 244 / var(--g-ton, .62)); --y-f8f7f3: rgb(237 249 243 / var(--g-ton, .62)); --y-eef0f2: rgb(233 246 243 / var(--g-ton, .62)); --y-f1fbf7: rgb(234 250 245 / var(--g-ton, .62)); 
+  --y-f9fbfe: rgb(237 250 247 / var(--g-ton, .62)); --y-f7d9b5: rgb(252 214 169 / var(--g-ton, .62)); --y-fbfaf7: rgb(238 250 245 / var(--g-ton, .62)); --y-fff7f5: rgb(240 249 244 / var(--g-ton, .62)); --y-f6f9fc: rgb(236 250 246 / var(--g-ton, .62)); --y-fffaf0: rgb(240 250 242 / var(--g-ton, .62)); 
+  --y-f2f6fa: rgb(235 248 246 / var(--g-ton, .62)); --y-f3fbf8: rgb(235 250 245 / var(--g-ton, .62)); --y-d3f2e7: rgb(201 244 229 / var(--g-ton, .62)); --y-fffaf9: rgb(240 250 245 / var(--g-ton, .62)); --y-fffaf3: rgb(240 250 243 / var(--g-ton, .62)); --y-f7f6f2: rgb(236 248 243 / var(--g-ton, .62)); 
+  --y-fafcfd: rgb(238 251 247 / var(--g-ton, .62)); --y-fbfdff: rgb(238 251 248 / var(--g-ton, .62)); --y-f4f8fb: rgb(235 249 246 / var(--g-ton, .62)); --y-fff8f6: rgb(240 249 244 / var(--g-ton, .62)); --y-f4f3ee: rgb(235 247 241 / var(--g-ton, .62)); --y-fde1c2: rgb(255 221 184 / var(--g-ton, .62)); 
+  --y-fdfcfa: rgb(239 251 246 / var(--g-ton, .62)); --y-eef2f6: rgb(233 247 244 / var(--g-ton, .62)); --y-e6ebf0: rgb(230 244 242 / var(--g-ton, .62)); --y-fbd9d1: rgb(254 209 199 / var(--g-ton, .62)); --y-fff6ea: rgb(255 243 226 / var(--g-ton, .62)); --y-f3faf7: rgb(235 250 245 / var(--g-ton, .62)); 
+  --y-fff6f4: rgb(240 248 243 / var(--g-ton, .62)); --y-dff6ee: rgb(214 247 236 / var(--g-ton, .62)); --y-e3f0ff: rgb(219 236 255 / var(--g-ton, .62)); --y-ece8ff: rgb(230 224 255 / var(--g-ton, .62)); --y-fff3d6: rgb(255 241 206 / var(--g-ton, .62)); --y-e4edf6: rgb(220 233 247 / var(--g-ton, .62)); 
+  --y-f9fbfa: rgb(237 250 246 / var(--g-ton, .62)); --y-eeebe4: rgb(233 244 237 / var(--g-ton, .62)); --y-f0faf6: rgb(234 250 244 / var(--g-ton, .62)); --y-e8ebee: rgb(231 244 241 / var(--g-ton, .62)); --y-ffe3b6: rgb(255 224 174 / var(--g-ton, .62)); --y-e9edff: rgb(225 231 255 / var(--g-ton, .62)); 
+  --y-e3f1ff: rgb(219 237 255 / var(--g-ton, .62)); --y-f6f3ec: rgb(236 247 240 / var(--g-ton, .62)); --y-e6e0d2: rgb(232 222 200 / var(--g-ton, .62)); --y-e6fbf4: rgb(221 252 242 / var(--g-ton, .62)); --y-bdeedb: rgb(177 242 217 / var(--g-ton, .62)); --y-eef6ff: rgb(230 242 255 / var(--g-ton, .62)); 
+  --y-c8e1fb: rgb(189 221 254 / var(--g-ton, .62)); --y-fdebd6: rgb(255 232 204 / var(--g-ton, .62)); --y-f3f6fa: rgb(235 248 246 / var(--g-ton, .62)); --y-dfe8f2: rgb(214 228 243 / var(--g-ton, .62)); --y-ffe0a3: rgb(255 221 155 / var(--g-ton, .62)); --y-f4f7f6: rgb(235 249 244 / var(--g-ton, .62)); 
+  --y-e3f6ef: rgb(219 247 236 / var(--g-ton, .62)); --y-edf6f1: rgb(233 248 242 / var(--g-ton, .62)); --y-f3f5f0: rgb(235 248 242 / var(--g-ton, .62)); --y-ffefe9: rgb(255 233 225 / var(--g-ton, .62)); --y-fff5f2: rgb(240 248 243 / var(--g-ton, .62)); --y-f0f6f2: rgb(234 248 243 / var(--g-ton, .62)); 
+  --y-f2fbf7: rgb(235 250 245 / var(--g-ton, .62)); --y-e2f5ed: rgb(218 246 234 / var(--g-ton, .62)); --y-edf2f7: rgb(233 247 245 / var(--g-ton, .62)); --y-f7f9fb: rgb(236 250 246 / var(--g-ton, .62)); --y-eef3f6: rgb(233 247 244 / var(--g-ton, .62)); --y-eef1f4: rgb(233 247 243 / var(--g-ton, .62)); 
+  --y-fff1c4: rgb(255 239 188 / var(--g-ton, .62)); --y-fff0d8: rgb(255 237 208 / var(--g-ton, .62)); --y-ffe4c6: rgb(255 224 190 / var(--g-ton, .62)); --y-fff2e3: rgb(255 238 219 / var(--g-ton, .62)); --y-fff9f2: rgb(240 250 243 / var(--g-ton, .62)); --y-f3eee5: rgb(235 245 238 / var(--g-ton, .62)); 
+  --y-fbf8f3: rgb(238 249 243 / var(--g-ton, .62)); --y-f6f2eb: rgb(236 247 240 / var(--g-ton, .62)); --y-ffe3c4: rgb(255 223 188 / var(--g-ton, .62)); --y-f0fbf7: rgb(234 250 245 / var(--g-ton, .62)); --y-f6fbf8: rgb(236 250 245 / var(--g-ton, .62)); --y-fcfbf9: rgb(238 250 245 / var(--g-ton, .62)); 
+  --y-f4fcf8: rgb(235 251 245 / var(--g-ton, .62)); --y-fffaf8: rgb(240 250 245 / var(--g-ton, .62)); --y-f4f9fe: rgb(235 250 247 / var(--g-ton, .62)); --y-fde7cf: rgb(255 227 197 / var(--g-ton, .62)); --y-fbfcfb: rgb(238 251 246 / var(--g-ton, .62)); --y-f4f6f4: rgb(235 248 243 / var(--g-ton, .62)); 
+  --y-fefefd: rgb(239 252 247 / var(--g-ton, .62)); --y-fff1cc: rgb(255 239 196 / var(--g-ton, .62)); --y-eceffe: rgb(227 232 255 / var(--g-ton, .62)); --y-ffd3c8: rgb(255 205 192 / var(--g-ton, .62)); --y-f7efe6: rgb(248 235 222 / var(--g-ton, .62)); --y-efe6dc: rgb(240 226 211 / var(--g-ton, .62)); 
+  --y-eaf5f1: rgb(232 248 242 / var(--g-ton, .62)); --y-e1eee9: rgb(228 245 239 / var(--g-ton, .62)); --y-f6f2e6: rgb(246 240 222 / var(--g-ton, .62)); --y-efe9da: rgb(240 231 209 / var(--g-ton, .62)); --y-f6ecee: rgb(236 245 241 / var(--g-ton, .62)); --y-efe3e5: rgb(233 241 238 / var(--g-ton, .62)); 
+  --y-fffcf3: rgb(240 251 243 / var(--g-ton, .62)); --y-f1f4f7: rgb(234 248 245 / var(--g-ton, .62)); --y-e7ecf1: rgb(230 245 242 / var(--g-ton, .62));
+}
+
+/* Glaset: tonerna på de ljusa temana mörknar så att de håller kontrasten mot de färgade ytorna (Mörk har egna ljusa toner) */
+:root[data-glas]:not([data-tema="mork"]) {
+  --f-8a4a0c: #7c420b; --f-1d5b8c: #1b5684; --f-a35a14: #7a430f; --f-2f5f88: #2a5479; --f-2f6fa8: #245580; --f-2a7f9a: #1d576a; 
+  --f-a0581a: #7d4514; --f-c73a4b: #982b38; --f-5b47b8: #5441a9; --f-94640a: #6e4a07; --f-4a5563: #485260; --f-2a6f9a: #21587a; 
+  --f-6b6455: #575145; --f-8a4a12: #7c4310; --f-e5674f: #992b17; --f-b07a12: #6f4d0b; --f-7a6250: #614e40; --f-a84d0c: #873e0a; 
+  --f-9a6200: #714800; --f-7f5500: #704b00; --f-3c4ea0: #3b4c9c;
+}
+
+/* Zonerna följer temat */
+:root[data-tema="mork"] :is(.sido, .sido-kant, .flikrad, .mer-ark, dialog.ark:has(> .mer-ark), [data-mork-yta], [data-mork], .hero3d, .ov-hjalte, .kb3d, .kb-band, .motescen, .ch-rum, .lp-band, .ob-band, .ob-nav, .sidhjalte, .kort-mork, .ao-hjalte, .sh-hjalte, .lp-konto, .mk-infor, .mk-docka, .mk-mini, .toast, .spinn-summa, .dk-d-topp, .omtestkort, .docka-zon, .chf, .chf-ikon, .chf-meny, .ch-forslag, .ch-tk-meny, .ch-emoji, .fs-kort, .anv-notis, .insp-kort, .insp-piller, .ss-tips, dialog.ark:has(> .snabb-topp)) {
+  --z-text: #edf2f7; --z-text-rgb: 237 242 247; --z-skugga-rgb: 0 0 0; --z-gron-rgb: 14 92 76; --text-ljus: rgb(237 242 247 / .72); --kant-ljus: rgb(237 242 247 / .13); 
+  --z-t50: rgb(237 242 247 / .77); --z-t55: rgb(237 242 247 / .77); --z-t60: rgb(237 242 247 / .77); --z-t62: rgb(237 242 247 / .77); --z-t70: rgb(237 242 247 / .77); --z-t45: rgb(237 242 247 / .77); 
+  --z-t66: rgb(237 242 247 / .77); --z-t72: rgb(237 242 247 / .77); --z-t58: rgb(237 242 247 / .77); --z-t40: rgb(237 242 247 / .77); --z-t75: rgb(237 242 247 / .77); --z-t82: rgb(237 242 247 / .82); 
+  --z-t42: rgb(237 242 247 / .77); --z-t78: rgb(237 242 247 / .78); --z-t86: rgb(237 242 247 / .86); --z-t76: rgb(237 242 247 / .77); --z-t88: rgb(237 242 247 / .88); --z-t56: rgb(237 242 247 / .77); 
+  --z-t85: rgb(237 242 247 / .85); --z-t74: rgb(237 242 247 / .77); --z-t65: rgb(237 242 247 / .77); --z-t80: rgb(237 242 247 / .8); --z-t38: rgb(237 242 247 / .77); --z-t12: rgb(237 242 247 / .26); 
+  --z-t44: rgb(237 242 247 / .77); --z-t68: rgb(237 242 247 / .77); --z-t10: rgb(237 242 247 / .24); --z-t48: rgb(237 242 247 / .77); --z-t52: rgb(237 242 247 / .77); --z-t46: rgb(237 242 247 / .77); 
+  --z-t90: rgb(237 242 247 / .9); --z-t92: rgb(237 242 247 / .92); --z-t26: rgb(237 242 247 / .4); --z-t64: rgb(237 242 247 / .77); --z-t84: rgb(237 242 247 / .84); --z-t32: rgb(237 242 247 / .77); 
+  --z-t35: rgb(237 242 247 / .77); --z-t28: rgb(237 242 247 / .4); --z-t54: rgb(237 242 247 / .77); --z-v80: rgb(255 255 255 / .8); --z-v10: rgb(255 255 255 / .24); --z-v74: rgb(255 255 255 / .77); 
+  --z-v58: rgb(255 255 255 / .77); --z-v55: rgb(255 255 255 / .77); --z-v05: rgb(255 255 255 / .19); --z-v06: rgb(255 255 255 / .2); --z-v08: rgb(255 255 255 / .22); --z-yb-rgb: 237 242 247; 
+  --zy-0b1520: 15 21 28; --zy-1d4166: 33 50 69; --zy-08121c: 12 19 26; --zy-183653: 31 46 64; --zy-0a141f: 14 21 28; --zy-0f1e2e: 20 28 38; 
+  --zy-060c13: 10 14 19; --zy-112132: 22 31 41; --zy-0b1622: 15 22 30; --zy-050a10: 9 13 17; --zy-060d15: 10 15 21; --zy-08111a: 12 18 24; 
+  --zy-081019: 12 17 23; --zy-080f17: 12 17 22; --zy-182d42: 29 40 52; --zy-0d1a28: 18 25 34; --zy-0a1520: 14 21 28; --zy-070d14: 11 15 20; 
+  --zy-142332: 24 32 41; --zy-0a131d: 14 20 26; --zy-050c14: 9 14 20; --zy-0d1a27: 18 25 33; --zy-101d2b: 20 28 36; --zy-13283d: 25 36 49; 
+  --zy-050a11: 9 13 18; --zy-0a1622: 15 22 30; --zy-04090f: 8 12 17; --zy-09131d: 13 19 26; --zy-0c1a28: 17 25 34; --zy-09121c: 13 19 26; 
+  --zy-132538: 24 34 45; --zy-112030: 22 30 40; --zy-1d3a57: 35 50 67; --zy-0e1f30: 19 29 39; --zy-070f18: 11 17 23; --zy-03080e: 7 11 16; 
+  --zy-0e1a27: 18 25 33; --zy-03080d: 7 11 15; --zy-13212f: 23 30 39; --zy-182a3d: 28 38 49; --zy-13273b: 24 35 47; --zy-1b3a5a: 34 50 68; 
+  --zy-0b3b35: 19 46 43; --zy-4a4296: 41 39 63; --zy-02080e: 6 11 16; --zy-09141f: 14 20 28; --zy-122335: 23 32 43; --zy-1b344c: 32 45 59; 
+  --zy-0c1926: 17 24 33; --zy-15283c: 26 36 48; --zy-1a2b3c: 29 38 49; --zy-15293d: 26 37 49; --zy-142639: 25 35 46; --zy-10302e: 21 40 38; 
+  --zy-091a1c: 13 24 26; --zy-213850: 37 49 63; --zy-28425e: 38 50 64; --zy-1b3f63: 33 50 69; --zy-12263a: 24 34 46; --zy-0a1722: 15 22 30; 
+  --zy-08111b: 12 18 25; --zy-1a3046: 31 42 55; --zy-0e1c2a: 19 26 35; --zy-142c38: 25 34 45; --zy-0a1820: 14 21 28; --zy-091119: 13 18 23; 
+  --zy-1d4a6e: 33 50 69; --zy-08101a: 12 18 24; --zy-1b3550: 33 46 62; --zy-0d1a26: 17 24 33; --zy-123a33: 24 46 42; --zy-0e2231: 20 29 40; 
+  --zy-142434: 24 33 43; --zy-070d15: 11 15 21; --zy-0f1d2b: 19 27 36; --zy-070e16: 11 16 21; --zy-22324a: 37 47 59; --zy-121d2b: 22 28 36; 
+  --zy-122334: 23 32 42; --zy-1f3a55: 36 50 66; --zy-132739: 24 34 46; --zy-0e1d2c: 19 27 37; --zy-0c1824: 16 23 31; --zy-1d3d55: 35 49 65; 
+  --zy-1b3a57: 34 49 67; --zy-1b2f44: 31 42 54; --zy-0f2234: 21 31 42; --zy-4a3624: 59 48 38; --zy-3c2b1c: 49 39 31; --zy-0b4d3d: 21 58 49; 
+  --zy-1e2a36: 31 38 45; --zy-263544: 39 46 55; --zy-121b24: 21 26 32; --zy-09131e: 13 20 27; --zy-1b3c5e: 33 50 69; --zy-14212f: 24 31 39; 
+  --zy-091019: 13 18 23; --zy-265280: 34 50 68; --zy-04080d: 8 11 15; --zy-1c4e80: 31 50 71; --zy-06101a: 11 17 24; --zy-0c5c49: 25 67 57;
+}
+:root[data-tema="ljus"] :is(.sido, .sido-kant, .flikrad, .mer-ark, dialog.ark:has(> .mer-ark), [data-mork-yta], [data-mork], .hero3d, .ov-hjalte, .kb3d, .kb-band, .motescen, .ch-rum, .lp-band, .ob-band, .ob-nav, .sidhjalte, .kort-mork, .ao-hjalte, .sh-hjalte, .lp-konto, .mk-infor, .mk-docka, .mk-mini, .toast, .spinn-summa, .dk-d-topp, .omtestkort, .docka-zon, .chf, .chf-ikon, .chf-meny, .ch-forslag, .ch-tk-meny, .ch-emoji, .fs-kort, .anv-notis, .insp-kort, .insp-piller, .ss-tips, dialog.ark:has(> .snabb-topp)) {
+  --z-text: #0f1a26; --z-vit: #0f1a26; --z-text-rgb: 15 26 38; --z-vit-rgb: 15 26 38; --z-glans-rgb: 255 255 255; --z-skugga-rgb: 58 72 88; 
+  --z-gron-rgb: 126 224 195; --z-dimma: 62%; --z-accent: #0c6450; --z-is: #1d5b8c; --z-gul: #755000; --z-orange: #a85a12; 
+  --z-rod: #9c2f1c; --text-ljus: rgb(15 26 38 / .72); --kant-ljus: rgb(15 26 38 / .12); --z-t50: rgb(15 26 38 / .787); --z-t55: rgb(15 26 38 / .816); --z-t60: rgb(15 26 38 / .845); 
+  --z-t62: rgb(15 26 38 / .857); --z-t70: rgb(15 26 38 / .903); --z-t45: rgb(15 26 38 / .758); --z-t66: rgb(15 26 38 / .88); --z-t72: rgb(15 26 38 / .915); --z-t58: rgb(15 26 38 / .833); 
+  --z-t40: rgb(15 26 38 / .729); --z-t75: rgb(15 26 38 / .932); --z-t82: rgb(15 26 38 / .973); --z-t42: rgb(15 26 38 / .741); --z-t78: rgb(15 26 38 / .949); --z-t86: rgb(15 26 38 / .996); 
+  --z-t76: rgb(15 26 38 / .938); --z-t88: rgb(15 26 38 / 1); --z-t56: rgb(15 26 38 / .822); --z-t85: rgb(15 26 38 / .99); --z-t74: rgb(15 26 38 / .926); --z-t65: rgb(15 26 38 / .874); 
+  --z-t80: rgb(15 26 38 / .961); --z-t38: rgb(15 26 38 / .717); --z-t12: rgb(15 26 38 / .28); --z-t44: rgb(15 26 38 / .752); --z-t68: rgb(15 26 38 / .891); --z-t10: rgb(15 26 38 / .26); 
+  --z-t48: rgb(15 26 38 / .775); --z-t52: rgb(15 26 38 / .799); --z-t46: rgb(15 26 38 / .764); --z-t90: rgb(15 26 38 / 1); --z-t92: rgb(15 26 38 / 1); --z-t26: rgb(15 26 38 / .42); 
+  --z-t64: rgb(15 26 38 / .868); --z-t84: rgb(15 26 38 / .984); --z-t32: rgb(15 26 38 / .7); --z-t35: rgb(15 26 38 / .7); --z-t28: rgb(15 26 38 / .44); --z-t54: rgb(15 26 38 / .81); 
+  --z-v80: rgb(15 26 38 / .961); --z-v10: rgb(15 26 38 / .26); --z-v74: rgb(15 26 38 / .926); --z-v58: rgb(15 26 38 / .833); --z-v55: rgb(15 26 38 / .816); --z-v05: rgb(15 26 38 / .21); 
+  --z-v06: rgb(15 26 38 / .22); --z-v08: rgb(15 26 38 / .24); --z-yb-rgb: 255 255 255; --z-yv-rgb: 255 255 255; --z-ya06: .42; --z-ya08: .56; 
+  --z-ya07: .49; --z-ya05: .35; --z-ya04: .28; --z-ya10: .7; --z-ya03: .21; --z-ya02: .14; 
+  --z-ya14: .9; --z-ya09: .63; --z-ya12: .84; --z-ya035: .245; --z-ya11: .77; --z-ya015: .105; 
+  --z-ya045: .315; --z-ya13: .9; --z-ya075: .525; --z-ya055: .385; --z-ya25: .9; --z-ya18: .9; 
+  --z-ya025: .175; --z-ya16: .9; --z-ya35: .9; --z-ya01: .07; --z-ya00: 0; --z-ya065: .455; 
+  --z-ya15: .9; --z-ya40: .9; --z-ya085: .595; --z-ya018: .126; --z-ya20: .9; --zy-0b1520: 247 250 253; 
+  --zy-1d4166: 236 244 251; --zy-08121c: 248 251 253; --zy-183653: 240 246 252; --zy-0a141f: 247 251 253; --zy-0f1e2e: 246 250 253; --zy-060c13: 248 251 254; 
+  --zy-112132: 245 249 253; --zy-000000: 150 168 186; --zy-0b1622: 247 250 253; --zy-050a10: 248 251 254; --zy-060d15: 248 251 254; --zy-08111a: 248 251 253; 
+  --zy-081019: 248 251 253; --zy-080f17: 248 251 254; --zy-182d42: 243 248 252; --zy-0d1a28: 246 250 253; --zy-0a1520: 247 250 253; --zy-070d14: 248 251 254; 
+  --zy-142332: 245 249 253; --zy-0a131d: 247 251 253; --zy-050c14: 248 251 254; --zy-0d1a27: 247 250 253; --zy-101d2b: 246 250 253; --zy-13283d: 244 249 253; 
+  --zy-050a11: 248 251 254; --zy-0a1622: 247 250 253; --zy-04090f: 248 251 254; --zy-09131d: 247 251 253; --zy-0c1a28: 247 250 253; --zy-09121c: 248 251 253; 
+  --zy-132538: 245 249 253; --zy-112030: 245 249 253; --zy-1d3a57: 239 246 252; --zy-0e1f30: 246 250 253; --zy-070f18: 248 251 254; --zy-03080e: 248 251 254; 
+  --zy-0e1a27: 246 250 253; --zy-03080d: 248 251 254; --zy-13212f: 245 249 253; --zy-182a3d: 243 248 253; --zy-13273b: 244 249 253; --zy-1b3a5a: 239 246 252; 
+  --zy-0b3b35: 237 249 245; --zy-4a4296: 238 234 251; --zy-02080e: 248 251 254; --zy-09141f: 247 251 253; --zy-122335: 245 249 253; --zy-1b344c: 241 247 252; 
+  --zy-0c1926: 247 250 253; --zy-15283c: 244 248 253; --zy-1a2b3c: 243 248 253; --zy-15293d: 244 248 253; --zy-142639: 244 249 253; --zy-10302e: 240 250 247; 
+  --zy-091a1c: 245 252 249; --zy-213850: 239 246 252; --zy-28425e: 236 244 251; --zy-1b3f63: 237 244 251; --zy-12263a: 244 249 253; --zy-0a1722: 247 250 253; 
+  --zy-08111b: 248 251 253; --zy-1a3046: 242 247 252; --zy-0e1c2a: 246 250 253; --zy-142c38: 243 248 253; --zy-0a1820: 247 250 253; --zy-091119: 248 251 253; 
+  --zy-1d4a6e: 233 242 250; --zy-08101a: 248 251 253; --zy-1b3550: 240 246 252; --zy-0d1a26: 247 250 253; --zy-123a33: 237 249 245; --zy-0e2231: 245 249 253; 
+  --zy-142434: 245 249 253; --zy-070d15: 248 251 254; --zy-0f1d2b: 246 250 253; --zy-070e16: 248 251 254; --zy-22324a: 241 247 252; --zy-121d2b: 246 250 253; 
+  --zy-122334: 245 249 253; --zy-1f3a55: 239 246 252; --zy-132739: 244 249 253; --zy-0e1d2c: 246 250 253; --zy-0c1824: 247 250 253; --zy-1d3d55: 238 245 251; 
+  --zy-1b3a57: 239 246 252; --zy-1b2f44: 242 247 252; --zy-0f2234: 245 249 253; --zy-4a3624: 254 246 237; --zy-3c2b1c: 254 248 241; --zy-0b4d3d: 230 247 241; 
+  --zy-1e2a36: 243 248 253; --zy-263544: 240 246 252; --zy-121b24: 246 250 253; --zy-09131e: 247 251 253; --zy-1b3c5e: 238 245 251; --zy-14212f: 245 249 253; 
+  --zy-091019: 248 251 253; --zy-265280: 231 241 250; --zy-04080d: 248 251 254; --zy-1c4e80: 231 241 250; --zy-06101a: 248 251 253; --zy-0c5c49: 226 246 239; 
+  --zf-ffc58a: #834507; --zf-ffd98f: #6f4c06; --zf-ffd98c: #6f4d06; --zf-ff9b91: #aa1809; --zf-ffe6cc: #7e4307; --zf-ffd2a3: #7e4407; 
+  --zf-cfe6ff: #0953a5; --zf-ffb4a3: #a02408; --zf-cfe4ff: #0951ae; --zf-ffb066: #834307; --zf-9ff0d4: #0f6145; --zf-ffd6a8: #7e4607; 
+  --zf-c9f5e7: #125f46; --zf-ff8a70: #a02408; --zf-ffc857: #6f4d06; --zf-ffd0a6: #834107; --zf-dccbff: #510cdf; --zf-ffb0a8: #aa1809; 
+  --zf-cfe5ff: #0953aa; --zf-ffb4ab: #a51909; --zf-ff9a3d: #834207; --zf-b8d9ff: #0951a5; --zf-ff8a95: #aa0918; --zf-ffd9ae: #7e4607; 
+  --zf-7eeedd: #0c5f52; --zf-e3e7eb: #30577e; --zf-ff9b85: #a02408; --zf-ffc2b2: #a02808; --zf-ffeec2: #6b4e06; --zf-ffbf9c: #913808; 
+  --zf-b3c1ff: #0c33df; --zf-dcfff3: #056141; --zf-a6f3dc: #0d5e46; --zf-ffd27a: #6f4c06; --zf-d6f8ec: #106044; --zf-d4e9ff: #0852a0; 
+  --zf-ffb15c: #7e4507; --zf-8fb8e0: #265788; --zf-ffc9bd: #a02408; --zf-b9f5e1: #0d5e43; --zf-ffc2b5: #a02308; --zf-ffb3a3: #a02308; 
+  --zf-b8f3df: #106045; --zf-3fd59b: #156043; --zf-b49cff: #3f0cdf; --zf-ff9ecb: #a50951; --zf-c8fff0: #056148; --zf-ffb3ba: #aa0918; 
+  --zf-c9fff0: #056147; --zf-ffd28a: #744a06; --zf-ffb46b: #834407; --zf-ffd7a3: #794706; --zf-fff4e6: #794706; --zf-d8ecff: #08539b; 
+  --zf-9cf0d6: #0e5d45; --zf-e9f4ff: #0854a0; --zf-d4f7ec: #125f46; --zf-7ee0c3-rgb: 23 95 73; --zf-a7d2ff-rgb: 8 82 160; --zf-ff9b91-rgb: 170 24 9; 
+  --zf-d9822b-rgb: 121 71 22; --zf-ffd2a3-rgb: 126 68 7; --zf-ffd98f-rgb: 111 76 6; --zf-ffc58a-rgb: 131 69 7; --zf-cdf5e6-rgb: 19 93 65; --zf-ffc48c-rgb: 131 67 7;
+}
+:root[data-tema="fargglad"] :is(.sido, .sido-kant, .flikrad, .mer-ark, dialog.ark:has(> .mer-ark), [data-mork-yta], [data-mork], .hero3d, .ov-hjalte, .kb3d, .kb-band, .motescen, .ch-rum, .lp-band, .ob-band, .ob-nav, .sidhjalte, .kort-mork, .ao-hjalte, .sh-hjalte, .lp-konto, .mk-infor, .mk-docka, .mk-mini, .toast, .spinn-summa, .dk-d-topp, .omtestkort, .docka-zon, .chf, .chf-ikon, .chf-meny, .ch-forslag, .ch-tk-meny, .ch-emoji, .fs-kort, .anv-notis, .insp-kort, .insp-piller, .ss-tips, dialog.ark:has(> .snabb-topp)) {
+  --z-text: #fff; --z-text-rgb: 255 255 255; --z-skugga-rgb: 6 30 60; --z-gron-rgb: 17 196 150; --z-dimma: 58%; --z-dimma-mot: #fff; 
+  --z-accent: #dcfbf1; --z-is: #e4f2ff; --z-gul: #ffedbc; --z-orange: #ffe3cb; --z-rod: #ffe4dd; --text-ljus: rgb(255 255 255 / .9); 
+  --kant-ljus: rgb(255 255 255 / .22); --z-t50: rgb(255 255 255 / .965); --z-t55: rgb(255 255 255 / .98); --z-t60: rgb(255 255 255 / .995); --z-t62: rgb(255 255 255 / 1); --z-t70: rgb(255 255 255 / 1); 
+  --z-t45: rgb(255 255 255 / .95); --z-t66: rgb(255 255 255 / 1); --z-t72: rgb(255 255 255 / 1); --z-t58: rgb(255 255 255 / .989); --z-t40: rgb(255 255 255 / .935); --z-t75: rgb(255 255 255 / 1); 
+  --z-t82: rgb(255 255 255 / 1); --z-t42: rgb(255 255 255 / .941); --z-t78: rgb(255 255 255 / 1); --z-t86: rgb(255 255 255 / 1); --z-t76: rgb(255 255 255 / 1); --z-t88: rgb(255 255 255 / 1); 
+  --z-t56: rgb(255 255 255 / .983); --z-t85: rgb(255 255 255 / 1); --z-t74: rgb(255 255 255 / 1); --z-t65: rgb(255 255 255 / 1); --z-t80: rgb(255 255 255 / 1); --z-t38: rgb(255 255 255 / .929); 
+  --z-t12: rgb(255 255 255 / .32); --z-t44: rgb(255 255 255 / .947); --z-t68: rgb(255 255 255 / 1); --z-t10: rgb(255 255 255 / .3); --z-t48: rgb(255 255 255 / .959); --z-t52: rgb(255 255 255 / .971); 
+  --z-t46: rgb(255 255 255 / .953); --z-t90: rgb(255 255 255 / 1); --z-t92: rgb(255 255 255 / 1); --z-t26: rgb(255 255 255 / .46); --z-t64: rgb(255 255 255 / 1); --z-t84: rgb(255 255 255 / 1); 
+  --z-t32: rgb(255 255 255 / .92); --z-t35: rgb(255 255 255 / .92); --z-t28: rgb(255 255 255 / .48); --z-t54: rgb(255 255 255 / .977); --z-v80: rgb(255 255 255 / 1); --z-v10: rgb(255 255 255 / .3); 
+  --z-v74: rgb(255 255 255 / 1); --z-v58: rgb(255 255 255 / .989); --z-v55: rgb(255 255 255 / .98); --z-v05: rgb(255 255 255 / .25); --z-v06: rgb(255 255 255 / .26); --z-v08: rgb(255 255 255 / .28); 
+  --z-yb-rgb: 255 255 255; --zy-0b1520: 17 58 175; --zy-1d4166: 190 62 56; --zy-08121c: 17 57 175; --zy-183653: 14 86 158; --zy-0a141f: 17 58 175; 
+  --zy-0f1e2e: 16 64 172; --zy-060c13: 17 54 177; --zy-112132: 16 66 170; --zy-000000: 6 34 66; --zy-0b1622: 17 59 174; --zy-050a10: 17 53 177; 
+  --zy-060d15: 17 54 176; --zy-08111a: 17 56 176; --zy-081019: 17 56 176; --zy-080f17: 17 55 176; --zy-182d42: 15 77 164; --zy-0d1a28: 16 61 173; 
+  --zy-0a1520: 17 58 175; --zy-070d14: 17 54 176; --zy-142332: 16 68 170; --zy-0a131d: 17 57 175; --zy-050c14: 17 54 177; --zy-0d1a27: 16 61 173; 
+  --zy-101d2b: 16 63 172; --zy-13283d: 15 72 167; --zy-050a11: 17 53 177; --zy-0a1622: 17 59 174; --zy-04090f: 17 53 177; --zy-09131d: 17 57 175; 
+  --zy-0c1a28: 16 61 173; --zy-09121c: 17 57 175; --zy-132538: 16 70 169; --zy-112030: 16 65 171; --zy-1d3a57: 13 91 155; --zy-0e1f30: 16 65 171; 
+  --zy-070f18: 17 55 176; --zy-03080e: 17 53 177; --zy-0e1a27: 16 61 173; --zy-03080d: 17 53 177; --zy-13212f: 16 66 170; --zy-182a3d: 15 74 166; 
+  --zy-13273b: 15 71 168; --zy-1b3a5a: 190 62 56; --zy-0b3b35: 12 123 109; --zy-4a4296: 78 45 169; --zy-02080e: 17 52 177; --zy-09141f: 17 58 175; 
+  --zy-122335: 16 68 169; --zy-1b344c: 14 84 160; --zy-0c1926: 17 60 173; --zy-15283c: 15 72 167; --zy-1a2b3c: 15 75 165; --zy-15293d: 15 73 167; 
+  --zy-142639: 15 70 168; --zy-10302e: 12 120 106; --zy-091a1c: 11 113 99; --zy-213850: 13 89 157; --zy-28425e: 12 101 148; --zy-1b3f63: 190 62 56; 
+  --zy-12263a: 15 70 168; --zy-0a1722: 17 59 174; --zy-08111b: 17 56 176; --zy-1a3046: 14 80 162; --zy-0e1c2a: 16 62 172; --zy-142c38: 15 75 166; 
+  --zy-0a1820: 17 59 174; --zy-091119: 17 56 176; --zy-1d4a6e: 11 109 142; --zy-08101a: 17 56 176; --zy-1b3550: 14 86 159; --zy-0d1a26: 16 61 173; 
+  --zy-123a33: 12 123 108; --zy-0e2231: 16 66 170; --zy-142434: 16 69 169; --zy-070d15: 17 54 176; --zy-0f1d2b: 16 63 172; --zy-070e16: 17 55 176; 
+  --zy-22324a: 14 83 160; --zy-121d2b: 16 63 172; --zy-122334: 16 68 170; --zy-1f3a55: 13 91 155; --zy-132739: 15 71 168; --zy-0e1d2c: 16 63 172; 
+  --zy-0c1824: 17 60 174; --zy-1d3d55: 13 93 154; --zy-1b3a57: 13 91 156; --zy-1b2f44: 14 79 163; --zy-0f2234: 16 67 170; --zy-4a3624: 156 65 25; 
+  --zy-3c2b1c: 153 63 25; --zy-0b4d3d: 13 130 114; --zy-1e2a36: 15 74 166; --zy-263544: 14 86 159; --zy-121b24: 16 62 173; --zy-09131e: 17 57 175; 
+  --zy-1b3c5e: 190 62 56; --zy-14212f: 16 66 170; --zy-091019: 17 56 176; --zy-265280: 190 62 56; --zy-04080d: 17 53 177; --zy-1c4e80: 190 62 56; 
+  --zy-06101a: 17 56 176; --zy-0c5c49: 13 135 118; --zf-ffc58a: #ffe9d3; --zf-ffd98f: #fff1d4; --zf-ffd98c: #fff1d3; --zf-ff9b91: #ffd9d5; 
+  --zf-ffe6cc: #fff6ec; --zf-ffd2a3: #ffeedc; --zf-cfe6ff: #edf6ff; --zf-ffb4a3: #ffe3dc; --zf-cfe4ff: #edf5ff; --zf-ffb066: #ffe1c5; 
+  --zf-9ff0d4: #dbf9ef; --zf-ffd6a8: #ffefde; --zf-c9f5e7: #eafbf6; --zf-ff8a70: #ffd3c9; --zf-ffc857: #ffeabf; --zf-ffd0a6: #ffeddd; 
+  --zf-dccbff: #f2ebff; --zf-ffb0a8: #ffe1de; --zf-cfe5ff: #edf5ff; --zf-ffb4ab: #ffe3df; --zf-ff9a3d: #ffd9b5; --zf-b8d9ff: #e4f1ff; 
+  --zf-ff8a95: #ffd3d7; --zf-ffd9ae: #fff1e0; --zf-7eeedd: #cef9f2; --zf-e3e7eb: #f4f6f7; --zf-ff9b85: #ffd9d1; --zf-ffc2b2: #ffe8e2; 
+  --zf-ffeec2: #fff9e8; --zf-ffbf9c: #ffe7d9; --zf-b3c1ff: #e2e7ff; --zf-dcfff3: #f2fffa; --zf-a6f3dc: #ddfaf2; --zf-ffd27a: #ffeecc; 
+  --zf-d6f8ec: #effcf8; --zf-d4e9ff: #eff7ff; --zf-ffb15c: #ffe1c1; --zf-8fb8e0: #d4e4f3; --zf-ffc9bd: #ffeae6; --zf-b9f5e1: #e4fbf4; 
+  --zf-ffc2b5: #ffe8e3; --zf-ffb3a3: #ffe2dc; --zf-b8f3df: #e4faf3; --zf-3fd59b: #b6efd9; --zf-b49cff: #e3d9ff; --zf-ff9ecb: #ffdaeb; 
+  --zf-c8fff0: #eafff9; --zf-ffb3ba: #ffe2e5; --zf-c9fff0: #eafff9; --zf-ffd28a: #ffeed3; --zf-ffb46b: #ffe3c7; --zf-ffd7a3: #fff0dc; 
+  --zf-fff4e6: #fffbf6; --zf-d8ecff: #f0f8ff; --zf-9cf0d6: #d9f9ef; --zf-e9f4ff: #f7fbff; --zf-d4f7ec: #effcf8; --zf-7ee0c3-rgb: 206 243 232; 
+  --zf-a7d2ff-rgb: 222 238 255; --zf-ff9b91-rgb: 255 217 213; --zf-d9822b-rgb: 241 208 174; --zf-ffd2a3-rgb: 255 238 220; --zf-ffd98f-rgb: 255 241 212; --zf-ffc58a-rgb: 255 233 211; 
+  --zf-cdf5e6-rgb: 236 251 246; --zf-ffc48c-rgb: 255 233 211;
+}
+
+/* Ljus: ikonerna på zonerna står på ljus botten – samma toner som på vanliga ytor */
+:root[data-tema="ljus"] :is([data-mork-yta], .hero3d, .ov-hjalte, .kb3d, .motescen, .kort-mork, .toast, .spinn-summa, .kb-band, .sido) .emo { --emo-farg: var(--accent-text); --emo-grad: url(#ikg-mint) var(--accent-text); }
+:root[data-tema="ljus"] :is([data-mork-yta], .hero3d, .ov-hjalte, .kb3d, .motescen, .kort-mork, .toast, .spinn-summa, .kb-band, .sido) .emo[data-ton="rod"] { --emo-farg: var(--rod-text); --emo-grad: url(#ikg-rod) var(--rod-text); }
+:root[data-tema="ljus"] :is([data-mork-yta], .hero3d, .ov-hjalte, .kb3d, .motescen, .kort-mork, .toast, .spinn-summa, .kb-band, .sido) .emo[data-ton="gul"] { --emo-farg: var(--gul-text); --emo-grad: url(#ikg-gul) var(--gul-text); }
+:root[data-tema="ljus"] :is([data-mork-yta], .hero3d, .ov-hjalte, .kb3d, .motescen, .kort-mork, .toast, .spinn-summa, .kb-band, .sido) .emo[data-ton="orange"] { --emo-farg: var(--orange-text); --emo-grad: url(#ikg-orange) var(--orange-text); }
+:root[data-tema="ljus"] :is([data-mork-yta], .hero3d, .ov-hjalte, .kb3d, .motescen, .kort-mork, .toast, .spinn-summa, .kb-band, .sido) .emo[data-ton="is"] { --emo-farg: var(--navy-text); --emo-grad: url(#ikg-is) var(--navy-text); }
+
+/* Färgglad: ikonerna på den mättade botten ett steg ljusare */
+:root[data-tema="fargglad"] :is([data-mork-yta], .hero3d, .ov-hjalte, .kb3d, .motescen, .kort-mork, .toast, .spinn-summa, .kb-band, .sido) .emo { --emo-farg: #c4f7e6; --emo-grad: url(#ikg-ljus) #c4f7e6; }
+
+/* Original med glas: ytan är genomskinlig, så den svagaste texten blir ett steg ljusare (utan glas gäller reserven, som alltid) */
+:root[data-tema="original"][data-glas] :is(.sido, .sido-kant, .flikrad, .mer-ark, dialog.ark:has(> .mer-ark), [data-mork-yta], [data-mork], .hero3d, .ov-hjalte, .kb3d, .kb-band, .motescen, .ch-rum, .lp-band, .ob-band, .ob-nav, .sidhjalte, .kort-mork, .ao-hjalte, .sh-hjalte, .lp-konto, .mk-infor, .mk-docka, .mk-mini, .toast, .spinn-summa, .dk-d-topp, .omtestkort, .docka-zon, .chf, .chf-ikon, .chf-meny, .ch-forslag, .ch-tk-meny, .ch-emoji, .fs-kort, .anv-notis, .insp-kort, .insp-piller, .ss-tips, dialog.ark:has(> .snabb-topp)) {
+  --z-t50: rgb(246 244 239 / .8); --z-t55: rgb(246 244 239 / .8); --z-t60: rgb(246 244 239 / .8); --z-t62: rgb(246 244 239 / .8); --z-t70: rgb(246 244 239 / .8); --z-t45: rgb(246 244 239 / .8); 
+  --z-t66: rgb(246 244 239 / .8); --z-t72: rgb(246 244 239 / .8); --z-t58: rgb(246 244 239 / .8); --z-t40: rgb(246 244 239 / .8); --z-t75: rgb(246 244 239 / .8); --z-t42: rgb(246 244 239 / .8); 
+  --z-t78: rgb(246 244 239 / .8); --z-t76: rgb(246 244 239 / .8); --z-t56: rgb(246 244 239 / .8); --z-t74: rgb(246 244 239 / .8); --z-t65: rgb(246 244 239 / .8); --z-t38: rgb(246 244 239 / .8); 
+  --z-t44: rgb(246 244 239 / .8); --z-t68: rgb(246 244 239 / .8); --z-t48: rgb(246 244 239 / .8); --z-t52: rgb(246 244 239 / .8); --z-t46: rgb(246 244 239 / .8); --z-t64: rgb(246 244 239 / .8); 
+  --z-t32: rgb(246 244 239 / .8); --z-t35: rgb(246 244 239 / .8); --z-t54: rgb(246 244 239 / .8);
+}
+
+/* Glaset: mörka ytor i zonerna blir genomskinliga (temats täckning i tema.css) */
+html[data-glas] :where(.sido, .sido-kant, .flikrad, .mer-ark, dialog.ark:has(> .mer-ark), [data-mork-yta], [data-mork], .hero3d, .ov-hjalte, .kb3d, .kb-band, .motescen, .ch-rum, .lp-band, .ob-band, .ob-nav, .sidhjalte, .kort-mork, .ao-hjalte, .sh-hjalte, .lp-konto, .mk-infor, .mk-docka, .mk-mini, .toast, .spinn-summa, .dk-d-topp, .omtestkort, .docka-zon, .chf, .chf-ikon, .chf-meny, .ch-forslag, .ch-tk-meny, .ch-emoji, .fs-kort, .anv-notis, .insp-kort, .insp-piller, .ss-tips, dialog.ark:has(> .snabb-topp)) {
+  --z-opak: var(--g-zon, .8); --vit: var(--vit-tack, #fff);
+}
+
+/* Ljusa öar inne i en zon: vanliga ytor med temats färger */
+html :is(.sok-traffar) {
+  --z-t50: initial; --z-t55: initial; --z-t60: initial; --z-t62: initial; --z-t70: initial; --z-t45: initial; 
+  --z-t66: initial; --z-t72: initial; --z-t58: initial; --z-t40: initial; --z-t75: initial; --z-t82: initial; 
+  --z-t42: initial; --z-t78: initial; --z-t86: initial; --z-t76: initial; --z-t88: initial; --z-t56: initial; 
+  --z-t85: initial; --z-t74: initial; --z-t65: initial; --z-t80: initial; --z-t38: initial; --z-t12: initial; 
+  --z-t44: initial; --z-t68: initial; --z-t10: initial; --z-t48: initial; --z-t52: initial; --z-t46: initial; 
+  --z-t90: initial; --z-t92: initial; --z-t26: initial; --z-t64: initial; --z-t84: initial; --z-t32: initial; 
+  --z-t35: initial; --z-t28: initial; --z-t54: initial; --z-v80: initial; --z-v10: initial; --z-v74: initial; 
+  --z-v58: initial; --z-v55: initial; --z-v05: initial; --z-v06: initial; --z-v08: initial; --z-ya06: initial; 
+  --z-ya08: initial; --z-ya07: initial; --z-ya05: initial; --z-ya04: initial; --z-ya10: initial; --z-ya03: initial; 
+  --z-ya02: initial; --z-ya14: initial; --z-ya09: initial; --z-ya12: initial; --z-ya035: initial; --z-ya11: initial; 
+  --z-ya015: initial; --z-ya045: initial; --z-ya13: initial; --z-ya075: initial; --z-ya055: initial; --z-ya25: initial; 
+  --z-ya18: initial; --z-ya025: initial; --z-ya16: initial; --z-ya35: initial; --z-ya01: initial; --z-ya00: initial; 
+  --z-ya065: initial; --z-ya15: initial; --z-ya40: initial; --z-ya085: initial; --z-ya018: initial; --z-ya20: initial; 
+  --zy-0b1520: initial; --zy-1d4166: initial; --zy-08121c: initial; --zy-183653: initial; --zy-0a141f: initial; --zy-0f1e2e: initial; 
+  --zy-060c13: initial; --zy-112132: initial; --zy-000000: initial; --zy-0b1622: initial; --zy-050a10: initial; --zy-060d15: initial; 
+  --zy-08111a: initial; --zy-081019: initial; --zy-080f17: initial; --zy-182d42: initial; --zy-0d1a28: initial; --zy-0a1520: initial; 
+  --zy-070d14: initial; --zy-142332: initial; --zy-0a131d: initial; --zy-050c14: initial; --zy-0d1a27: initial; --zy-101d2b: initial; 
+  --zy-13283d: initial; --zy-050a11: initial; --zy-0a1622: initial; --zy-04090f: initial; --zy-09131d: initial; --zy-0c1a28: initial; 
+  --zy-09121c: initial; --zy-132538: initial; --zy-112030: initial; --zy-1d3a57: initial; --zy-0e1f30: initial; --zy-070f18: initial; 
+  --zy-03080e: initial; --zy-0e1a27: initial; --zy-03080d: initial; --zy-13212f: initial; --zy-182a3d: initial; --zy-13273b: initial; 
+  --zy-1b3a5a: initial; --zy-0b3b35: initial; --zy-4a4296: initial; --zy-02080e: initial; --zy-09141f: initial; --zy-122335: initial; 
+  --zy-1b344c: initial; --zy-0c1926: initial; --zy-15283c: initial; --zy-1a2b3c: initial; --zy-15293d: initial; --zy-142639: initial; 
+  --zy-10302e: initial; --zy-091a1c: initial; --zy-213850: initial; --zy-28425e: initial; --zy-1b3f63: initial; --zy-12263a: initial; 
+  --zy-0a1722: initial; --zy-08111b: initial; --zy-1a3046: initial; --zy-0e1c2a: initial; --zy-142c38: initial; --zy-0a1820: initial; 
+  --zy-091119: initial; --zy-1d4a6e: initial; --zy-08101a: initial; --zy-1b3550: initial; --zy-0d1a26: initial; --zy-123a33: initial; 
+  --zy-0e2231: initial; --zy-142434: initial; --zy-070d15: initial; --zy-0f1d2b: initial; --zy-070e16: initial; --zy-22324a: initial; 
+  --zy-121d2b: initial; --zy-122334: initial; --zy-1f3a55: initial; --zy-132739: initial; --zy-0e1d2c: initial; --zy-0c1824: initial; 
+  --zy-1d3d55: initial; --zy-1b3a57: initial; --zy-1b2f44: initial; --zy-0f2234: initial; --zy-4a3624: initial; --zy-3c2b1c: initial; 
+  --zy-0b4d3d: initial; --zy-1e2a36: initial; --zy-263544: initial; --zy-121b24: initial; --zy-09131e: initial; --zy-1b3c5e: initial; 
+  --zy-14212f: initial; --zy-091019: initial; --zy-265280: initial; --zy-04080d: initial; --zy-1c4e80: initial; --zy-06101a: initial; 
+  --zy-0c5c49: initial; --zf-ffc58a: initial; --zf-ffd98f: initial; --zf-ffd98c: initial; --zf-ff9b91: initial; --zf-ffe6cc: initial; 
+  --zf-ffd2a3: initial; --zf-cfe6ff: initial; --zf-ffb4a3: initial; --zf-cfe4ff: initial; --zf-ffb066: initial; --zf-9ff0d4: initial; 
+  --zf-ffd6a8: initial; --zf-c9f5e7: initial; --zf-ff8a70: initial; --zf-ffc857: initial; --zf-ffd0a6: initial; --zf-dccbff: initial; 
+  --zf-ffb0a8: initial; --zf-cfe5ff: initial; --zf-ffb4ab: initial; --zf-ff9a3d: initial; --zf-b8d9ff: initial; --zf-ff8a95: initial; 
+  --zf-ffd9ae: initial; --zf-7eeedd: initial; --zf-e3e7eb: initial; --zf-ff9b85: initial; --zf-ffc2b2: initial; --zf-ffeec2: initial; 
+  --zf-ffbf9c: initial; --zf-b3c1ff: initial; --zf-dcfff3: initial; --zf-a6f3dc: initial; --zf-ffd27a: initial; --zf-d6f8ec: initial; 
+  --zf-d4e9ff: initial; --zf-ffb15c: initial; --zf-8fb8e0: initial; --zf-ffc9bd: initial; --zf-b9f5e1: initial; --zf-ffc2b5: initial; 
+  --zf-ffb3a3: initial; --zf-b8f3df: initial; --zf-3fd59b: initial; --zf-b49cff: initial; --zf-ff9ecb: initial; --zf-c8fff0: initial; 
+  --zf-ffb3ba: initial; --zf-c9fff0: initial; --zf-ffd28a: initial; --zf-ffb46b: initial; --zf-ffd7a3: initial; --zf-fff4e6: initial; 
+  --zf-d8ecff: initial; --zf-9cf0d6: initial; --zf-e9f4ff: initial; --zf-d4f7ec: initial; --zf-7ee0c3-rgb: initial; --zf-a7d2ff-rgb: initial; 
+  --zf-ff9b91-rgb: initial; --zf-d9822b-rgb: initial; --zf-ffd2a3-rgb: initial; --zf-ffd98f-rgb: initial; --zf-ffc58a-rgb: initial; --zf-cdf5e6-rgb: initial; 
+  --zf-ffc48c-rgb: initial; --z-text: initial; --z-vit: initial; --z-text-rgb: initial; --z-vit-rgb: initial; --z-yb-rgb: initial; 
+  --z-yv-rgb: initial; --z-glans-rgb: initial; --z-skugga-rgb: initial; --z-gron-rgb: initial; --z-dimma: initial; --z-dimma-mot: initial; 
+  --z-accent: initial; --z-is: initial; --z-gul: initial; --z-orange: initial; --z-rod: initial; --z-opak: initial;
+}
+
+/* Låsta ytor: papper, presentationen, filmen, 3D-fönstren – inne i dem är allt Original. Provbilderna använder samma väg. */
+html:not([data-tema="original"]) :is(.mote, dialog.film, .mall-papper, .mall-utskrift, .ov-scen, .ov-rubrik, .ss-etiketter, .ss-rubrik, .ms-rum, .kb3d-scenruta),
+html[data-glas] :is(.mote, dialog.film, .mall-papper, .mall-utskrift, .ov-scen, .ov-rubrik, .ss-etiketter, .ss-rubrik, .ms-rum, .kb3d-scenruta),
+[data-tema-prov="original"] {
+  color-scheme: light; --ben: #f6f4ef; --ben-2: #eeeae2; --vit: #fff; --text: #0b1520; --text-2: #465260; 
+  --text-3: #5f6a76; --kol: #0b1520; --kol-2: #122130; --kol-3: #1b2f44; --accent: #7ee0c3; --accent-hover: #9ce9d3; 
+  --accent-text: #0f6e57; --navy-text: #183653; --orange-text: #d9822b; --is: #a7d2ff; --gul: #f0b545; --rod: #e5674f; 
+  --orange: #d9822b; --accent-ljus: #e0f6ee; --is-ljus: #e8f2ff; --gul-ljus: #fff2d6; --rod-ljus: #fde8e3; --orange-ljus: #fbeede; 
+  --navy-ljus: #e6edf5; --gul-text: #7f5500; --rod-text: #9c2f1c; --text-ljus: rgba(246, 244, 239, .7); --kant-ljus: rgba(246, 244, 239, .12); --kant: rgba(11, 21, 32, .1); 
+  --kant-2: rgba(11, 21, 32, .16); --skugga: 0 1px 2px rgba(11, 21, 32, .05), 0 8px 24px -12px rgba(11, 21, 32, .16); --skugga-stor: 0 40px 90px -30px rgba(11, 21, 32, .4), 0 18px 40px -24px rgba(11, 21, 32, .3); --t-blaeck-rgb: 11 21 32; --t-skugga-rgb: 11 21 32; --t-skugga-navy-rgb: 24 54 83; 
+  --t-navy-rgb: 24 54 83; --t-accent-djup-rgb: 15 110 87; --t-glas-rgb: 255 255 255; --t-glans-rgb: 255 255 255; --t-ben-rgb: 246 244 239; --y-faf9f6: initial; 
+  --y-fcfbf8: initial; --y-faf9f5: initial; --y-f8f7f3: initial; --y-eef0f2: initial; --y-f1fbf7: initial; --y-f9fbfe: initial; 
+  --y-f7d9b5: initial; --y-fbfaf7: initial; --y-fff7f5: initial; --y-f6f9fc: initial; --y-fffaf0: initial; --y-f2f6fa: initial; 
+  --y-f3fbf8: initial; --y-d3f2e7: initial; --y-fffaf9: initial; --y-fffaf3: initial; --y-f7f6f2: initial; --y-fafcfd: initial; 
+  --y-fbfdff: initial; --y-f4f8fb: initial; --y-fff8f6: initial; --y-f4f3ee: initial; --y-fde1c2: initial; --y-fdfcfa: initial; 
+  --y-eef2f6: initial; --y-e6ebf0: initial; --y-fbd9d1: initial; --y-fff6ea: initial; --y-f3faf7: initial; --y-fff6f4: initial; 
+  --y-dff6ee: initial; --y-e3f0ff: initial; --y-ece8ff: initial; --y-fff3d6: initial; --y-e4edf6: initial; --y-f9fbfa: initial; 
+  --y-eeebe4: initial; --y-f0faf6: initial; --y-e8ebee: initial; --y-ffe3b6: initial; --y-e9edff: initial; --y-e3f1ff: initial; 
+  --y-f6f3ec: initial; --y-e6e0d2: initial; --y-e6fbf4: initial; --y-bdeedb: initial; --y-eef6ff: initial; --y-c8e1fb: initial; 
+  --y-fdebd6: initial; --y-f3f6fa: initial; --y-dfe8f2: initial; --y-ffe0a3: initial; --y-f4f7f6: initial; --y-e3f6ef: initial; 
+  --y-edf6f1: initial; --y-f3f5f0: initial; --y-ffefe9: initial; --y-fff5f2: initial; --y-f0f6f2: initial; --y-f2fbf7: initial; 
+  --y-e2f5ed: initial; --y-edf2f7: initial; --y-f7f9fb: initial; --y-eef3f6: initial; --y-eef1f4: initial; --y-fff1c4: initial; 
+  --y-fff0d8: initial; --y-ffe4c6: initial; --y-fff2e3: initial; --y-fff9f2: initial; --y-f3eee5: initial; --y-fbf8f3: initial; 
+  --y-f6f2eb: initial; --y-ffe3c4: initial; --y-f0fbf7: initial; --y-f6fbf8: initial; --y-fcfbf9: initial; --y-f4fcf8: initial; 
+  --y-fffaf8: initial; --y-f4f9fe: initial; --y-fde7cf: initial; --y-fbfcfb: initial; --y-f4f6f4: initial; --y-fefefd: initial; 
+  --y-fff1cc: initial; --y-eceffe: initial; --y-ffd3c8: initial; --y-f7efe6: initial; --y-efe6dc: initial; --y-eaf5f1: initial; 
+  --y-e1eee9: initial; --y-f6f2e6: initial; --y-efe9da: initial; --y-f6ecee: initial; --y-efe3e5: initial; --y-fffcf3: initial; 
+  --y-f1f4f7: initial; --y-e7ecf1: initial; --f-8a4a0c: initial; --f-1d5b8c: initial; --f-a35a14: initial; --f-2f5f88: initial; 
+  --f-2f6fa8: initial; --f-2a7f9a: initial; --f-a0581a: initial; --f-3d86e0: initial; --f-0b4d3b: initial; --f-26313d: initial; 
+  --f-c73a4b: initial; --f-5b47b8: initial; --f-94640a: initial; --f-4a5563: initial; --f-2a6f9a: initial; --f-6b6455: initial; 
+  --f-8a4a12: initial; --f-5b8fc2: initial; --f-e5674f: initial; --f-b07a12: initial; --f-7a6250: initial; --f-a84d0c: initial; 
+  --f-9a6200: initial; --f-7f5500: initial; --f-3c4ea0: initial; --f-3a7bb8: initial; --f-b8661c: initial; --f-8a6200: initial; 
+  --f-b83a4c: initial; --f-062319: initial; --z-t50: initial; --z-t55: initial; --z-t60: initial; --z-t62: initial; 
+  --z-t70: initial; --z-t45: initial; --z-t66: initial; --z-t72: initial; --z-t58: initial; --z-t40: initial; 
+  --z-t75: initial; --z-t82: initial; --z-t42: initial; --z-t78: initial; --z-t86: initial; --z-t76: initial; 
+  --z-t88: initial; --z-t56: initial; --z-t85: initial; --z-t74: initial; --z-t65: initial; --z-t80: initial; 
+  --z-t38: initial; --z-t12: initial; --z-t44: initial; --z-t68: initial; --z-t10: initial; --z-t48: initial; 
+  --z-t52: initial; --z-t46: initial; --z-t90: initial; --z-t92: initial; --z-t26: initial; --z-t64: initial; 
+  --z-t84: initial; --z-t32: initial; --z-t35: initial; --z-t28: initial; --z-t54: initial; --z-v80: initial; 
+  --z-v10: initial; --z-v74: initial; --z-v58: initial; --z-v55: initial; --z-v05: initial; --z-v06: initial; 
+  --z-v08: initial; --z-ya06: initial; --z-ya08: initial; --z-ya07: initial; --z-ya05: initial; --z-ya04: initial; 
+  --z-ya10: initial; --z-ya03: initial; --z-ya02: initial; --z-ya14: initial; --z-ya09: initial; --z-ya12: initial; 
+  --z-ya035: initial; --z-ya11: initial; --z-ya015: initial; --z-ya045: initial; --z-ya13: initial; --z-ya075: initial; 
+  --z-ya055: initial; --z-ya25: initial; --z-ya18: initial; --z-ya025: initial; --z-ya16: initial; --z-ya35: initial; 
+  --z-ya01: initial; --z-ya00: initial; --z-ya065: initial; --z-ya15: initial; --z-ya40: initial; --z-ya085: initial; 
+  --z-ya018: initial; --z-ya20: initial; --zy-0b1520: initial; --zy-1d4166: initial; --zy-08121c: initial; --zy-183653: initial; 
+  --zy-0a141f: initial; --zy-0f1e2e: initial; --zy-060c13: initial; --zy-112132: initial; --zy-000000: initial; --zy-0b1622: initial; 
+  --zy-050a10: initial; --zy-060d15: initial; --zy-08111a: initial; --zy-081019: initial; --zy-080f17: initial; --zy-182d42: initial; 
+  --zy-0d1a28: initial; --zy-0a1520: initial; --zy-070d14: initial; --zy-142332: initial; --zy-0a131d: initial; --zy-050c14: initial; 
+  --zy-0d1a27: initial; --zy-101d2b: initial; --zy-13283d: initial; --zy-050a11: initial; --zy-0a1622: initial; --zy-04090f: initial; 
+  --zy-09131d: initial; --zy-0c1a28: initial; --zy-09121c: initial; --zy-132538: initial; --zy-112030: initial; --zy-1d3a57: initial; 
+  --zy-0e1f30: initial; --zy-070f18: initial; --zy-03080e: initial; --zy-0e1a27: initial; --zy-03080d: initial; --zy-13212f: initial; 
+  --zy-182a3d: initial; --zy-13273b: initial; --zy-1b3a5a: initial; --zy-0b3b35: initial; --zy-4a4296: initial; --zy-02080e: initial; 
+  --zy-09141f: initial; --zy-122335: initial; --zy-1b344c: initial; --zy-0c1926: initial; --zy-15283c: initial; --zy-1a2b3c: initial; 
+  --zy-15293d: initial; --zy-142639: initial; --zy-10302e: initial; --zy-091a1c: initial; --zy-213850: initial; --zy-28425e: initial; 
+  --zy-1b3f63: initial; --zy-12263a: initial; --zy-0a1722: initial; --zy-08111b: initial; --zy-1a3046: initial; --zy-0e1c2a: initial; 
+  --zy-142c38: initial; --zy-0a1820: initial; --zy-091119: initial; --zy-1d4a6e: initial; --zy-08101a: initial; --zy-1b3550: initial; 
+  --zy-0d1a26: initial; --zy-123a33: initial; --zy-0e2231: initial; --zy-142434: initial; --zy-070d15: initial; --zy-0f1d2b: initial; 
+  --zy-070e16: initial; --zy-22324a: initial; --zy-121d2b: initial; --zy-122334: initial; --zy-1f3a55: initial; --zy-132739: initial; 
+  --zy-0e1d2c: initial; --zy-0c1824: initial; --zy-1d3d55: initial; --zy-1b3a57: initial; --zy-1b2f44: initial; --zy-0f2234: initial; 
+  --zy-4a3624: initial; --zy-3c2b1c: initial; --zy-0b4d3d: initial; --zy-1e2a36: initial; --zy-263544: initial; --zy-121b24: initial; 
+  --zy-09131e: initial; --zy-1b3c5e: initial; --zy-14212f: initial; --zy-091019: initial; --zy-265280: initial; --zy-04080d: initial; 
+  --zy-1c4e80: initial; --zy-06101a: initial; --zy-0c5c49: initial; --zf-ffc58a: initial; --zf-ffd98f: initial; --zf-ffd98c: initial; 
+  --zf-ff9b91: initial; --zf-ffe6cc: initial; --zf-ffd2a3: initial; --zf-cfe6ff: initial; --zf-ffb4a3: initial; --zf-cfe4ff: initial; 
+  --zf-ffb066: initial; --zf-9ff0d4: initial; --zf-ffd6a8: initial; --zf-c9f5e7: initial; --zf-ff8a70: initial; --zf-ffc857: initial; 
+  --zf-ffd0a6: initial; --zf-dccbff: initial; --zf-ffb0a8: initial; --zf-cfe5ff: initial; --zf-ffb4ab: initial; --zf-ff9a3d: initial; 
+  --zf-b8d9ff: initial; --zf-ff8a95: initial; --zf-ffd9ae: initial; --zf-7eeedd: initial; --zf-e3e7eb: initial; --zf-ff9b85: initial; 
+  --zf-ffc2b2: initial; --zf-ffeec2: initial; --zf-ffbf9c: initial; --zf-b3c1ff: initial; --zf-dcfff3: initial; --zf-a6f3dc: initial; 
+  --zf-ffd27a: initial; --zf-d6f8ec: initial; --zf-d4e9ff: initial; --zf-ffb15c: initial; --zf-8fb8e0: initial; --zf-ffc9bd: initial; 
+  --zf-b9f5e1: initial; --zf-ffc2b5: initial; --zf-ffb3a3: initial; --zf-b8f3df: initial; --zf-3fd59b: initial; --zf-b49cff: initial; 
+  --zf-ff9ecb: initial; --zf-c8fff0: initial; --zf-ffb3ba: initial; --zf-c9fff0: initial; --zf-ffd28a: initial; --zf-ffb46b: initial; 
+  --zf-ffd7a3: initial; --zf-fff4e6: initial; --zf-d8ecff: initial; --zf-9cf0d6: initial; --zf-e9f4ff: initial; --zf-d4f7ec: initial; 
+  --zf-7ee0c3-rgb: initial; --zf-a7d2ff-rgb: initial; --zf-ff9b91-rgb: initial; --zf-d9822b-rgb: initial; --zf-ffd2a3-rgb: initial; --zf-ffd98f-rgb: initial; 
+  --zf-ffc58a-rgb: initial; --zf-cdf5e6-rgb: initial; --zf-ffc48c-rgb: initial; --z-text: initial; --z-vit: initial; --z-text-rgb: initial; 
+  --z-vit-rgb: initial; --z-yb-rgb: initial; --z-yv-rgb: initial; --z-glans-rgb: initial; --z-skugga-rgb: initial; --z-gron-rgb: initial; 
+  --z-dimma: initial; --z-dimma-mot: initial; --z-accent: initial; --z-is: initial; --z-gul: initial; --z-orange: initial; 
+  --z-rod: initial; --z-opak: initial;
+}
+html:not([data-tema="original"]) :is(.ov-scen, .ov-rubrik, .ss-etiketter, .ss-rubrik, .ms-rum, .kb3d-scenruta) { color: #f6f4ef; }
+
+/* Utskrift (offert, dokument, testdagslista): alltid Originals ljusa färger */
+@media print {
+  html:root[data-tema], html:root[data-tema][data-glas], html:root[data-tema] :is(.sido, .sido-kant, .flikrad, .mer-ark, dialog.ark:has(> .mer-ark), [data-mork-yta], [data-mork], .hero3d, .ov-hjalte, .kb3d, .kb-band, .motescen, .ch-rum, .lp-band, .ob-band, .ob-nav, .sidhjalte, .kort-mork, .ao-hjalte, .sh-hjalte, .lp-konto, .mk-infor, .mk-docka, .mk-mini, .toast, .spinn-summa, .dk-d-topp, .omtestkort, .docka-zon, .chf, .chf-ikon, .chf-meny, .ch-forslag, .ch-tk-meny, .ch-emoji, .fs-kort, .anv-notis, .insp-kort, .insp-piller, .ss-tips, dialog.ark:has(> .snabb-topp)) {
+  color-scheme: light; --ben: #f6f4ef; --ben-2: #eeeae2; --vit: #fff; --text: #0b1520; --text-2: #465260; 
+  --text-3: #5f6a76; --kol: #0b1520; --kol-2: #122130; --kol-3: #1b2f44; --accent: #7ee0c3; --accent-hover: #9ce9d3; 
+  --accent-text: #0f6e57; --navy-text: #183653; --orange-text: #d9822b; --is: #a7d2ff; --gul: #f0b545; --rod: #e5674f; 
+  --orange: #d9822b; --accent-ljus: #e0f6ee; --is-ljus: #e8f2ff; --gul-ljus: #fff2d6; --rod-ljus: #fde8e3; --orange-ljus: #fbeede; 
+  --navy-ljus: #e6edf5; --gul-text: #7f5500; --rod-text: #9c2f1c; --text-ljus: rgba(246, 244, 239, .7); --kant-ljus: rgba(246, 244, 239, .12); --kant: rgba(11, 21, 32, .1); 
+  --kant-2: rgba(11, 21, 32, .16); --skugga: 0 1px 2px rgba(11, 21, 32, .05), 0 8px 24px -12px rgba(11, 21, 32, .16); --skugga-stor: 0 40px 90px -30px rgba(11, 21, 32, .4), 0 18px 40px -24px rgba(11, 21, 32, .3); --t-blaeck-rgb: 11 21 32; --t-skugga-rgb: 11 21 32; --t-skugga-navy-rgb: 24 54 83; 
+  --t-navy-rgb: 24 54 83; --t-accent-djup-rgb: 15 110 87; --t-glas-rgb: 255 255 255; --t-glans-rgb: 255 255 255; --t-ben-rgb: 246 244 239; --y-faf9f6: initial; 
+  --y-fcfbf8: initial; --y-faf9f5: initial; --y-f8f7f3: initial; --y-eef0f2: initial; --y-f1fbf7: initial; --y-f9fbfe: initial; 
+  --y-f7d9b5: initial; --y-fbfaf7: initial; --y-fff7f5: initial; --y-f6f9fc: initial; --y-fffaf0: initial; --y-f2f6fa: initial; 
+  --y-f3fbf8: initial; --y-d3f2e7: initial; --y-fffaf9: initial; --y-fffaf3: initial; --y-f7f6f2: initial; --y-fafcfd: initial; 
+  --y-fbfdff: initial; --y-f4f8fb: initial; --y-fff8f6: initial; --y-f4f3ee: initial; --y-fde1c2: initial; --y-fdfcfa: initial; 
+  --y-eef2f6: initial; --y-e6ebf0: initial; --y-fbd9d1: initial; --y-fff6ea: initial; --y-f3faf7: initial; --y-fff6f4: initial; 
+  --y-dff6ee: initial; --y-e3f0ff: initial; --y-ece8ff: initial; --y-fff3d6: initial; --y-e4edf6: initial; --y-f9fbfa: initial; 
+  --y-eeebe4: initial; --y-f0faf6: initial; --y-e8ebee: initial; --y-ffe3b6: initial; --y-e9edff: initial; --y-e3f1ff: initial; 
+  --y-f6f3ec: initial; --y-e6e0d2: initial; --y-e6fbf4: initial; --y-bdeedb: initial; --y-eef6ff: initial; --y-c8e1fb: initial; 
+  --y-fdebd6: initial; --y-f3f6fa: initial; --y-dfe8f2: initial; --y-ffe0a3: initial; --y-f4f7f6: initial; --y-e3f6ef: initial; 
+  --y-edf6f1: initial; --y-f3f5f0: initial; --y-ffefe9: initial; --y-fff5f2: initial; --y-f0f6f2: initial; --y-f2fbf7: initial; 
+  --y-e2f5ed: initial; --y-edf2f7: initial; --y-f7f9fb: initial; --y-eef3f6: initial; --y-eef1f4: initial; --y-fff1c4: initial; 
+  --y-fff0d8: initial; --y-ffe4c6: initial; --y-fff2e3: initial; --y-fff9f2: initial; --y-f3eee5: initial; --y-fbf8f3: initial; 
+  --y-f6f2eb: initial; --y-ffe3c4: initial; --y-f0fbf7: initial; --y-f6fbf8: initial; --y-fcfbf9: initial; --y-f4fcf8: initial; 
+  --y-fffaf8: initial; --y-f4f9fe: initial; --y-fde7cf: initial; --y-fbfcfb: initial; --y-f4f6f4: initial; --y-fefefd: initial; 
+  --y-fff1cc: initial; --y-eceffe: initial; --y-ffd3c8: initial; --y-f7efe6: initial; --y-efe6dc: initial; --y-eaf5f1: initial; 
+  --y-e1eee9: initial; --y-f6f2e6: initial; --y-efe9da: initial; --y-f6ecee: initial; --y-efe3e5: initial; --y-fffcf3: initial; 
+  --y-f1f4f7: initial; --y-e7ecf1: initial; --f-8a4a0c: initial; --f-1d5b8c: initial; --f-a35a14: initial; --f-2f5f88: initial; 
+  --f-2f6fa8: initial; --f-2a7f9a: initial; --f-a0581a: initial; --f-3d86e0: initial; --f-0b4d3b: initial; --f-26313d: initial; 
+  --f-c73a4b: initial; --f-5b47b8: initial; --f-94640a: initial; --f-4a5563: initial; --f-2a6f9a: initial; --f-6b6455: initial; 
+  --f-8a4a12: initial; --f-5b8fc2: initial; --f-e5674f: initial; --f-b07a12: initial; --f-7a6250: initial; --f-a84d0c: initial; 
+  --f-9a6200: initial; --f-7f5500: initial; --f-3c4ea0: initial; --f-3a7bb8: initial; --f-b8661c: initial; --f-8a6200: initial; 
+  --f-b83a4c: initial; --f-062319: initial; --z-t50: initial; --z-t55: initial; --z-t60: initial; --z-t62: initial; 
+  --z-t70: initial; --z-t45: initial; --z-t66: initial; --z-t72: initial; --z-t58: initial; --z-t40: initial; 
+  --z-t75: initial; --z-t82: initial; --z-t42: initial; --z-t78: initial; --z-t86: initial; --z-t76: initial; 
+  --z-t88: initial; --z-t56: initial; --z-t85: initial; --z-t74: initial; --z-t65: initial; --z-t80: initial; 
+  --z-t38: initial; --z-t12: initial; --z-t44: initial; --z-t68: initial; --z-t10: initial; --z-t48: initial; 
+  --z-t52: initial; --z-t46: initial; --z-t90: initial; --z-t92: initial; --z-t26: initial; --z-t64: initial; 
+  --z-t84: initial; --z-t32: initial; --z-t35: initial; --z-t28: initial; --z-t54: initial; --z-v80: initial; 
+  --z-v10: initial; --z-v74: initial; --z-v58: initial; --z-v55: initial; --z-v05: initial; --z-v06: initial; 
+  --z-v08: initial; --z-ya06: initial; --z-ya08: initial; --z-ya07: initial; --z-ya05: initial; --z-ya04: initial; 
+  --z-ya10: initial; --z-ya03: initial; --z-ya02: initial; --z-ya14: initial; --z-ya09: initial; --z-ya12: initial; 
+  --z-ya035: initial; --z-ya11: initial; --z-ya015: initial; --z-ya045: initial; --z-ya13: initial; --z-ya075: initial; 
+  --z-ya055: initial; --z-ya25: initial; --z-ya18: initial; --z-ya025: initial; --z-ya16: initial; --z-ya35: initial; 
+  --z-ya01: initial; --z-ya00: initial; --z-ya065: initial; --z-ya15: initial; --z-ya40: initial; --z-ya085: initial; 
+  --z-ya018: initial; --z-ya20: initial; --zy-0b1520: initial; --zy-1d4166: initial; --zy-08121c: initial; --zy-183653: initial; 
+  --zy-0a141f: initial; --zy-0f1e2e: initial; --zy-060c13: initial; --zy-112132: initial; --zy-000000: initial; --zy-0b1622: initial; 
+  --zy-050a10: initial; --zy-060d15: initial; --zy-08111a: initial; --zy-081019: initial; --zy-080f17: initial; --zy-182d42: initial; 
+  --zy-0d1a28: initial; --zy-0a1520: initial; --zy-070d14: initial; --zy-142332: initial; --zy-0a131d: initial; --zy-050c14: initial; 
+  --zy-0d1a27: initial; --zy-101d2b: initial; --zy-13283d: initial; --zy-050a11: initial; --zy-0a1622: initial; --zy-04090f: initial; 
+  --zy-09131d: initial; --zy-0c1a28: initial; --zy-09121c: initial; --zy-132538: initial; --zy-112030: initial; --zy-1d3a57: initial; 
+  --zy-0e1f30: initial; --zy-070f18: initial; --zy-03080e: initial; --zy-0e1a27: initial; --zy-03080d: initial; --zy-13212f: initial; 
+  --zy-182a3d: initial; --zy-13273b: initial; --zy-1b3a5a: initial; --zy-0b3b35: initial; --zy-4a4296: initial; --zy-02080e: initial; 
+  --zy-09141f: initial; --zy-122335: initial; --zy-1b344c: initial; --zy-0c1926: initial; --zy-15283c: initial; --zy-1a2b3c: initial; 
+  --zy-15293d: initial; --zy-142639: initial; --zy-10302e: initial; --zy-091a1c: initial; --zy-213850: initial; --zy-28425e: initial; 
+  --zy-1b3f63: initial; --zy-12263a: initial; --zy-0a1722: initial; --zy-08111b: initial; --zy-1a3046: initial; --zy-0e1c2a: initial; 
+  --zy-142c38: initial; --zy-0a1820: initial; --zy-091119: initial; --zy-1d4a6e: initial; --zy-08101a: initial; --zy-1b3550: initial; 
+  --zy-0d1a26: initial; --zy-123a33: initial; --zy-0e2231: initial; --zy-142434: initial; --zy-070d15: initial; --zy-0f1d2b: initial; 
+  --zy-070e16: initial; --zy-22324a: initial; --zy-121d2b: initial; --zy-122334: initial; --zy-1f3a55: initial; --zy-132739: initial; 
+  --zy-0e1d2c: initial; --zy-0c1824: initial; --zy-1d3d55: initial; --zy-1b3a57: initial; --zy-1b2f44: initial; --zy-0f2234: initial; 
+  --zy-4a3624: initial; --zy-3c2b1c: initial; --zy-0b4d3d: initial; --zy-1e2a36: initial; --zy-263544: initial; --zy-121b24: initial; 
+  --zy-09131e: initial; --zy-1b3c5e: initial; --zy-14212f: initial; --zy-091019: initial; --zy-265280: initial; --zy-04080d: initial; 
+  --zy-1c4e80: initial; --zy-06101a: initial; --zy-0c5c49: initial; --zf-ffc58a: initial; --zf-ffd98f: initial; --zf-ffd98c: initial; 
+  --zf-ff9b91: initial; --zf-ffe6cc: initial; --zf-ffd2a3: initial; --zf-cfe6ff: initial; --zf-ffb4a3: initial; --zf-cfe4ff: initial; 
+  --zf-ffb066: initial; --zf-9ff0d4: initial; --zf-ffd6a8: initial; --zf-c9f5e7: initial; --zf-ff8a70: initial; --zf-ffc857: initial; 
+  --zf-ffd0a6: initial; --zf-dccbff: initial; --zf-ffb0a8: initial; --zf-cfe5ff: initial; --zf-ffb4ab: initial; --zf-ff9a3d: initial; 
+  --zf-b8d9ff: initial; --zf-ff8a95: initial; --zf-ffd9ae: initial; --zf-7eeedd: initial; --zf-e3e7eb: initial; --zf-ff9b85: initial; 
+  --zf-ffc2b2: initial; --zf-ffeec2: initial; --zf-ffbf9c: initial; --zf-b3c1ff: initial; --zf-dcfff3: initial; --zf-a6f3dc: initial; 
+  --zf-ffd27a: initial; --zf-d6f8ec: initial; --zf-d4e9ff: initial; --zf-ffb15c: initial; --zf-8fb8e0: initial; --zf-ffc9bd: initial; 
+  --zf-b9f5e1: initial; --zf-ffc2b5: initial; --zf-ffb3a3: initial; --zf-b8f3df: initial; --zf-3fd59b: initial; --zf-b49cff: initial; 
+  --zf-ff9ecb: initial; --zf-c8fff0: initial; --zf-ffb3ba: initial; --zf-c9fff0: initial; --zf-ffd28a: initial; --zf-ffb46b: initial; 
+  --zf-ffd7a3: initial; --zf-fff4e6: initial; --zf-d8ecff: initial; --zf-9cf0d6: initial; --zf-e9f4ff: initial; --zf-d4f7ec: initial; 
+  --zf-7ee0c3-rgb: initial; --zf-a7d2ff-rgb: initial; --zf-ff9b91-rgb: initial; --zf-d9822b-rgb: initial; --zf-ffd2a3-rgb: initial; --zf-ffd98f-rgb: initial; 
+  --zf-ffc58a-rgb: initial; --zf-cdf5e6-rgb: initial; --zf-ffc48c-rgb: initial; --z-text: initial; --z-vit: initial; --z-text-rgb: initial; 
+  --z-vit-rgb: initial; --z-yb-rgb: initial; --z-yv-rgb: initial; --z-glans-rgb: initial; --z-skugga-rgb: initial; --z-gron-rgb: initial; 
+  --z-dimma: initial; --z-dimma-mot: initial; --z-accent: initial; --z-is: initial; --z-gul: initial; --z-orange: initial; 
+  --z-rod: initial; --z-opak: initial;
+}
+}

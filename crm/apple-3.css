@@ -1,0 +1,106 @@
+/* Apple-stilen, område 3 (iOS-teamet 2026-11-23) – laddas efter apple.css. Bara html[data-stil="apple"]. */
+/* Område 3: Dokument (#/dokument), Mallar (#/dokument/mallar), Att göra (#/att-gora), Videomöten (#/videomote), Enkäter (#/enkater, #/enkat/…).
+   Samma recept som apple.css: inset-grupperade listor med hårfina avdelare, hårfin kant + Apples lagrade skugga, kapslar, segment med
+   ljus platta, lugna rubriker. Bara form, typografi och material – färgerna är temats tokens (i mörka hjältar zonernas). */
+
+/* A1 Segment i mörka hjältar (Att göra: Mina | Alla): apple.css 04 ger det valda segmentet var(--vit) och mörk text – i en mörk hjälte
+   med glas blev det en grå platta (vitt 36 %) med mörk text som knappt syntes. Som iOS i mörkt läge: skenan en svag ljus slöja, det
+   valda segmentet en ljusare platta med ljus text. Zonernas tokens, så Ljus/Färgglad följer med. */
+html[data-stil="apple"] .sidhjalte-todo .segment { background: rgb(var(--z-text-rgb, 246 244 239) / .08); box-shadow: inset 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .1); }
+html[data-stil="apple"] .sidhjalte-todo .segment button { color: var(--z-t76, rgba(246, 244, 239, .76)); }
+html[data-stil="apple"] .sidhjalte-todo .segment button[aria-pressed="true"] { background: rgb(var(--z-text-rgb, 246 244 239) / .2); color: var(--z-vit, #fff);
+  box-shadow: inset 0 .5px 0 rgb(var(--z-glans-rgb, 255 255 255) / .22), 0 3px 8px rgb(var(--z-skugga-rgb, 11 21 32) / .25); }
+html[data-stil="apple"] .sidhjalte-todo .segment .rakna { background: rgb(var(--z-text-rgb, 246 244 239) / .12); color: var(--z-vit, #fff); }
+
+/* A1b Segment och vem-väljare i Mörk (slutgranskningen): apple.css 04/24 ger det valda segmentet var(--vit) – i Mörk är --vit samma
+   mörka (med glas halvgenomskinliga) yta som kortet, så det valda segmentet syntes inte alls (säljtavlans Tavla | Lista, Alla | Mina).
+   Som iOS i mörkt läge: det valda segmentet är en ljusare grå platta med en svag ljus överkant. Gäller inte mörka hjältar (A1). */
+html[data-stil="apple"][data-tema="mork"] :is(.segment, .vemval, .filterchips) button[aria-pressed="true"] { background: rgb(var(--t-blaeck-rgb) / .17);
+  box-shadow: inset 0 .5px 0 rgb(var(--t-blaeck-rgb) / .2), 0 3px 8px rgb(var(--t-skugga-rgb) / .3); }
+
+/* A2 Dokumentens hjälte: Mina | Alla som ett iOS-segment (en skena, valt läge som ljusare platta – ingen mintring) och lägena
+   (Aktuella, Väntar på svar …) som kapslar där det valda är en ljusare platta. Räknarna behåller sin mint bricka. */
+html[data-stil="apple"] .dk-vem { gap: 2px; padding: 3px; border-radius: 15px; background: rgb(var(--z-text-rgb, 246 244 239) / .08); box-shadow: inset 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .1); }
+html[data-stil="apple"] .dk-vem button { border-radius: 12px; font-family: var(--font-brod); letter-spacing: -.01em; transition: background-color .2s ease, color .2s ease, transform .3s var(--ap-studs); }
+html[data-stil="apple"] .dk-vem button[aria-pressed="true"],
+html[data-stil="apple"] .dk-lage[aria-pressed="true"] { background: rgb(var(--z-text-rgb, 246 244 239) / .2); color: var(--z-vit, #fff);
+  box-shadow: inset 0 .5px 0 rgb(var(--z-glans-rgb, 255 255 255) / .22), 0 3px 8px rgb(var(--z-skugga-rgb, 11 21 32) / .25); }
+html[data-stil="apple"] .dk-lage { font-family: var(--font-brod); letter-spacing: -.01em; box-shadow: inset 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .12);
+  transition: background-color .2s ease, color .2s ease, transform .3s var(--ap-studs); }
+html[data-stil="apple"] :is(.dk-vem button, .dk-lage):active { transform: scale(.96); }
+html[data-stil="apple"] .dk-valj .valj-knapp.falt { border-radius: 14px; font-family: var(--font-brod); letter-spacing: -.01em; box-shadow: inset 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .12); }
+
+/* A3 Dokumentens grupper som iOS inset-grupperade listor: förut var varje rad en egen svävande ruta (6 px luft, egen kant och skugga).
+   Nu EN vit grupp med 16 px hörn och hårfina avdelare som börjar efter ikonen – som Inställningar och Filer. Kolumnrubrikerna i
+   vanlig skrift (inte versala med spärr). Hovring och tangentbordsfokus tonar raden. Bara i .dk-grupp, kundregistret rörs inte. */
+html[data-stil="apple"] .dk-grupp .dk-tabell { border-spacing: 0; margin-top: 4px; }
+html[data-stil="apple"] .dk-grupp .dk-tabell th { padding-top: 12px; padding-bottom: 8px; font: 600 .75rem/1.2 var(--font-brod); letter-spacing: -.005em; text-transform: none; color: var(--text-3); }
+html[data-stil="apple"] .dk-grupp[data-dk-efter] .dk-tabell thead th { padding-block: 0; font-size: 0; }
+html[data-stil="apple"] .dk-grupp .dk-tabell td { --dk-avd: rgb(var(--t-blaeck-rgb) / .08); padding-block: 13px; border-radius: 0; background: var(--vit);
+  box-shadow: inset 0 1px 0 var(--dk-avd); transition: background-color .2s ease; }
+html[data-stil="apple"] .dk-grupp .dk-tabell td:first-child { box-shadow: none; background: linear-gradient(var(--dk-avd), var(--dk-avd)) 66px 0 / calc(100% - 66px) 1px no-repeat, var(--vit); }
+html[data-stil="apple"] .dk-grupp .dk-tabell td:last-child { box-shadow: inset 0 1px 0 var(--dk-avd); }
+/* gruppens första rad: ingen avdelare, rundade övre hörn; sista raden: rundade nedre hörn */
+html[data-stil="apple"] .dk-grupp .dk-tabell tbody tr:first-child td,
+html[data-stil="apple"] .dk-grupp .dk-tabell tbody tr:first-child td:first-child { box-shadow: none; background: var(--vit); }
+html[data-stil="apple"] .dk-grupp .dk-tabell tbody tr:first-child td:first-child { border-top-left-radius: 16px; }
+html[data-stil="apple"] .dk-grupp .dk-tabell tbody tr:first-child td:last-child { border-top-right-radius: 16px; }
+html[data-stil="apple"] .dk-grupp .dk-tabell tbody tr:last-child td:first-child { border-bottom-left-radius: 16px; }
+html[data-stil="apple"] .dk-grupp .dk-tabell tbody tr:last-child td:last-child { border-bottom-right-radius: 16px; }
+html[data-stil="apple"] .dk-grupp .dk-rad:hover td { --kant: transparent; --skugga: none; background-color: color-mix(in srgb, var(--vit) 90%, rgb(var(--t-accent-djup-rgb))); }
+html[data-stil="apple"] .dk-grupp .dk-rad:hover td:first-child { background: linear-gradient(var(--dk-avd), var(--dk-avd)) 66px 0 / calc(100% - 66px) 1px no-repeat, color-mix(in srgb, var(--vit) 90%, rgb(var(--t-accent-djup-rgb))); }
+html[data-stil="apple"] .dk-grupp .dk-rad:hover:first-child td:first-child { background: color-mix(in srgb, var(--vit) 90%, rgb(var(--t-accent-djup-rgb))); }
+html[data-stil="apple"] .dk-grupp .dk-rad:has(.dk-namn:focus-visible) td { background-color: color-mix(in srgb, var(--vit) 84%, rgb(var(--t-accent-djup-rgb))); }
+html[data-stil="apple"] .dk-grupp .dk-rad:hover .dk-ikon { transform: none; }
+/* dokumentets ruta och kundens initialer: iOS-rutor med 22 % hörn */
+html[data-stil="apple"] .dk-grupp .dk-ikon { border-radius: 9px; }
+html[data-stil="apple"] .dk-grupp .dk-kund .logga-ruta { border-radius: 9px; box-shadow: inset 0 0 0 .5px rgb(var(--t-blaeck-rgb) / .08); }
+html[data-stil="apple"] .dk-grupp-titel h2 { font-family: var(--font-rubrik); font-weight: 650; letter-spacing: -.02em; }
+html[data-stil="apple"] .dk-grupp-antal { font-family: var(--font-siffror); }
+html[data-stil="apple"] .dk-grupp :is(.kr-belopp, .dk-k-datum .kr-text) { font-variant-numeric: tabular-nums; }
+/* mobilens kort i gruppen: samma inset-grupp – vit yta, hårfina avdelare efter ikonen */
+html[data-stil="apple"] .dk-grupp .dk-mobil { margin-top: 6px; padding: 0; overflow: hidden; border-radius: 16px; background: var(--vit); }
+html[data-stil="apple"] .dk-grupp .dk-kort { padding: 12px 14px; border-top: 0; background: linear-gradient(rgb(var(--t-blaeck-rgb) / .08), rgb(var(--t-blaeck-rgb) / .08)) 60px 0 / calc(100% - 60px) 1px no-repeat; }
+html[data-stil="apple"] .dk-grupp .dk-kort:first-child { background: none; }
+html[data-stil="apple"] .dk-grupp .dk-kort:is(:hover, :active) { background-color: color-mix(in srgb, var(--vit) 90%, rgb(var(--t-accent-djup-rgb))); }
+
+/* A4 Att hantera: raderna som tonade iOS-celler – hårfin kant i tonen, 16 px hörn, ingen svävande skugga */
+html[data-stil="apple"] .dk-atgarder { border-radius: 24px; }
+html[data-stil="apple"] .dk-atg-huvud h2 { font-family: var(--font-rubrik); font-weight: 650; letter-spacing: -.02em; }
+html[data-stil="apple"] .dk-atgard { border-radius: 16px; background: linear-gradient(var(--t), var(--t)), var(--vit); box-shadow: inset 0 0 0 .5px var(--tk); }
+html[data-stil="apple"] .dk-atgard-titel { font-family: var(--font-brod); letter-spacing: -.012em; }
+
+/* A5 Mallarna: korten med samma hårfina kant och lagrade skugga som .kort, typens förhandsbild med 14 px hörn */
+html[data-stil="apple"] .ml-kort { border-radius: 24px; box-shadow: inset 0 0 0 .5px var(--ap-har), 0 1px 2px rgb(var(--t-skugga-rgb) / .05), 0 10px 30px -18px rgb(var(--t-skugga-rgb) / .22); }
+html[data-stil="apple"][data-glas] .ml-kort { box-shadow: var(--skugga); }
+
+/* A6 Att göra: föreslagna uppgifter som iOS-kort (hårfin kant, mjuk lagrad skugga) i en grupp med hårfin ram; "Inte nu"-krysset som
+   rund grå knapp som i iOS-notiser */
+html[data-stil="apple"] .td-forslag { box-shadow: inset 0 0 0 .5px var(--ap-har), 0 1px 2px rgb(var(--t-skugga-rgb) / .05), 0 10px 30px -18px rgb(var(--t-skugga-rgb) / .22); }
+html[data-stil="apple"][data-glas] .td-forslag { box-shadow: var(--skugga); }
+html[data-stil="apple"] .td-forslag-huvud h2 { font-family: var(--font-rubrik); font-weight: 650; letter-spacing: -.02em; }
+html[data-stil="apple"] .td-forslag-rad { border-radius: 18px; box-shadow: inset 0 0 0 .5px var(--ap-har), 0 1px 2px rgb(var(--t-skugga-rgb) / .05), 0 8px 20px -16px rgb(var(--t-skugga-rgb) / .25); }
+html[data-stil="apple"] .td-forslag-text strong { font-family: var(--font-brod); letter-spacing: -.012em; }
+html[data-stil="apple"] .td-forslag-dolj { width: 28px; height: 28px; background: rgb(var(--t-blaeck-rgb) / .06); color: var(--text-2); transition: background-color .2s ease, transform .3s var(--ap-studs); }
+html[data-stil="apple"] .td-forslag-dolj:hover { background: rgb(var(--t-blaeck-rgb) / .1); }
+html[data-stil="apple"] .td-forslag-dolj:active { transform: scale(.9); }
+html[data-stil="apple"] .td-forslag-dolj .ikon { width: 12px; height: 12px; stroke-width: 2.4; }
+html[data-stil="apple"] .td-text { letter-spacing: -.012em; }
+
+/* A7 Videomöten: Kommande som iOS Kalender-lista – raderna i en inset-grupp med hårfina avdelare, datumet som kalenderruta
+   (månaden liten och versal ovanpå dagen). Pågående möte behåller sin mintmarkering. */
+html[data-stil="apple"] .vm-lista { gap: 0; overflow: hidden; border-radius: 16px; background: var(--vit); box-shadow: inset 0 0 0 .5px var(--ap-har); }
+html[data-stil="apple"] .vm-lista__rad { border-radius: 0; background: linear-gradient(rgb(var(--t-blaeck-rgb) / .08), rgb(var(--t-blaeck-rgb) / .08)) 68px 0 / calc(100% - 68px) 1px no-repeat; box-shadow: none; }
+html[data-stil="apple"] .vm-lista__rad:first-child { background: none; }
+html[data-stil="apple"] .vm-lista__datum { grid-template-rows: auto auto; align-content: center; gap: 2px; border-radius: 11px; background: rgb(var(--t-blaeck-rgb) / .05); box-shadow: inset 0 0 0 .5px var(--ap-har); }
+html[data-stil="apple"] .vm-lista__datum b { order: 2; font: 650 1.05rem/1 var(--font-siffror); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+html[data-stil="apple"] .vm-lista__datum small { order: 1; font: 650 .6rem/1 var(--font-brod); letter-spacing: .04em; text-transform: uppercase; color: var(--accent-text); }
+
+/* A8 Enkätlistorna (#/enkater och kundens/affärens Enkäter-kort): raden som en iOS-cell med hårfin kant och 16 px hörn och en
+   chevron i grått; gruppens rubrik (Pågår, Avslutade) i vanlig skrift som iOS-listornas rubriker, inte versal med spärr */
+html[data-stil="apple"] :is(.enk-kort-rad, .enk-alla-rad) { border-color: transparent; border-radius: 16px; background: var(--vit); box-shadow: inset 0 0 0 .5px var(--ap-har);
+  transition: background-color .2s ease, transform .3s var(--ap-studs); }
+html[data-stil="apple"] :is(.enk-kort-rad, .enk-alla-rad):hover { transform: none; background: color-mix(in srgb, var(--vit) 92%, rgb(var(--t-accent-djup-rgb))); }
+html[data-stil="apple"] :is(.enk-kort-rad, .enk-alla-rad):active { transform: scale(.99); }
+html[data-stil="apple"] :is(.enk-kort-rad, .enk-alla-rad) > .ikon { width: 14px; height: 14px; stroke-width: 2.4; opacity: .7; }
+html[data-stil="apple"] .enk-alla-rubrik { font: 600 .8rem/1.2 var(--font-brod); letter-spacing: -.005em; text-transform: none; color: var(--text-2); }

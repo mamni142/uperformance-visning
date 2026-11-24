@@ -1,0 +1,56 @@
+/* Hemsidans intro (2026-11-23, användaren: "samma intro till hemsidan, en laddningssida innan man kommer in, så som appen har, men
+   bättre – 4K-kvalitet och krisp animering"). Samma idé som hälsoappens splash: loggans ring ritas, U:et tonar fram, ett ljus går runt,
+   pulser, ordmärket sveps fram och en laddlinje fylls – sedan öppnar sig sidan som en rund våg ur loggan.
+   Bara vektorer (SVG + CSS-gradienter) – ritas i skärmens upplösning, skarpt i 4K och på Retina. Rörelse: transform, opacity,
+   stroke-dashoffset (bara under introt) och clip-path vid utgången. Visas när html[data-intro="pa"] (tidigt skript i index.html). */
+.intro { display: none; }
+html[data-intro] { overflow: hidden; }
+html[data-intro] .intro { --mjuk: cubic-bezier(.22, 1, .36, 1); position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; overflow: hidden; color: #fff;
+  background: radial-gradient(120% 90% at 50% 120%, #0d2a2a 0%, transparent 55%), radial-gradient(90% 70% at 10% -10%, #16365a 0%, transparent 55%), #070f18;
+  -webkit-font-smoothing: antialiased; }
+/* norrsken: tre stora mjuka sken som glider (bara transform) */
+.intro-ljus { position: absolute; inset: -20%; pointer-events: none; }
+.intro-ljus i { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; filter: blur(60px); opacity: .55; mix-blend-mode: screen; }
+.intro-ljus i:nth-child(1) { left: 5%; top: 10%; background: radial-gradient(closest-side, rgba(126, 224, 195, .55), transparent); animation: intro-drift1 6s var(--mjuk) both; }
+.intro-ljus i:nth-child(2) { right: 0; top: 25%; background: radial-gradient(closest-side, rgba(167, 210, 255, .45), transparent); animation: intro-drift2 7s var(--mjuk) both; }
+.intro-ljus i:nth-child(3) { left: 30%; bottom: -10%; background: radial-gradient(closest-side, rgba(24, 54, 83, .9), transparent); animation: intro-drift1 8s var(--mjuk) reverse both; }
+@keyframes intro-drift1 { from { transform: translate3d(-6%, 4%, 0) scale(.9); opacity: 0; } to { transform: translate3d(4%, -3%, 0) scale(1.05); } }
+@keyframes intro-drift2 { from { transform: translate3d(5%, -4%, 0) scale(.85); opacity: 0; } to { transform: translate3d(-4%, 3%, 0) scale(1.05); } }
+
+.intro-mitt { position: relative; display: grid; justify-items: center; gap: clamp(22px, 4vh, 36px); }
+.intro-mark { position: relative; width: clamp(120px, 17vmin, 190px); aspect-ratio: 396 / 395; }
+.intro-svg { position: relative; z-index: 1; width: 100%; height: 100%; overflow: visible; }
+.intro-spar { fill: none; stroke: rgba(255, 255, 255, .08); stroke-width: 20; }
+.intro-ring { fill: none; stroke: url(#intro-grad); stroke-width: 20; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; animation: intro-rita 1.15s cubic-bezier(.65, 0, .35, 1) .25s forwards; }
+.intro-komet { fill: none; stroke: url(#intro-glans); stroke-width: 22; stroke-linecap: round; stroke-dasharray: .07 .93; stroke-dashoffset: 1; opacity: 0; animation: intro-komet 1.6s cubic-bezier(.45, 0, .2, 1) 1.2s forwards; }
+.intro-u { fill: #fff; opacity: 0; transform-origin: 198px 200px; transform: scale(.82) translateY(10px); animation: intro-u .9s var(--mjuk) 1s forwards; }
+@keyframes intro-rita { to { stroke-dashoffset: 0; } }
+@keyframes intro-komet { 0% { stroke-dashoffset: 1; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: -.93; opacity: 0; } }
+@keyframes intro-u { to { opacity: 1; transform: none; } }
+/* pulser: två ringar som växer ut och tonar bort när loggan är klar */
+.intro-puls { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(126, 224, 195, .55); opacity: 0; animation: intro-puls 1.5s cubic-bezier(.2, .7, .3, 1) 1.45s forwards; }
+.intro-puls + .intro-puls { animation-delay: 1.75s; border-color: rgba(167, 210, 255, .45); }
+@keyframes intro-puls { 0% { opacity: .9; transform: scale(.98); } 100% { opacity: 0; transform: scale(1.9); } }
+.intro-mark::after { content: ''; position: absolute; inset: -30%; z-index: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(126, 224, 195, .28), transparent 70%); opacity: 0; animation: intro-glod 1.4s var(--mjuk) 1.1s forwards; }
+@keyframes intro-glod { to { opacity: 1; } }
+
+/* ordmärket sveps fram från vänster, devisen och laddlinjen under */
+.intro-ord { display: grid; justify-items: center; gap: 12px; }
+.intro-ordmarke { width: clamp(190px, 26vmin, 300px); height: auto; color: #fff; clip-path: inset(0 100% 0 0); opacity: 0; animation: intro-svep .9s var(--mjuk) 1.35s forwards; }
+@keyframes intro-svep { from { clip-path: inset(0 100% 0 0); opacity: 1; transform: translateX(-8px); } to { clip-path: inset(0 0 0 0); opacity: 1; transform: none; } }
+.intro-ord p { margin: 0; padding-left: .32em; font: 600 clamp(.64rem, 1.1vmin, .78rem)/1 Inter, system-ui, sans-serif; letter-spacing: .32em; text-transform: uppercase; color: rgba(235, 245, 242, .62); opacity: 0; animation: intro-ord .8s var(--mjuk) 1.7s forwards; }
+@keyframes intro-ord { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.intro-laddar { position: relative; display: block; width: clamp(120px, 16vmin, 180px); height: 2px; margin-top: 10px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, .1); opacity: 0; animation: intro-ord .5s ease 1.6s forwards; }
+.intro-laddar i { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, #7ee0c3, #a7d2ff); transform-origin: left; transform: scaleX(0); animation: intro-ladda 1.9s cubic-bezier(.5, 0, .2, 1) .5s forwards; }
+@keyframes intro-ladda { to { transform: scaleX(1); } }
+
+/* utgången: loggan drar ihop sig lätt och sidan öppnar sig som en rund våg ur loggans mitt – ett hål med mjuk kant som växer (masken
+   styrs av den registrerade egenskapen --intro-hal) */
+@property --intro-hal { syntax: "<length>"; inherits: false; initial-value: 0px; }
+html[data-intro="ut"] .intro { pointer-events: none; animation: intro-ut 1.05s cubic-bezier(.6, 0, .2, 1) forwards;
+  -webkit-mask: radial-gradient(circle at 50% 43%, transparent var(--intro-hal), #000 calc(var(--intro-hal) + 80px)); mask: radial-gradient(circle at 50% 43%, transparent var(--intro-hal), #000 calc(var(--intro-hal) + 80px)); }
+html[data-intro="ut"] .intro-mitt { animation: intro-mitt-ut .7s cubic-bezier(.4, 0, .2, 1) forwards; }
+@keyframes intro-ut { to { --intro-hal: 160vmax; } }
+@keyframes intro-mitt-ut { to { opacity: 0; transform: scale(.9); } }
+/* hjälten väntar under introt och börjar sin egen entré när sidan öppnar sig */
+html[data-intro="pa"] .hero, html[data-intro="pa"] .hero * { animation-play-state: paused !important; }

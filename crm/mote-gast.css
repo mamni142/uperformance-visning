@@ -1,0 +1,34 @@
+/* Uperformance CRM – gästsidan för videomöten (mote-gast.html). Ingen inloggning och inget CRM bakom:
+   lagret .vm fyller sidan, med vår logga överst i förhandsvisningen och på slutskärmen. */
+html, body { margin: 0; min-height: 100%; }
+body.gast {
+  min-height: 100dvh;
+  background:
+    radial-gradient(70% 50% at 85% 0%, rgb(94 208 174 / .16), transparent 70%),
+    radial-gradient(60% 50% at 0% 100%, rgb(24 54 83 / .08), transparent 70%),
+    var(--ben, #f6f4ef);
+  color: var(--text, #0b1520);
+  font: 500 15px/1.45 "Manrope", system-ui, sans-serif;
+}
+.gast-topp {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1;
+  display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 24px; color: var(--navy, #183653);
+}
+.gast-topp__logo { display: block; width: 142px; height: 44px; }
+.gast-topp__etikett {
+  padding: 4px 10px; border-radius: 999px; background: rgb(11 21 32 / .06);
+  color: var(--text-2, #465260); font: 600 .74rem/1 "Poppins", sans-serif; letter-spacing: .04em;
+}
+.gast-meddelande { max-width: 520px; margin: 120px auto 0; padding: 0 24px; text-align: center; }
+.gast-fel {
+  display: grid; justify-items: center; gap: 10px; width: min(520px, calc(100% - 32px)); margin: 120px auto 0; padding: 32px 24px;
+  border-radius: 28px; background: var(--vit, #fff); text-align: center;
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, .45);
+}
+.gast-fel h1 { margin: 0; font: 600 1.35rem/1.2 "Poppins", sans-serif; letter-spacing: -.02em; }
+.gast-fel p { margin: 0; color: var(--text-2, #465260); }
+
+/* Lagret på gästsidan: ingen slöja, plats för huvudet i förhandsvisningen och på slutskärmen */
+.vm[data-gast-sida] .vm-forhand, .vm[data-gast-sida] .vm-slut { padding-top: 76px; }
+.vm[data-gast-sida] .vm-forhand__kort, .vm[data-gast-sida] .vm-slut__kort { box-shadow: 0 30px 80px -40px rgba(0, 0, 0, .45), inset 0 0 0 1px rgb(11 21 32 / .06); }
+html[data-vm-oppen] body.gast { overflow: hidden; }

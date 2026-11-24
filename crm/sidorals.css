@@ -1,0 +1,91 @@
+/* Uperformance CRM – infälld meny (rälsen, sidorals.js), samma upplägg som Legohus CRM: en smal glaslist med loggan, sök, plus och
+   menyknappen överst, alla sidor som ikoner i grupper med tunna avdelare, brickor i ikonens hörn, namnet i en glasbubbla och kontot
+   nederst. Färgerna följer temat. Allt som rör sig är transform/opacitet, utom menyknappens egen lilla höjd. */
+.sido-rals { display: none; }
+.sido-bubbla { display: none; }
+
+@media (min-width: 1000px) {
+  .sido-rals { position: fixed; z-index: 35; left: 6px; top: var(--hjalte-luft); bottom: var(--hjalte-luft); width: 40px; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 7px 0 8px; border-radius: 20px;
+    background: linear-gradient(180deg, rgb(var(--t-glas-rgb) / .86), rgb(var(--t-glas-rgb) / .6));
+    box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07), inset 0 1px 0 rgb(var(--t-glans-rgb) / .6), 0 20px 40px -30px rgb(var(--t-skugga-rgb) / .5);
+    opacity: 0; visibility: hidden; transform: translateX(-10px); pointer-events: none;
+    transition: opacity .28s ease, transform .46s cubic-bezier(.32, .72, 0, 1), visibility 0s linear .28s; }
+  html[data-sido-dold] .sido-rals { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition: opacity .34s ease .08s, transform .46s cubic-bezier(.32, .72, 0, 1), visibility 0s; }
+  html:not([data-glas]) .sido-rals { background: var(--vit); }
+
+  /* De runda knapparna överst: loggan, sök, plus – och menyknappen, som står på rälsens tomma plats */
+  .rals-rund, .rals-plats { flex: none; width: 34px; height: 34px; }
+  .rals-rund { position: relative; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; cursor: pointer; color: var(--text-2);
+    background: rgb(var(--t-glas-rgb) / .72); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .09), 0 1px 2px rgb(var(--t-skugga-rgb) / .1);
+    transition: background-color .18s ease, color .18s ease, box-shadow .2s ease, scale .2s cubic-bezier(.3, 1.5, .5, 1); }
+  .rals-rund[hidden] { display: none; }
+  .rals-rund .ikon { width: 17px; height: 17px; }
+  .rals-logga { margin-bottom: 2px; color: var(--navy-text); text-decoration: none; }
+  .rals-logga svg { width: 24px; height: 24px; }
+  .rals-rund:hover, .rals-rund:focus-visible { background: rgb(var(--t-glas-rgb) / .96); color: var(--text); }
+  .rals-rund:active { scale: .92; transition-duration: .09s; }
+
+  /* Sidorna. Listan rullar själv om fönstret är lågt, utan rullningslist */
+  .rals-lista { flex: 1 1 0; min-height: 0; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 3px 0; overflow: hidden auto; scrollbar-width: none; }
+  .rals-lista::-webkit-scrollbar { display: none; }
+  .rals-lista a { position: relative; flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: var(--text-2); text-decoration: none; -webkit-tap-highlight-color: transparent;
+    transition: background-color .18s ease, color .18s ease, box-shadow .2s ease, scale .2s cubic-bezier(.3, 1.5, .5, 1); }
+  .rals-lista .ikon { width: 18px; height: 18px; }
+  .rals-lista a:hover, .rals-lista a:focus-visible { background: rgb(var(--t-glas-rgb) / .95); color: var(--text); scale: 1.08; }
+  .rals-lista a:active { scale: .92; transition-duration: .09s; }
+  .rals-lista a[aria-current="page"] { color: var(--accent-text); background: linear-gradient(170deg, rgb(var(--t-glas-rgb) / .95), rgb(var(--t-glas-rgb) / .55));
+    box-shadow: inset 0 1px 0 rgb(var(--t-glans-rgb) / .6), inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 34%, transparent), 0 8px 16px -10px color-mix(in srgb, var(--accent-text) 70%, transparent); }
+  .rals-delare { flex: none; width: 18px; height: 1px; margin: 5px 0; background: rgb(var(--t-blaeck-rgb) / .12); }
+  .rals-lista a > i { position: absolute; top: -1px; right: -3px; display: grid; place-items: center; min-width: 15px; height: 15px; padding: 0 3px; border-radius: 999px; color: #0b1520; background: var(--accent);
+    box-shadow: 0 0 0 1.5px rgb(var(--t-glas-rgb) / .95); font: 700 .5625rem/1 var(--font-rubrik); font-style: normal; font-variant-numeric: tabular-nums; }
+  .rals-lista a > i[data-varm] { background: var(--gul); }
+
+  /* Kontot nederst med närvaropricken */
+  .rals-konto { position: relative; flex: none; display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; transition: scale .2s cubic-bezier(.3, 1.5, .5, 1); }
+  .rals-konto .avatar { width: 32px; height: 32px; overflow: hidden; font-size: .68rem; box-shadow: 0 0 0 2px rgb(var(--t-glas-rgb) / .95), 0 0 0 3px rgb(var(--t-blaeck-rgb) / .1); }
+  .rals-konto .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .rals-konto::after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 11px; height: 11px; border-radius: 50%; background: var(--narv, var(--accent)); box-shadow: 0 0 0 2px rgb(var(--t-glas-rgb) / .95); }
+  .rals-konto:hover { scale: 1.06; }
+  .rals-konto:active { scale: .94; transition-duration: .09s; }
+  .sido-rals :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+
+  /* Menyknappen: rund på sin plats i rälsen, kanten med neonlinjen vilar medan menyn är infälld */
+  :root .sido-knapp { transition: translate .45s cubic-bezier(.22, 1, .36, 1), transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease, border-color .3s ease, opacity .3s ease, background-color .25s ease, color .25s ease, top .46s cubic-bezier(.32, .72, 0, 1); }
+  :root[data-sido-dold] .sido-kant::before, :root[data-sido-dold] .sido-kant::after, :root[data-sido-dold] .sido-knapp::before, :root[data-sido-dold] .sido-knapp::after { display: none; }
+  :root[data-sido-dold] .sido-knapp { top: var(--rals-knapp-y, 111px); width: 34px; height: 34px; margin: -17px 0 0 -17px; color: var(--text-2); background: rgb(var(--t-glas-rgb) / .72);
+    box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .09), 0 1px 2px rgb(var(--t-skugga-rgb) / .1); }
+  :root[data-sido-dold] .sido-knapp .ikon { width: 16px; height: 16px; stroke-width: 2.2; }
+  :root[data-sido-dold] .sido-knapp:hover, :root[data-sido-dold] .sido-knapp[data-nara], :root[data-sido-dold] .sido-knapp:focus-visible { color: var(--text); background: rgb(var(--t-glas-rgb) / .96); transform: scale(1.06);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 40%, transparent), 0 6px 14px -8px rgb(var(--t-skugga-rgb) / .5); }
+  :root[data-sido-dold] .sido-knapp:active { transform: scale(.94); }
+  /* kontomenyn står bredvid rälsen – menyknappen försvinner inte då */
+  :root[data-konto-oppen][data-sido-dold] .sido-kant { opacity: 1; }
+
+  /* Chattens snabbknapp i rälsen, under menyknappen (chatt.js sätter data-i-rals) – listan lämnar plats */
+  .chf-ikon[data-i-rals] { width: 34px; height: 34px; box-shadow: 0 8px 16px -8px rgb(var(--t-skugga-rgb) / .6), inset 0 1px 0 rgb(var(--z-glans-rgb, 255 255 255) / .4); }
+  .chf-ikon[data-i-rals] .ikon { width: 17px; height: 17px; }
+  .chf-ikon[data-i-rals] b { right: -3px; top: -2px; min-width: 15px; height: 15px; padding: 0 3px; font-size: .5625rem; }
+  html[data-sido-dold] body:has(.chf-ikon[data-i-rals]) .rals-plats { margin-bottom: 38px; }
+
+  /* Glasbubblan med namnet */
+  .sido-bubbla { display: block; position: fixed; z-index: 70; padding: 6px 11px; border-radius: 10px; white-space: nowrap; pointer-events: none; color: var(--text); background: var(--vit); opacity: 0; transform: translate(-4px, -50%);
+    box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .24), 0 0 0 1px rgb(var(--t-blaeck-rgb) / .06), 0 10px 24px -12px rgb(var(--t-skugga-rgb) / .7); font: 500 .8125rem/1.2 var(--font-brod); transition: opacity .14s ease, transform .18s cubic-bezier(.22, 1, .36, 1); }
+  .sido-bubbla.syns { opacity: 1; transform: translate(0, -50%); }
+}
+/* Låga fönster: tätare, listan rullar först när inte ens det räcker */
+@media (min-width: 1000px) and (max-height: 820px) {
+  .rals-lista a { width: 30px; height: 30px; } .rals-lista .ikon { width: 16px; height: 16px; } .rals-delare { margin: 3px 0; }
+  .rals-rund, .rals-plats { width: 30px; height: 30px; } .rals-rund .ikon { width: 15px; height: 15px; } .rals-logga svg { width: 21px; height: 21px; }
+  :root[data-sido-dold] .sido-knapp { width: 30px; height: 30px; margin: -15px 0 0 -15px; }
+  .chf-ikon[data-i-rals] { width: 30px; height: 30px; }
+  html[data-sido-dold] body:has(.chf-ikon[data-i-rals]) .rals-plats { margin-bottom: 34px; }
+  .rals-konto, .rals-konto .avatar { width: 30px; height: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sido-rals, html[data-sido-dold] .sido-rals, .rals-rund, .rals-lista a, .rals-konto, .sido-bubbla { transition: none; transform: none; }
+  html:not([data-sido-dold]) .sido-rals { transform: none; }
+  .sido-bubbla { transform: translate(0, -50%); }
+  :root .sido-knapp { transition: none; }
+}
+@media (prefers-reduced-transparency: reduce) { .sido-rals { background: var(--vit); } }
+@media print { .sido-rals, .sido-bubbla { display: none !important; } }

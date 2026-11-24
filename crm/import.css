@@ -1,0 +1,107 @@
+/* Importera kunder (#/import, crm/import.js, 2026-11-23). Temats tokens överallt (inga fasta färger utom statusens toner som
+   rgb-tripletter med originalet som reserv), Apple-lagret gäller som på resten av CRM:et. Mobil 390/320 utan horisontell scroll. */
+.imp-rum { display: grid; gap: 16px; min-width: 0; }
+.imp-rum > * { min-width: 0; }
+
+/* stegraden */
+.imp-steg { display: flex; gap: 6px; margin: 0; padding: 6px; list-style: none; border-radius: 99px; background: var(--vit); box-shadow: var(--skugga); overflow-x: auto; scrollbar-width: none; }
+.imp-steg::-webkit-scrollbar { display: none; }
+.imp-steg li { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 14px; border-radius: 99px; font: 600 .86rem/1 var(--font-brod, inherit); color: var(--text-3); white-space: nowrap; }
+.imp-steg li > span { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: .74rem; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .07); color: var(--text-2); }
+.imp-steg li > span .ikon { width: 13px; height: 13px; }
+.imp-steg li[data-klar] { color: var(--text-2); }
+.imp-steg li[data-klar] > span { background: var(--accent); color: var(--ink, #0b1520); }
+.imp-steg li[aria-current] { color: var(--text); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .05); }
+.imp-steg li[aria-current] > span { background: var(--navy, #183653); color: #fff; }
+
+.imp-kort { display: grid; gap: 14px; padding: 20px; }
+.imp-kort h3 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 1rem; }
+.imp-kort h3 .ikon { width: 18px; height: 18px; color: var(--accent-text); }
+.imp-kort-huvud { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.imp-diskret { margin: 0; font-size: .86rem; line-height: 1.5; color: var(--text-2); }
+.imp-fot { justify-content: space-between; flex-wrap: wrap; }
+
+/* steg 1: släppytan */
+.imp-slapp { display: grid; justify-items: center; gap: 8px; padding: 36px 20px; border-radius: 20px; text-align: center; cursor: pointer;
+  border: 1.5px dashed rgb(var(--t-blaeck-rgb, 11 21 32) / .18); background: rgb(var(--t-blaeck-rgb, 11 21 32) / .025);
+  transition: border-color .25s, background-color .25s, transform .2s; }
+.imp-slapp:hover, .imp-slapp[data-over] { border-color: var(--accent-text); background: rgb(126 224 195 / .1); }
+.imp-slapp[data-over] { transform: scale(1.01); }
+.imp-slapp:focus-within { outline: 2px solid var(--accent-text); outline-offset: 3px; }
+.imp-slapp[data-laser] { pointer-events: none; opacity: .7; }
+.imp-slapp-ikon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; color: #fff; background: linear-gradient(180deg, #46d1a4, #0f8f6c); box-shadow: 0 8px 18px -8px rgb(15 143 108 / .7); }
+.imp-slapp-ikon .ikon { width: 24px; height: 24px; }
+.imp-slapp[data-laser] .imp-slapp-ikon { animation: imp-puls 1s ease-in-out infinite alternate; }
+@keyframes imp-puls { to { transform: scale(.9); opacity: .7; } }
+.imp-slapp strong { font-size: 1.02rem; }
+.imp-slapp small { color: var(--text-2); font-size: .84rem; }
+.imp-hjalp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.imp-hjalp > div { padding: 14px 16px; border-radius: 16px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .035); }
+.imp-hjalp h3 { font-size: .92rem; margin-bottom: 6px; }
+.imp-hjalp p { margin: 0; font-size: .86rem; line-height: 1.55; color: var(--text-2); }
+.imp-fel { display: flex; align-items: flex-start; gap: 8px; margin: 0; padding: 10px 12px; border-radius: 12px; font-size: .88rem; color: var(--text); background: rgb(224 57 47 / .09); }
+.imp-fel .ikon { flex: none; width: 16px; height: 16px; margin-top: 2px; color: #c8372d; }
+
+/* steg 2: kopplingen */
+.imp-koppla { display: grid; gap: 0; border-radius: 16px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .03); padding: 0 14px; }
+.imp-koppla-rad { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 15rem); align-items: center; gap: 12px; padding: 10px 0; }
+.imp-koppla-rad + .imp-koppla-rad { border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.imp-koppla-fran { display: grid; gap: 2px; min-width: 0; }
+.imp-koppla-fran strong { font-size: .92rem; overflow-wrap: anywhere; }
+.imp-koppla-fran small { font-size: .78rem; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.imp-koppla-pil { display: grid; place-items: center; color: var(--text-3); }
+.imp-koppla-pil .ikon { width: 16px; height: 16px; }
+
+/* steg 3: talen, valet, listorna */
+.imp-tal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.imp-tal-kort { display: grid; gap: 2px; padding: 14px 16px; border-radius: 18px; background: var(--vit); box-shadow: var(--skugga); }
+.imp-tal-kort b { font: 700 1.7rem/1.1 var(--font-rubrik, inherit); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.imp-tal-kort span { font-size: .82rem; color: var(--text-2); }
+.imp-tal-kort[data-ton="mint"] b { color: var(--accent-text); }
+.imp-tal-kort[data-ton="is"] b { color: var(--navy-text, #183653); }
+.imp-tal-kort[data-ton="gul"] b { color: var(--f-8a4a0c, #8a4a0c); }
+.imp-tal-kort[data-ton="rod"] b { color: #c8372d; }
+.imp-val { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 4px; border-radius: 14px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); justify-self: start; }
+.imp-val button { min-height: 36px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; font: 600 .86rem/1 var(--font-brod, inherit); color: var(--text-2); cursor: pointer; }
+.imp-val button[aria-pressed="true"] { background: var(--vit); color: var(--text); box-shadow: 0 1px 3px rgb(var(--t-blaeck-rgb, 11 21 32) / .12); }
+.imp-lista, .imp-problem { display: grid; margin: 0; padding: 0; list-style: none; }
+.imp-rad { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 10px 0; }
+.imp-rad + .imp-rad { border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .07); }
+.imp-rad-ikon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; color: #fff; background: linear-gradient(180deg, #46d1a4, #0f8f6c); }
+.imp-rad-ikon[data-ton="gul"] { background: linear-gradient(180deg, #ffc94a, #f29d0c); color: #3a2600; }
+.imp-rad-ikon .ikon { width: 17px; height: 17px; }
+.imp-rad-text { display: grid; gap: 2px; min-width: 0; }
+.imp-rad-text strong { font-size: .94rem; overflow-wrap: anywhere; }
+.imp-rad-text small { font-size: .8rem; color: var(--text-2); overflow-wrap: anywhere; }
+.imp-chip { padding: 5px 10px; border-radius: 99px; font: 600 .76rem/1 var(--font-brod, inherit); white-space: nowrap; background: rgb(126 224 195 / .22); color: var(--accent-text); }
+.imp-chip[data-ton="gul"] { background: rgb(242 157 12 / .16); color: var(--f-8a4a0c, #8a4a0c); }
+.imp-problem li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; padding: 8px 0; font-size: .86rem; color: var(--text-2); }
+.imp-problem li + li { border-top: 1px solid rgb(var(--t-blaeck-rgb, 11 21 32) / .06); }
+.imp-problem li span { font-weight: 650; color: var(--f-8a4a0c, #8a4a0c); font-variant-numeric: tabular-nums; }
+.imp-problem li[data-fel] span { color: #c8372d; }
+
+/* steg 4: kvittot */
+.imp-klart { justify-items: start; }
+.imp-klart-ikon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; color: #fff; background: linear-gradient(180deg, #46d1a4, #0f8f6c); box-shadow: 0 8px 18px -8px rgb(15 143 108 / .7); animation: imp-in .5s cubic-bezier(.34, 1.56, .64, 1); }
+.imp-klart-ikon .ikon { width: 26px; height: 26px; }
+.imp-klart h3 { font-size: 1.2rem; }
+.imp-klart p { margin: 0; }
+@keyframes imp-in { from { transform: scale(.6); opacity: 0; } }
+
+@media (max-width: 760px) {
+  .imp-tal { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .imp-hjalp { grid-template-columns: minmax(0, 1fr); }
+  .imp-koppla-rad { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .imp-koppla-pil { display: none; }
+  .imp-steg li { flex: 0 0 auto; padding: 8px 10px; }
+}
+@media (max-width: 400px) {
+  .imp-kort { padding: 16px 14px; }
+  .imp-rad { grid-template-columns: 34px minmax(0, 1fr); }
+  .imp-chip { grid-column: 2; justify-self: start; }
+  .imp-fot > .knapp { flex: 1 1 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .imp-slapp-ikon, .imp-klart-ikon { animation: none !important; } }
+/* väljaren (assets/valj.js) lägger sin knapp bredvid den dolda rutan – därför ligger båda i en egen behållare */
+.imp-koppla-val { min-width: 0; }
+.imp-koppla-val > * { width: 100%; }

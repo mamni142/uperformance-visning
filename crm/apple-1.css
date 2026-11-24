@@ -1,0 +1,108 @@
+/* Apple-stilen, område 1 (iOS-teamet 2026-11-23) – laddas efter apple.css. Bara html[data-stil="apple"].
+   Översikten (#/), säljtavlan (#/salj), Klubbmotorn (#/klubbmotorn) och Kundmöte (#/mote). Samma recept som apple.css:
+   form, typografi och material – aldrig paletten (temats tokens, zonernas tokens i de mörka ytorna).
+   Avsnitt: A1–A5 översikten · B1–B3 säljtavlan · C1–C2 Klubbmotorn · D1–D4 Kundmöte. */
+
+/* ---------- Översikten ---------- */
+
+/* A1 Avsnittens ögonrader ("01 Uppgifter och åtgärder"): lugnare spärr som Apples gruppetiketter, numret som en mjuk ruta
+   med rundade siffror. Gruppnamnen i Din lista (Brådskande, Idag …) likadant – mindre spärr, samma vikt. */
+html[data-stil="apple"] .ob-ogon { letter-spacing: .08em; font-family: var(--font-rubrik); }
+html[data-stil="apple"] .ob-nr { border-radius: 8px; font-family: var(--font-siffror); font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 1px 0 rgb(var(--t-glans-rgb) / .35), 0 4px 10px -6px rgb(var(--t-accent-djup-rgb) / .7); }
+html[data-stil="apple"] .ob-grupp-namn { letter-spacing: .06em; font-family: var(--font-rubrik); }
+html[data-stil="apple"] .ob-grupp-namn .rakna { font-family: var(--font-siffror); font-variant-numeric: tabular-nums; }
+
+/* A2 Din lista som iOS inset-grupper: raderna i en grupp (Brådskande, Idag, Kommande …) sitter ihop i EN rundad yta med
+   hårfina avdelare, i stället för lösa kort med var sin ram och 8 px glapp. Gruppens ram och skugga ligger på listan (yttre
+   skugga – raderna målar sin egen bakgrund ovanpå), tonlisten till vänster står kvar. Hovring = iOS-cellens tonade fyllning. */
+html[data-stil="apple"] .ob-rader { gap: 0; border-radius: 18px;
+  box-shadow: 0 0 0 .5px var(--ap-har), 0 1px 2px rgb(var(--t-skugga-rgb) / .05), 0 12px 28px -22px rgb(var(--t-skugga-rgb) / .3); }
+html[data-stil="apple"] .ob-rad { border-radius: 0; box-shadow: none; }
+html[data-stil="apple"] .ob-rad:first-child { border-top-left-radius: 18px; border-top-right-radius: 18px; }
+html[data-stil="apple"] .ob-rad:last-child { border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; }
+html[data-stil="apple"] .ob-rad:not(:last-child)::after { content: ''; position: absolute; left: 20px; right: 0; bottom: 0; height: .5px; pointer-events: none; background: var(--ap-har); }
+html[data-stil="apple"] .ob-rad:hover { box-shadow: inset 0 0 0 999px var(--ap-fyll); }
+html[data-stil="apple"] .ob-rad::before { width: 3px; left: 7px; }
+
+/* A3 Korten i de mörka banden (Resultat: Intäkter och Klubbmotorn; Klubbmotorns klubbkort): med glas fick de apple.css 05:s
+   ljusa glaskant (--skugga är gjord för ljus botten) och såg ut att ha en vit ram. Här en hårfin kant i zonens textfärg,
+   en svag ljus överkant och en mjuk skugga – som iOS-kort på mörk botten, i alla teman. */
+html[data-stil="apple"] :is(.ob-band, .kb-band) .kort.kort {
+  box-shadow: inset 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .16), inset 0 1px 0 rgb(var(--z-glans-rgb, 255 255 255) / .08), 0 24px 48px -32px rgb(var(--z-skugga-rgb, 0 0 0) / .7); }
+html[data-stil="apple"] .kb-band .kb-klubb.kort:hover {
+  box-shadow: inset 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .28), inset 0 1px 0 rgb(var(--z-glans-rgb, 255 255 255) / .1), 0 30px 56px -32px rgb(var(--z-skugga-rgb, 0 0 0) / .8); }
+
+/* A4 Säljtrattens steg i Affärer: den färgade 2 px-kanten överst följde hörnen och såg ut som en böjd rand. Stegets färg bärs
+   redan av numret och mätaren – kortet får en hårfin kant som de andra korten, hovring en tunn accentkant. */
+html[data-stil="apple"] .ob-steg { border-radius: 20px; box-shadow: inset 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .16), inset 0 1px 0 rgb(var(--z-glans-rgb, 255 255 255) / .06); }
+html[data-stil="apple"] .ob-steg:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--farg) 60%, transparent), 0 18px 34px -22px rgb(var(--z-skugga-rgb, 0 0 0) / .8); }
+html[data-stil="apple"] .ob-steg-nr { font-family: var(--font-siffror); font-variant-numeric: tabular-nums; }
+html[data-stil="apple"] .ob-steg-varde { font-variant-numeric: tabular-nums; }
+
+/* A5 Senaste i teamet: typen (HÄNDELSE, SAMTAL …) som en lugn liten etikett i SF utan versal spärr */
+html[data-stil="apple"] .akt-typ { letter-spacing: .03em; font-family: var(--font-brod); }
+
+/* ---------- Säljtavlan ---------- */
+
+/* B1 Smarta förslag som iOS-kort: hårfin kant och Apples lagrade skugga i stället för en 1 px ram och en färgad rand som
+   böjde sig runt de övre hörnen. Åtgärden ("Sälj →") är en tonad kapsel i kortets egen ton (iOS tonad knapp) i stället för
+   en svart platta; hovring fylls i accent som förut. */
+html[data-stil="apple"] .salj-forslag .sf-kort { border-radius: 22px;
+  box-shadow: inset 0 0 0 .5px var(--ap-har), 0 1px 2px rgb(var(--t-skugga-rgb) / .05), 0 14px 32px -22px rgb(var(--t-skugga-rgb) / .3); }
+html[data-stil="apple"][data-glas] .salj-forslag .sf-kort { box-shadow: var(--skugga); }
+html[data-stil="apple"] .salj-forslag .sf-kort:hover { box-shadow: inset 0 0 0 .5px var(--ap-har), 0 1px 2px rgb(var(--t-skugga-rgb) / .05), 0 22px 40px -24px rgb(var(--t-skugga-rgb) / .4); }
+html[data-stil="apple"] .salj-forslag .sf-kort::before { display: none; }
+html[data-stil="apple"] .salj-forslag .puls-knapp { height: 34px; min-height: 34px; padding: 0 13px 0 15px; box-shadow: none; letter-spacing: -.01em; font-family: var(--font-rubrik);
+  background: color-mix(in srgb, var(--sf-ton) 15%, transparent); color: var(--sf-ton-text, var(--accent-text)); transition: background-color .2s, color .2s, transform .35s var(--ap-studs); }
+html[data-stil="apple"] .salj-forslag .puls-knapp:active:not(:disabled) { transform: scale(.96); }
+html[data-stil="apple"] .salj-forslag small.forslag-skal { letter-spacing: .07em; }
+
+/* B2 Rubriken "Smarta förslag": samma lugna ögonrad som översiktens avsnitt */
+html[data-stil="apple"] .sf-huvud h2 { letter-spacing: .08em; }
+html[data-stil="apple"] .sf-huvud h2 .rakna { font-family: var(--font-siffror); font-variant-numeric: tabular-nums; }
+
+/* B3 Verktygsraden: segmentet Tavla | Lista och "Sortera" i Mörk låg under 4,5:1 (dämpad text på segmentets ljusa skena).
+   I iOS har ett ovalt segment samma etikettfärg som det valda – valet syns på plattan, inte på en grå text. */
+html[data-stil="apple"] .saljverktyg .segment button { color: var(--text); }
+html[data-stil="apple"] .saljverktyg .sortval > span { color: var(--text-2); }
+
+/* ---------- Klubbmotorn ---------- */
+
+/* C1 Klubbkorten: den orange ljuslinjen i överkanten (1 px) och den orange kanten ovanför "Att betala" bildade små böjda
+   ränder i hörnen. Den varma tonen i cellen och den orange siffran står kvar och bär betydelsen. */
+html[data-stil="apple"] .kb-klubb::before { display: none; }
+html[data-stil="apple"] .kb-klubb-tal > [data-varm] { box-shadow: none; }
+html[data-stil="apple"] .kb-klubb-tal { box-shadow: 0 0 0 .5px rgb(var(--z-text-rgb, 246 244 239) / .14); }
+html[data-stil="apple"] .kb-klubb-tal strong { font-family: var(--font-siffror); }
+
+/* C2 Talen i Klubbmotorn i SF Rounded med lika breda siffror (beloppen hoppar inte när de räknas upp) */
+html[data-stil="apple"] :is(.kb-klubb-tal strong, .kb-band strong, .kb-prov strong) { font-variant-numeric: tabular-nums; }
+
+/* ---------- Kundmöte ---------- */
+
+/* D1 Hjältens text var hårdkodad Poppins/Manrope (motescen.css) – nu Apples typsnitt som resten av CRM:et. De minsta
+   versala raderna ("Närmast på tur", "Väntar på möte") var 8–9 px med 45–60 % vit – för svaga: något större och ljusare. */
+html[data-stil="apple"] .ms-etikett { font-family: var(--font-rubrik); letter-spacing: .08em; }
+html[data-stil="apple"] .ms-rubrik { font-family: var(--font-rubrik); font-weight: 700; letter-spacing: -.035em; }
+html[data-stil="apple"] .ms-tal-topp small { font: 600 .62rem/1.2 var(--font-rubrik); letter-spacing: .06em; color: var(--z-t72, rgba(246, 244, 239, .72)); }
+html[data-stil="apple"] .ms-tal-varde b { font-family: var(--font-siffror); font-weight: 650; }
+html[data-stil="apple"] .ms-tal-piller { font-family: var(--font-siffror); letter-spacing: 0; }
+html[data-stil="apple"] .ms-tal-vem > i { font-family: var(--font-rubrik); }
+html[data-stil="apple"] .ms-tal-vem small { font: 600 .6rem/1.2 var(--font-rubrik); letter-spacing: .05em; color: var(--z-t66, rgba(246, 244, 239, .66)); }
+html[data-stil="apple"] .ms-tal-vem em { font-family: var(--font-brod); }
+
+/* D2 Filmknappen: längden ("1:03") satt högt i Poppins – nu i SF Rounded på textens linje */
+html[data-stil="apple"] .ms-knapp-film small { font: 600 .78rem/1 var(--font-siffror); align-self: center; }
+
+/* D3 Kundkorten: steget och beloppet hamnade ibland på samma rad (när det fick plats) och ibland på två – korten i raden
+   såg olika ut. Nu alltid steget överst och beloppet under, som en iOS-cell. */
+html[data-stil="apple"] .mk-kund-fot { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 8px; }
+html[data-stil="apple"] .mk-kund-fot b { font-family: var(--font-siffror); font-size: .95rem; }
+html[data-stil="apple"] .mk-stegchip { font-family: var(--font-brod); }
+html[data-stil="apple"] .mk-chans small { font-family: var(--font-siffror); }
+html[data-stil="apple"] .mk-etikett { letter-spacing: .06em; }
+
+/* D4 Spela-symbolen i texten "… – ▶ startar direkt på bilden": vit triangel på --kol syntes inte i Mörk (ljus platta).
+   Nu textens färg som platta och sidans yta som symbol – syns i alla teman. */
+html[data-stil="apple"] .mk-spela-ikon { background: var(--text); color: var(--vit-tack, var(--vit)); }

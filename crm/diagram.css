@@ -1,0 +1,151 @@
+/* Diagrammen i CRM:et – gemensam stil (diagram.js = window.UPDiagram). Laddas efter sidornas stilmallar och före temana.
+   Regler (forskning-diagram.md): linje 1,75–2 px med runda ändar, ytan tonar mot genomskinligt, slutpunkt med ring i ytans färg,
+   staplar med övre radie ≤ 4 px och rak botten, nollvärde = 2 px stubbe, allt ritas fram EN gång (bara transform/opacitet),
+   reducerad rörelse = slutläget direkt. Färgerna är tokens – aldrig fasta färger:
+   --d-linje   linjen/stapeln (reserv: zonens accent – mint i mörka ytor, mörk mint i Ljus)
+   --d-yta-topp ytans täckning överst (mörkt .26, Ljus .16)
+   --d-ring    slutpunktens ring = ytans färg, så att pricken lossnar från linjen
+   --d-spar    spår och nollstubbar, --d-stod stödlinjer */
+
+:root { --d-in: cubic-bezier(.2, 0, 0, 1); --d-stapel-in: cubic-bezier(0, 0, .3, 1); --d-studs: cubic-bezier(.34, 1.4, .64, 1); --d-yta-topp: .26; }
+:root[data-tema="ljus"] { --d-yta-topp: .16; }
+
+/* 01 Liten kurva (sparkline) – nyckelremsan, kontokorten, säkerhetshistoriken */
+.d-spark { position: relative; display: block; min-width: 0; }
+.d-spark-ram { display: block; overflow: hidden; padding: 3px 2px; margin: -3px -2px; animation: d-fonster .9s var(--d-in) .25s backwards; }
+.d-spark-ram > .sparklinje { display: block; overflow: visible; animation: d-fonster-in .9s var(--d-in) .25s backwards; }
+@keyframes d-fonster { from { transform: translateX(-100%); } }
+@keyframes d-fonster-in { from { transform: translateX(100%); } }
+.d-spark .spark-linje { fill: none; stroke: var(--d-linje, var(--z-accent, var(--accent))); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+  vector-effect: non-scaling-stroke; stroke-dasharray: none; animation: none; filter: none; }
+.d-spark .spark-yta { stroke: none; animation: d-tona .5s ease .45s backwards; }
+.d-spark .d-stop-topp { stop-color: var(--d-linje, var(--z-accent, var(--accent))); stop-opacity: var(--d-yta-topp); }
+.d-spark .d-stop-botten { stop-color: var(--d-linje, var(--z-accent, var(--accent))); stop-opacity: 0; }
+/* tom serie / bara nollor: en vilande streckad linje på baslinjen (ingen yta, ingen prick) */
+.d-spark .d-vilar { stroke: var(--d-linje, var(--z-text, var(--text))); stroke-width: 1.25; stroke-dasharray: 2 4; opacity: .4; }
+/* slutpunkten: en HTML-prick (viewBoxen sträcks – en SVG-cirkel hade blivit en oval), ring i ytans färg, en mjuk gloria EN gång */
+.d-spark-punkt { position: absolute; left: calc(var(--x) * 100%); top: calc(var(--y) * 100%); width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; pointer-events: none;
+  background: var(--d-linje, var(--z-accent, var(--accent))); box-shadow: 0 0 0 2px var(--d-ring, rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1)));
+  animation: d-punkt .32s var(--d-studs) 1.05s backwards; }
+.d-spark-punkt::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: var(--d-linje, var(--z-accent, var(--accent))); opacity: 0;
+  animation: d-gloria .7s ease-out 1.3s; }
+@keyframes d-punkt { from { transform: scale(0); } }
+@keyframes d-gloria { from { opacity: .3; transform: scale(.6); } to { opacity: 0; transform: scale(2); } }
+@keyframes d-tona { from { opacity: 0; } }
+/* kontokorten i kontrollcentralen: linjen i kontots färg (samma blandning som förut) */
+.ao-konto { --d-linje: color-mix(in srgb, rgb(var(--l)), var(--z-dimma-mot, #06141c) var(--z-dimma, 0%)); }
+
+/* 02 Staplar – säljarkortens vecka och profilens 30 dagar: rak botten, övre radie 4 px, smala, nollvärde = 2 px */
+.lp-sk-vecka > span { justify-items: center; }
+.lp-sk-vecka i { width: min(100%, 22px); height: max(2px, calc(var(--v) * 100%)); border-radius: 4px 4px 1px 1px; transform-origin: 50% 100%;
+  background: linear-gradient(180deg, var(--z-accent, var(--accent)), rgb(var(--z-gron-rgb, 126 224 195) / .55)); box-shadow: none; }
+.lp-sk-vecka i[data-noll] { height: 2px; border-radius: 1px; background: rgb(var(--z-text-rgb, 246 244 239) / .16); }
+.vy-in .lp-sk-vecka i { animation: d-stapel .5s var(--d-stapel-in) backwards; animation-delay: calc(var(--i, 0) * 35ms + 150ms); }
+.lp-arb-stapel i { border-radius: 4px 4px 1px 1px; max-width: 14px; margin: 0 auto; box-shadow: none;
+  background: linear-gradient(180deg, var(--z-accent, var(--accent)), rgb(var(--z-gron-rgb, 126 224 195) / .5)); }
+.lp-arb-idag i { background: linear-gradient(180deg, var(--z-is, var(--is)), var(--z-accent, var(--accent))); }
+.lp-arb-stapel[style*="--v:0.000"] i { height: 2px; border-radius: 1px; background: rgb(var(--z-text-rgb, 246 244 239) / .14); }
+.vy-in .lp-arb-stapel i { animation: d-stapel .5s var(--d-stapel-in) backwards; animation-delay: calc(var(--i) * 10ms + 100ms); }
+@keyframes d-stapel { from { transform: scaleY(0); } }
+
+/* 03 Översiktens intäktsgraf: ytan i temats färg (stoppen följer temabytet), knopparna utan glansfläck, idag-pricken med luft */
+.ob-ig-svg .d-stop-topp { stop-color: var(--z-accent, var(--accent)); stop-opacity: calc(var(--d-yta-topp) + .04); }
+.ob-ig-svg .d-stop-mitt { stop-color: var(--z-accent, var(--accent)); stop-opacity: .08; }
+.ob-ig-svg .d-stop-botten { stop-color: var(--z-accent, var(--accent)); stop-opacity: 0; }
+.ob-ig-svg .d-drag-0 { stop-color: var(--z-is, var(--is)); }
+.ob-ig-svg .d-drag-1 { stop-color: var(--z-accent, var(--accent)); }
+.ob-ig-p90-bricka { z-index: 3; }
+
+@media (prefers-reduced-motion: reduce) {
+  .d-spark-ram, .d-spark-ram > .sparklinje, .d-spark .spark-yta, .d-spark-punkt, .d-spark-punkt::after, .vy-in .lp-sk-vecka i, .vy-in .lp-arb-stapel i { animation: none; }
+}
+.utan-intro :is(.d-spark-ram, .d-spark-ram > .sparklinje, .d-spark .spark-yta, .d-spark-punkt, .d-spark-punkt::after) { animation: none; }
+@media print { .d-spark-punkt::after { display: none; } }
+.ob-ig-p90-bricka[data-kort] .ob-ig-p90-lang { display: none; }
+.ob-ig-p90-bricka[data-kort] .ob-ig-p90-kort { display: inline; }
+.ob-ig-p90-bricka[data-dold] { visibility: hidden; }
+/* knopparna: en ring i seriens färg runt en tät kärna i ytans färg och en prick i mitten – förut var mitten --vit, som är
+   halvgenomskinlig med glas, och linjens hörn och stapelns topp syntes rakt igenom knoppen */
+.ob-resultat .ob-ig-prick::after { background: radial-gradient(circle, var(--z-is, var(--is)) 0 28%, rgb(var(--zy-0b1520, 11 21 32)) 33%); }
+.ob-resultat .ob-ig-order[data-basta] .ob-ig-prick::after { background: radial-gradient(circle, var(--z-accent, var(--accent)) 0 28%, rgb(var(--zy-0b1520, 11 21 32)) 33%); }
+/* staplarna och ringarna i zonens toner (Ljus: mörk mint/is med ≥ 3:1 mot den ljusa ytan, i stället för fasta ljusa färger) */
+.ob-resultat .ob-ig-prick::before { background: linear-gradient(180deg, var(--z-is, var(--is)), color-mix(in srgb, var(--z-is, var(--is)) 45%, transparent)); box-shadow: none; }
+.ob-resultat .ob-ig-order[data-basta] .ob-ig-prick::before { background: linear-gradient(180deg, var(--z-accent, var(--accent)), color-mix(in srgb, var(--z-accent, var(--accent)) 45%, transparent)); box-shadow: none; }
+.ob-resultat .ob-ig-prick::after { box-shadow: 0 0 0 2.5px var(--z-is, var(--is)), 0 0 0 6px color-mix(in srgb, var(--z-is, var(--is)) 18%, transparent); }
+.ob-resultat .ob-ig-order[data-basta] .ob-ig-prick::after { box-shadow: 0 0 0 2.5px var(--z-accent, var(--accent)), 0 0 0 6px color-mix(in srgb, var(--z-accent, var(--accent)) 20%, transparent); }
+.ob-resultat .ob-ig-prick:focus-visible::after { box-shadow: 0 0 0 2.5px rgb(var(--zy-0b1520, 11 21 32)), 0 0 0 5px var(--z-accent, var(--accent)); }
+
+/* 04 Ringar och mätare (UPDiagram.ring / .bage) – en båge = circle + pathLength 100 från klockan 12, rund ände, ritas fram EN gång.
+   Tonerna är tokens per yta och tema: mörka ytor (zonerna i Original, Mörk, Färgglad) har de klara tonerna, ljusa ytor
+   (Ljus-temat och data-yta="ljus" på kort och ark) mättade djupa toner med ≥ 3:1 mot ytan – aldrig en grå blandning mot svart.
+   --d-a = början (en granntons blandning, subtil), --d-b = bågens färg. Spåret i ytans textfärg, lite tydligare med glas. */
+:where([data-d-ton]) {
+  --d-mint: var(--z-accent, #7ee0c3); --d-is: var(--z-is, #a7d2ff); --d-lila: #b49cff; --d-gul: #ffc857; --d-rod: #ff8a70;
+  --d-rosa: #ff9ecb; --d-cyan: #5fd4e8; --d-lime: #c6f36b; --d-orange: #f5a35c;
+  --d-spar-rgb: var(--z-text-rgb, 246 244 239); --d-spar-a: .12; --d-glod: .42;
+}
+:root[data-tema="ljus"] :where([data-d-ton]), :where([data-d-ton][data-yta="ljus"]), :where([data-yta="ljus"]) :where([data-d-ton]),
+:where(.sidhjalte-detalj ~ .rutnat-2) :where(.omtestkort) :where([data-d-ton]) {
+  --d-mint: #0d7a5f; --d-is: #2766ad; --d-lila: #6248cc; --d-gul: #a86e00; --d-rod: #c63a2a; --d-rosa: #b5336f; --d-cyan: #0a7188;
+  --d-lime: #4c7a0e; --d-orange: #b4520c; --d-spar-rgb: var(--t-blaeck-rgb, 11 21 32); --d-spar-a: .09; --d-glod: 0;
+}
+:root[data-tema="mork"] :where([data-d-ton][data-yta="ljus"]), :root[data-tema="mork"] :where([data-yta="ljus"]) :where([data-d-ton]),
+:root[data-tema="mork"] :where(.sidhjalte-detalj ~ .rutnat-2) :where(.omtestkort) :where([data-d-ton]) {
+  --d-mint: #7ee0c3; --d-is: #a7d2ff; --d-lila: #b49cff; --d-gul: #ffc857; --d-rod: #ff8a70; --d-rosa: #ff9ecb; --d-cyan: #5fd4e8;
+  --d-lime: #c6f36b; --d-orange: #f5a35c; --d-spar-rgb: 246 244 239; --d-spar-a: .12; --d-glod: .3;
+}
+/* Färgglad: den blå ytan är ljusare än nattens – lila, röd och orange ett steg ljusare (≥ 3:1) */
+:root[data-tema="fargglad"] :where([data-d-ton]:not([data-yta="ljus"])) { --d-lila: #cdbdff; --d-rod: #ffab96; --d-orange: #ffbb7d; --d-rosa: #ffb6d7; }
+:root[data-glas] :where([data-d-ton]) { --d-spar-a: .16; }
+:root[data-tema="ljus"][data-glas] :where([data-d-ton]), :root[data-glas] :where([data-d-ton][data-yta="ljus"]) { --d-spar-a: .13; }
+[data-d-ton="mint"] { --d-b: var(--d-mint); --d-a: color-mix(in oklab, var(--d-mint), var(--d-is) 55%); }
+[data-d-ton="is"] { --d-b: var(--d-is); --d-a: color-mix(in oklab, var(--d-is), var(--d-lila) 50%); }
+[data-d-ton="lila"] { --d-b: var(--d-lila); --d-a: color-mix(in oklab, var(--d-lila), var(--d-rosa) 45%); }
+[data-d-ton="gul"] { --d-b: var(--d-gul); --d-a: color-mix(in oklab, var(--d-gul), var(--d-orange) 55%); }
+[data-d-ton="rod"] { --d-b: var(--d-rod); --d-a: color-mix(in oklab, var(--d-rod), var(--d-rosa) 45%); }
+[data-d-ton="rosa"] { --d-b: var(--d-rosa); --d-a: color-mix(in oklab, var(--d-rosa), var(--d-lila) 50%); }
+[data-d-ton="cyan"] { --d-b: var(--d-cyan); --d-a: color-mix(in oklab, var(--d-cyan), var(--d-is) 50%); }
+[data-d-ton="lime"] { --d-b: var(--d-lime); --d-a: color-mix(in oklab, var(--d-lime), var(--d-mint) 55%); }
+[data-d-ton="orange"] { --d-b: var(--d-orange); --d-a: color-mix(in oklab, var(--d-orange), var(--d-gul) 50%); }
+
+:where(.d-ring) { position: relative; display: inline-grid; place-items: center; width: 64px; aspect-ratio: 1; flex: none; }
+.d-ring > svg.d-ring-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: none; animation: none; filter: none; }
+.d-bage .d-spar { fill: none; stroke: rgb(var(--d-spar-rgb) / var(--d-spar-a)); }
+.d-bage .d-bage-linje { fill: none; stroke: var(--d-b); stroke-linecap: round; filter: none; }
+.d-bage .d-bage-mask { fill: none; stroke: #fff; stroke-linecap: round; }
+.d-bage .d-bage-seg { fill: none; stroke-linecap: butt; }
+.d-ring-mal { stroke: rgb(var(--d-spar-rgb) / .7); stroke-width: 2.4; stroke-linecap: round; }
+/* entrén: bågen (eller masken) ritas fram en gång – stroke-dasharray från 0, slutläget är attributet */
+.d-bage :is(.d-bage-linje, .d-bage-mask) { animation: d-bage-in 1s var(--d-in) var(--d-f, .18s) backwards; }
+.d-bage .d-bage-hel { animation-name: d-bage-hel; }
+@keyframes d-bage-in { from { stroke-dasharray: 0 100; opacity: 0; } 5% { opacity: 1; } } /* ingen rund prick klockan 12 under fördröjningen */
+@keyframes d-bage-hel { from { stroke-dasharray: 0 100; opacity: 0; } 5% { opacity: 1; } to { stroke-dasharray: 100 0; } }
+.d-ring-mal { animation: d-tona .4s ease .9s backwards; }
+/* talet i mitten: Poppins 600, tabellsiffror, enheten mindre och dämpad */
+.d-ring-mitt { position: relative; display: grid; justify-items: center; gap: 2px; text-align: center; line-height: 1; pointer-events: none; }
+.d-ring-mitt b { display: inline-flex; align-items: baseline; font: 600 1rem/1 var(--font-rubrik); letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: inherit; }
+.d-ring-mitt b small { margin-left: 1px; font-size: .58em; font-weight: 600; opacity: .72; }
+.d-ring-mitt em { font: 600 .56rem/1.1 var(--font-brod); font-style: normal; letter-spacing: .02em; opacity: .74; }
+.utan-intro :is(.d-bage-linje, .d-bage-mask, .d-ring-mal) { animation: none; }
+@media (prefers-reduced-motion: reduce) { .d-bage :is(.d-bage-linje, .d-bage-mask), .d-ring-mal { animation: none; } }
+@media print { .d-bage .d-spar { stroke: rgb(11 21 32 / .12); } }
+
+/* 05 Kontrollcentralens och säkerhetshubbens kärna (sakerhet.js karna/karnaSak): bågarna är UPDiagram.bage i viewBox 240.
+   Stilla glöd bara på mörka ytor (ritas en gång, ingen loop), ingen i Ljus. Säkerhetshubbens lägen styr tonen och täckningen:
+   inte körd = svag hel ring, medel = gul, hög = röd, skannas = svag (kometen löper runt). Förklaringens prickar har ringens ton. */
+.ao-karna .d-bage :is(.d-bage-linje, .d-bage-grad) { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--d-b) calc(var(--d-glod) * 100%), transparent)); }
+.sh-ring[data-lage="medel"] [data-d-ton] { --d-b: var(--d-gul); --d-a: color-mix(in oklab, var(--d-gul), var(--d-orange) 55%); }
+.sh-ring[data-lage="hog"] [data-d-ton] { --d-b: var(--d-rod); --d-a: color-mix(in oklab, var(--d-rod), var(--d-rosa) 45%); }
+.sh-ring:is([data-lage="ny"], [data-lage="kor"]) .d-bage :is(.d-bage-linje, .d-bage-grad) { opacity: .3; filter: none; }
+.ao-delar li[data-d-ton] > i, .sh-delar li[data-d-ton]:not([data-lage="medel"], [data-lage="hog"], [data-lage="kor"]) > i { background: var(--d-b); box-shadow: 0 0 6px color-mix(in srgb, var(--d-b) calc(var(--d-glod) * 100%), transparent); }
+.sh-delar li[data-lage="medel"] > i { background: var(--d-gul); box-shadow: none; } .sh-delar li[data-lage="hog"] > i { background: var(--d-rod); box-shadow: none; }
+.sh-komet-bage { filter: drop-shadow(0 0 3px var(--d)); }
+:root[data-tema="ljus"] .sh-komet-bage { stroke: var(--d-is, #2766ad); filter: none; }
+
+/* 06 Mobil/pekskärm: intäktsgrafens staplar är länkar – träffytan ≥ 40 px med genomskinliga kanter (de absolut placerade
+   ::before/::after utgår från paddingrutan, så stapeln och knoppen står kvar exakt där de stod). */
+@media (pointer: coarse) {
+  .ob-ig-prick { box-sizing: content-box; border: solid transparent; border-width: 18px 7px; bottom: calc((1 - var(--y0)) * 100% - 18px); } /* 18 px: en låg stapel (4 px) gav 38 px */
+  /* kontokortens pil bredvid kurvan (kontrollcentralen): 34 px rund, träffytan 40 px */
+  .ao-pil { position: relative; } .ao-pil::after { content: ''; position: absolute; inset: -3px; border-radius: 50%; }
+}

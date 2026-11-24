@@ -1,0 +1,123 @@
+/* Uperformance – enkätens sammanställning (2026-11-03): samma rapport i CRM:ets resultatvy (#/enkat/…), utskriften och kundens
+   resultatsida (enkat-resultat.html). HTML:en kommer från ENKATLOGIK.fragorHtml (klasser er-*). Bara tokens – inga fasta färger –
+   så att rapporten följer temat i CRM:et; papperet och utskriften är alltid ljusa. Inget rör sig hela tiden: staplarna växer en gång. */
+.enk-res, .enk-resultat, .er-papper { container: erfragor / inline-size; }
+.er-fragor { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+@container erfragor (min-width: 620px) {
+  .er-fragor { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Ja/nej över hela raden som fragorHtml räknar med (ux-G13) – regeln saknades, så en ja/nej sist i enkäten stod ensam i en halv rad */
+  .er-fraga[data-typ="fritext"]:not([data-dold]), .er-fraga[data-typ="flerval"]:not([data-dold]), .er-fraga[data-typ="janej"]:not([data-dold]), .er-fraga[data-bred] { grid-column: 1 / -1; }
+}
+.er-fraga { min-width: 0; padding: clamp(16px, 2vw, 20px); border-radius: 18px; background: rgb(var(--t-blaeck-rgb) / .025); border: 1px solid var(--kant); }
+.er-fraga-huvud { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+.er-fraga-huvud h3 { font-size: .98rem; line-height: 1.35; letter-spacing: -.01em; overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
+/* Smal skärm (320–360 px): medelvärdet under rubriken – "arbetsbelastning" bröts annars mitt i ordet bredvid siffran */
+@container erfragor (max-width: 360px) { .er-fraga-huvud { grid-template-columns: auto minmax(0, 1fr); } .er-fraga-huvud .er-medel { grid-column: 2; justify-items: start; } }
+.er-fraga-huvud small { display: block; margin-top: 3px; color: var(--text-3); font-size: .78rem; }
+.er-nr { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 0 0 1px var(--kant-2); background: var(--kol); color: var(--pa-mork); font: 600 .78rem/1 var(--font-rubrik); }
+.er-medel { display: grid; justify-items: end; line-height: 1; }
+.er-medel b { font: 600 1.6rem/1 var(--font-rubrik); letter-spacing: -.03em; color: var(--text); }
+.er-medel small { margin-top: 4px; color: var(--text-3); font-size: .72rem; }
+.er-dold { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; color: var(--text-3); font-size: .86rem; }
+.er-dold .ikon { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+.er-sammanfatt { margin-top: 10px; color: var(--text-3); font-size: .8rem; }
+
+/* Skala 1–5: fem stående staplar, höjden = andelen mot den största */
+.er-skala { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; align-items: end; height: 150px; margin-top: 16px; }
+.er-skala-del { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; justify-items: center; gap: 4px; height: 100%; min-width: 0; }
+.er-skala-tal { font: 600 .78rem/1 var(--font-rubrik); color: var(--text-2); }
+.er-skala-stapel { position: relative; width: 100%; max-width: 54px; height: 100%; border-radius: 10px; background: rgb(var(--t-blaeck-rgb) / .05); overflow: hidden; }
+.er-skala-stapel i { position: absolute; inset: auto 0 0; height: calc(var(--er-h) * 100%); min-height: 3px; border-radius: 10px; background: linear-gradient(180deg, var(--is), var(--accent)); transform-origin: 50% 100%; animation: er-vaxa .9s var(--mjuk) both; }
+/* Höjden är andelen av svaren och spåret är 100 % (fynd ux-G4). Samma ton på alla fem – navy på 1–2 lästes som "dåligt/bra" utan förklaring */
+.er-skala-stapel { box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .05); }
+.er-skala-del b { font: 600 .9rem/1 var(--font-rubrik); color: var(--text); }
+.er-skala-del small { color: var(--text-3); font-size: .72rem; }
+.er-skala-ander { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; color: var(--text-3); font-size: .76rem; }
+.er-skala-ander span:last-child { text-align: right; }
+
+/* Ja/nej och flerval: liggande staplar */
+.er-staplar { display: grid; gap: 10px; margin-top: 14px; }
+.er-staplar li { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 3.4em; gap: 12px; align-items: center; }
+.er-stapel-text { display: block; min-width: 0; } /* antalet följer sista ordet – i en flexrad hamnade det uppe vid första raden när etiketten bröts */
+.er-stapel-text b { font: 600 .86rem/1.3 var(--font-rubrik); color: var(--text); overflow-wrap: anywhere; }
+.er-stapel-text small { margin-left: 8px; color: var(--text-3); font-size: .74rem; white-space: nowrap; }
+.er-stapel { position: relative; height: 12px; border-radius: 99px; background: rgb(var(--t-blaeck-rgb) / .06); overflow: hidden; }
+.er-stapel i { position: absolute; inset: 0 auto 0 0; width: calc(var(--er-w) * 100%); min-width: 3px; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--is)); transform-origin: 0 50%; animation: er-vaxa-x .9s var(--mjuk) both; }
+.er-fraga[data-typ="janej"] li[data-v="nej"] .er-stapel i { background: linear-gradient(90deg, var(--navy), var(--is)); }
+/* Mörk: navy försvann mot kortet – nej i isblått */
+:root[data-tema="mork"] .er-fraga[data-typ="janej"] li[data-v="nej"] .er-stapel i { background: var(--is); }
+.er-fraga[data-typ="flerval"] .er-staplar li { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) 3.4em; } /* längre alternativ ("Ergonomi på arbetsplatsen") på en rad */
+.er-fraga[data-typ="janej"] .er-staplar li { grid-template-columns: minmax(0, 5rem) minmax(0, 1fr) 3.4em; }
+.er-stapel-pct { text-align: right; font: 600 .84rem/1 var(--font-rubrik); color: var(--text); }
+/* Smalt: etiketten på egen rad, stapeln över hela bredden och procenten till höger – ja/nej med (dess 5rem-spalt vann förut
+   över regeln, och stapeln hamnade i den smala spalten med procenten mitt i kortet) */
+@container erfragor (max-width: 420px) {
+  .er-staplar li, .er-fraga[data-typ="flerval"] .er-staplar li, .er-fraga[data-typ="janej"] .er-staplar li { grid-template-columns: minmax(0, 1fr) 3.2em; row-gap: 6px; }
+  .er-stapel-text { grid-column: 1 / -1; }
+}
+@media (max-width: 420px) {
+  .er-staplar li, .er-fraga[data-typ="flerval"] .er-staplar li, .er-fraga[data-typ="janej"] .er-staplar li { grid-template-columns: minmax(0, 1fr) 3.2em; row-gap: 6px; }
+  .er-stapel-text { grid-column: 1 / -1; }
+}
+
+/* Fritext: citat i bokstavsordning */
+.er-fritext { display: grid; gap: 8px; margin-top: 14px; }
+.er-fritext li { position: relative; padding: 10px 14px 10px 16px; border-radius: 12px; background: var(--vit); border: 1px solid var(--kant); color: var(--text); font-size: .9rem; line-height: 1.5; overflow-wrap: anywhere; }
+.er-fritext li::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 3px; background: var(--accent); }
+
+/* Andel positiva i tre delar (2026-11-04, kundens resultatsida – fragorHtml({ tredelad: true }) och ENKATLOGIK.treStapel):
+   negativt = navy (aldrig rött – det är åsikter, inte fel), neutralt grått, positivt mint. 2 px lucka mellan delarna så att de
+   skiljs även utan färg, och procenten står i delen eller i förklaringen under. Mörk-temat i CRM:et: negativt i isblått. */
+.er-tre-stapel { --er-neg: var(--navy); --er-neu: rgb(var(--t-blaeck-rgb, 11 21 32) / .16); --er-pos: var(--accent);
+  display: flex; gap: 2px; height: 22px; border-radius: 8px; overflow: hidden; transform-origin: 0 50%; }
+:root[data-tema="mork"] .er-tre-stapel { --er-neg: var(--is); }
+.er-tre-stapel i { flex: 1 1 0; min-width: 4px; display: grid; place-items: center; overflow: hidden; font: 600 .74rem/1 var(--font-rubrik); font-style: normal; white-space: nowrap; }
+.er-tre-stapel i[data-del="neg"] { background: var(--er-neg); color: var(--pa-vit, #fff); }
+:root[data-tema="mork"] .er-tre-stapel i[data-del="neg"] { color: var(--ink); }
+.er-tre-stapel i[data-del="neu"] { background: var(--er-neu); color: var(--text); }
+.er-tre-stapel i[data-del="pos"] { background: var(--er-pos); color: var(--ink); }
+.er-tre { display: grid; gap: 10px; margin-top: 16px; }
+.er-tre-tecken { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--text-2); font-size: .76rem; }
+.er-tre-tecken span { display: inline-flex; align-items: center; gap: 6px; }
+.er-tre-tecken span::before { content: ''; width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
+.er-tre-tecken [data-del="neg"]::before { background: var(--navy); }
+:root[data-tema="mork"] .er-tre-tecken [data-del="neg"]::before { background: var(--is); }
+.er-tre-tecken [data-del="neu"]::before { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .16); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb, 11 21 32) / .2); }
+.er-tre-tecken b { color: var(--text); font-weight: 600; }
+.er-medel-pos b { color: var(--accent-djup); }
+/* Medelvärdet med säkerhetsband: en tunn skala 1–5, bandet = medel ± t·s/√n, pricken = medelvärdet */
+.er-band { display: grid; gap: 5px; padding: 10px 12px; border-radius: 12px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .03); }
+.er-band-text { color: var(--text-2); font-size: .8rem; }
+.er-band-text b { color: var(--text); font-family: var(--font-rubrik); font-weight: 600; }
+.er-band-spar { position: relative; height: 12px; }
+.er-band-spar::before { content: ''; position: absolute; left: 0; right: 0; top: 4px; height: 4px; border-radius: 4px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .1); }
+.er-band-yta { position: absolute; top: 2px; height: 8px; left: calc(var(--fran) * 100%); width: calc((var(--till) - var(--fran)) * 100%); border-radius: 8px; background: color-mix(in srgb, var(--is) 70%, transparent); }
+.er-band-prick { position: absolute; top: 0; left: calc(var(--x) * 100% - 6px); width: 12px; height: 12px; border-radius: 50%; background: var(--navy); box-shadow: 0 0 0 2px var(--vit); }
+:root[data-tema="mork"] .er-band-prick { background: var(--is); }
+.er-band-skala { display: flex; justify-content: space-between; color: var(--text-2); font-size: .68rem; }
+.er-skala-rubrik { margin-top: 14px; color: var(--text-2); font: 600 .72rem/1 var(--font-rubrik); letter-spacing: .08em; text-transform: uppercase; }
+.er-fraga[data-tre] .er-skala { height: 112px; margin-top: 8px; }
+
+@keyframes er-vaxa { from { transform: scaleY(0); } }
+@keyframes er-vaxa-x { from { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) { .er-skala-stapel i, .er-stapel i { animation: none; } }
+
+/* Papperet (utskrift från CRM:et) – alltid ljust, A4 */
+.er-papper { max-width: 780px; margin: 0 auto; padding: 8mm 4mm; color: #0b1520; background: #fff; font: 400 10.5pt/1.5 var(--font-brod); }
+.er-papper h1 { margin-top: 4px; font-size: 20pt; letter-spacing: -.02em; }
+.er-marke { font: 600 8pt/1 var(--font-rubrik); letter-spacing: .14em; text-transform: uppercase; color: #0f6e57; }
+.er-ingress { margin-top: 6px; color: #465260; }
+.er-papper-huvud { padding-bottom: 12px; margin-bottom: 14px; border-bottom: 2px solid #0b1520; }
+.er-papper .er-fragor { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.er-papper .er-fraga { break-inside: avoid; background: #faf9f6; border-color: rgba(11, 21, 32, .12); }
+.er-papper .er-fraga[data-typ="fritext"], .er-papper .er-fraga[data-typ="flerval"], .er-papper .er-fraga[data-bred] { grid-column: 1 / -1; }
+.er-papper-fot { margin-top: 16px; padding-top: 10px; border-top: 1px solid rgba(11, 21, 32, .15); color: #5f6a76; font-size: 8.5pt; }
+.er-qr-papper { text-align: center; padding-top: 20mm; }
+.er-qr { width: 120mm; max-width: 100%; margin: 12mm auto; }
+.er-qr svg { width: 100%; height: auto; }
+.er-lank { margin-top: 6mm; font-size: 9pt; color: #5f6a76; overflow-wrap: anywhere; }
+@media print {
+  .er-papper, .er-papper * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .er-skala-stapel i, .er-stapel i { animation: none; }
+  @page { size: A4; margin: 14mm; }
+}

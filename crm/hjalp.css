@@ -1,0 +1,275 @@
+/* Uperformance CRM – Hjälp & guider (#/hjalp, hjalp.js), 2026-11-23.
+   Bara temats tokens (fungerar i Original, Ljus, Mörk, Färgglad, med och utan glas). Hjälten är mörk (sidhjalte, data-mork-yta) –
+   där används zonens tokens. Rörelse: utfällningen är en engångsövergång (grid-rader + opacitet), allt annat transform/opacitet.
+   01 ramen och verktygsraden · 02 sökfältet i hjälten · 03 kapitelkorten · 04 turerna · 05 dokumentationen · 06 frågorna
+   07 tomlägen · 08 mobil · 09 reducerad rörelse · 10 utskrift */
+
+/* 01 Ramen och verktygsraden --------------------------------------------------------------------------------------- */
+.hj { display: grid; gap: var(--luft-hj, 16px); min-width: 0; }
+.hj > * { min-width: 0; }
+.hj-verktyg { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.hj-seg, .hj-roll { display: inline-flex; align-items: center; gap: 2px; max-width: 100%; padding: 3px; border-radius: 99px;
+  background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); box-shadow: inset 0 1px 2px rgb(var(--t-skugga-rgb, 11 21 32) / .07), inset 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .05); }
+.hj-seg button, .hj-roll button { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 14px; border: 0; border-radius: 99px; background: none;
+  font: 600 .8125rem/1 var(--font-rubrik); color: var(--text-2); white-space: nowrap; cursor: pointer; transition: color .2s, background-color .2s, box-shadow .25s; }
+.hj-seg button:hover, .hj-roll button:hover { color: var(--text); }
+.hj-seg button[aria-pressed="true"], .hj-roll button[aria-pressed="true"] { color: var(--text); background: var(--vit-tack, var(--vit, #fff));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .5), 0 0 0 .5px rgb(var(--t-blaeck-rgb, 11 21 32) / .1), 0 3px 8px -2px rgb(var(--t-skugga-rgb, 11 21 32) / .25); }
+.hj-seg button:focus-visible, .hj-roll button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.hj-seg-kort { display: none; }
+.hj-seg-antal { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: color-mix(in srgb, var(--accent) 34%, transparent); color: var(--accent-text, var(--text));
+  font: 700 .6875rem/18px var(--font-rubrik); text-align: center; font-variant-numeric: tabular-nums; }
+.hj-seg button[data-tom] .hj-seg-antal { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .08); color: var(--text-3); }
+.hj-roll-etikett { padding: 0 6px 0 10px; font: 600 .75rem/1 var(--font-rubrik); color: var(--text-3); }
+.hj-roll button { min-height: 30px; padding: 0 12px; font-size: .78rem; }
+.hj-flik { display: grid; gap: 12px; min-width: 0; }
+.hj-flik-huvud { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.hj-flik-text { margin: 0; color: var(--text-2); font-size: .875rem; max-width: 68ch; }
+
+/* 02 Sökfältet i hjälten (mörk yta – zonens tokens, ljusa slöjor som yta) --------------------------------------------- */
+.sidhjalte-hj .sidhjalte-under { margin-top: 18px; }
+.hj-sok { display: flex; align-items: center; gap: 10px; width: min(100%, 420px); height: 44px; padding: 0 16px; border-radius: 99px;
+  background: rgb(var(--z-yb-rgb, 246 244 239) / var(--z-ya08, .08)); box-shadow: inset 0 0 0 1px rgb(var(--z-text-rgb, 246 244 239) / .14);
+  color: var(--z-text, var(--pa-mork)); transition: box-shadow .2s, background-color .2s; }
+.hj-sok:focus-within { background: rgb(var(--z-yb-rgb, 246 244 239) / var(--z-ya12, .12)); box-shadow: inset 0 0 0 1px rgb(var(--z-text-rgb, 246 244 239) / .2), 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
+.hj-sok .ikon { flex: none; width: 17px; height: 17px; color: var(--z-t62, rgba(246, 244, 239, .62)); }
+.hj-sok input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; color: inherit; font: 500 .9375rem/1 var(--font-brod, inherit); outline: none; }
+.hj-sok input::placeholder { color: var(--z-t62, rgba(246, 244, 239, .62)); }
+.hj-sok input::-webkit-search-cancel-button { filter: grayscale(1); opacity: .6; cursor: pointer; }
+
+/* 03 Kapitelkorten (iOS-stil: fylld ikonruta, rubrik, ingress – fälls ut mjukt) ---------------------------------------- */
+/* En kolumn: ett utfällt kort lämnar aldrig en tom yta bredvid sig (två spalter gjorde det). Bred skärm: stegen till vänster, tips och knappar till höger. */
+.hj-kapitel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 900px) {
+  .hj-kap:not(.hj-fraga) .hj-kap-inne { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 28px; }
+  .hj-kap:not(.hj-fraga) .hj-steg { grid-column: 1; grid-row: 1 / span 2; }
+  .hj-kap:not(.hj-fraga) .hj-tips { grid-column: 2; grid-row: 1; margin-top: 16px; }
+  .hj-kap:not(.hj-fraga) .hj-kap-knappar { grid-column: 2; grid-row: 2; align-self: end; justify-content: flex-end; }
+  .hj-kap:not(.hj-fraga) .hj-kap-inne:not(:has(.hj-tips)) .hj-kap-knappar { grid-row: 1 / span 2; }
+  .hj-kap:not(.hj-fraga) .hj-steg { border-top: 0; padding-top: 16px; }
+  .hj-kap:not(.hj-fraga) .hj-kap-inne::before { content: ""; grid-column: 1 / -1; grid-row: 1; align-self: start; height: 1px; background: var(--kant); }
+}
+.hj-kap { min-width: 0; overflow: hidden; }
+.hj-kap-h { margin: 0; font: inherit; }
+.hj-kap-knapp { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 4px 14px; width: 100%; padding: 16px 18px; border: 0; background: none;
+  color: var(--text); text-align: left; font: inherit; cursor: pointer; border-radius: inherit; transition: background-color .2s; }
+.hj-kap-knapp:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .03); }
+.hj-kap-knapp:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.hj-kap-knapp > .emo-ruta { width: 40px; height: 40px; font-size: 1.15rem; }
+.hj-kap-text { display: grid; gap: 3px; min-width: 0; }
+.hj-kap-text strong { font: 600 1rem/1.25 var(--font-rubrik); letter-spacing: -.01em; }
+.hj-kap-text small { color: var(--text-2); font: 400 .8125rem/1.45 var(--font-brod, inherit); }
+.hj-kap-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.hj-kap-roll { color: var(--text-2); font: 500 .6875rem/1.2 var(--font-rubrik); white-space: nowrap; }
+.hj-kap-tur { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px 3px 6px; border-radius: 99px; background: color-mix(in srgb, var(--is) 22%, transparent);
+  color: var(--navy-text, var(--text)); font: 600 .6875rem/1 var(--font-rubrik); }
+.hj-kap-tur .ikon { width: 12px; height: 12px; }
+.hj-kap-pil { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .05); color: var(--text-3); }
+.hj-kap-pil .ikon { width: 14px; height: 14px; transform: rotate(-90deg); transition: transform .38s cubic-bezier(.32, .72, 0, 1); }
+.hj-kap[data-oppen] .hj-kap-pil .ikon { transform: rotate(90deg); }
+.hj-kap-kropp { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .42s cubic-bezier(.32, .72, 0, 1), opacity .3s ease; }
+.hj-kap[data-oppen] .hj-kap-kropp { grid-template-rows: 1fr; opacity: 1; }
+.hj-kap-inne { min-height: 0; overflow: hidden; }
+.hj-kap-inne > :first-child { margin-top: 0; }
+.hj-kap .hj-kap-inne { padding: 0 18px; }
+.hj-kap[data-oppen] .hj-kap-inne { padding-bottom: 18px; }
+.hj-steg { display: grid; gap: 10px; margin: 2px 0 0; padding: 14px 0 0; list-style: none; border-top: 1px solid var(--kant); }
+.hj-steg li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; align-items: start; font-size: .875rem; line-height: 1.5; color: var(--text); }
+.hj-steg-nr { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--accent-text, var(--text)); font: 700 .75rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; }
+.hj-tips { display: grid; gap: 8px; margin: 14px 0 0; padding: 12px 14px; list-style: none; border-radius: 14px; background: color-mix(in srgb, var(--gul) 14%, transparent); }
+.hj-tips li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; align-items: start; font-size: .8125rem; line-height: 1.5; color: var(--text-2); }
+.hj-tips .ikon { width: 16px; height: 16px; margin-top: 2px; color: var(--gul-text, var(--f-8a4a0c, #8a4a0c)); }
+.hj-kap-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hj-kap-knappar:empty { display: none; }
+
+/* 04 Turerna och kurserna ------------------------------------------------------------------------------------------ */
+.hj-framsteg { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+.hj-framsteg strong { font: 600 1rem/1.3 var(--font-rubrik); }
+.hj-framsteg p { margin: 4px 0 0; color: var(--text-2); font-size: .8125rem; line-height: 1.5; }
+.hj-ring { flex: none; width: 52px; height: 52px; transform: rotate(-90deg); }
+.hj-ring circle { fill: none; stroke-width: 5; }
+.hj-ring-spar { stroke: rgb(var(--t-blaeck-rgb, 11 21 32) / .08); }
+.hj-ring-bage { stroke: var(--accent); stroke-linecap: round; }
+/* Två spalter med lika höga kort per rad; en ensam sista kurs tar hela bredden (inga tomma ytor) */
+.hj-kurser { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 12px; }
+@media (min-width: 1000px) { .hj-kurser { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hj-kurs:last-child:nth-child(odd) { grid-column: 1 / -1; } }
+.hj-kurs { min-width: 0; padding: 6px 0; }
+.hj-kurs-huvud { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 12px 18px; }
+.hj-kurs-huvud > .emo-ruta { width: 40px; height: 40px; }
+.hj-kurs-text h3 { margin: 0; font: 600 1rem/1.25 var(--font-rubrik); }
+.hj-kurs-text p { margin: 3px 0 0; color: var(--text-2); font-size: .8125rem; line-height: 1.45; }
+.hj-kurs-lage { padding: 4px 10px; border-radius: 99px; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); color: var(--text-2); font: 600 .75rem/1 var(--font-rubrik); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.hj-kurs-lage[data-klar] { background: color-mix(in srgb, var(--accent) 28%, transparent); color: var(--accent-text, var(--text)); }
+.hj-turer { margin: 0; padding: 0 10px 6px; list-style: none; }
+.hj-tur { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto auto; align-items: center; gap: 12px; padding: 10px 8px; border-top: 1px solid var(--kant); }
+.hj-tur-nr { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .06); color: var(--text-2); font: 700 .8125rem/1 var(--font-rubrik); }
+.hj-tur[data-klar] .hj-tur-nr { background: var(--accent); color: var(--ink); }
+.hj-tur-nr .ikon { width: 15px; height: 15px; stroke-width: 2.6; }
+.hj-tur-text { display: grid; gap: 2px; min-width: 0; }
+.hj-tur-text strong { font: 600 .9rem/1.3 var(--font-rubrik); }
+.hj-tur-text small { color: var(--text-2); font-size: .78rem; line-height: 1.45; }
+.hj-tur-meta { display: flex; align-items: center; gap: 8px; color: var(--text-2); font: 500 .75rem/1 var(--font-rubrik); white-space: nowrap; }
+.hj-klar { color: var(--accent-text, var(--text)); font-weight: 600; }
+.hj-laddar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 18px 20px; }
+.hj-laddar > div { flex: 1 1 240px; min-width: 0; }
+.hj-laddar p { margin: 4px 0 0; color: var(--text-2); font-size: .8125rem; line-height: 1.5; }
+.hj-laddar-prick { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: hj-puls 1.4s ease-in-out infinite; }
+@keyframes hj-puls { 50% { transform: scale(.55); opacity: .45; } }
+
+/* 05 Dokumentationen: innehållsförteckningen klistrad bredvid avsnitten ----------------------------------------------- */
+.hj-dok { grid-template-columns: minmax(200px, 250px) minmax(0, 1fr); align-items: start; gap: 16px; }
+.hj-toc { position: sticky; top: calc(var(--topph, 0px) + var(--hjalte-luft, 12px)); display: grid; gap: 10px; padding: 16px; border-radius: 22px; background: var(--vit); border: 1px solid var(--kant); box-shadow: var(--skugga); }
+.hj-toc-huvud { display: grid; gap: 2px; padding: 0 6px; }
+.hj-toc-huvud strong { font: 600 .9rem/1.3 var(--font-rubrik); }
+.hj-toc-huvud small { color: var(--text-3); font-size: .72rem; }
+.hj-toc-lista { display: grid; gap: 2px; }
+.hj-toc-lista button { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: 8px; min-height: 34px; padding: 6px 8px; border: 0; border-radius: 10px; background: none;
+  color: var(--text-2); font: 500 .8125rem/1.3 var(--font-rubrik); text-align: left; cursor: pointer; transition: background-color .2s, color .2s; }
+.hj-toc-lista button:hover { background: rgb(var(--t-blaeck-rgb, 11 21 32) / .04); color: var(--text); }
+.hj-toc-lista button[aria-current="true"] { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--text); font-weight: 600; }
+.hj-toc-lista button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.hj-toc-nr { color: var(--text-3); font: 600 .72rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; }
+.hj-toc-lista button[aria-current="true"] .hj-toc-nr { color: var(--accent-text, var(--text)); }
+.hj-skriv { justify-self: start; }
+.hj-dok-text { display: grid; gap: 12px; min-width: 0; }
+.hj-avsnitt { min-width: 0; padding: clamp(18px, 2.2vw, 26px); scroll-margin-top: calc(var(--topph, 0px) + 16px); }
+.hj-avsnitt-huvud { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; }
+.hj-avsnitt-huvud > .emo-ruta { width: 40px; height: 40px; margin-top: 2px; }
+.hj-avsnitt-nr { color: var(--text-2); font: 600 .72rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.hj-avsnitt-huvud h3 { margin: 4px 0 0; font: 600 1.2rem/1.25 var(--font-rubrik); letter-spacing: -.015em; outline: none; }
+.hj-avsnitt-huvud h3[tabindex]:focus, .hj-avsnitt-huvud h3[tabindex]:focus-visible { outline: none; box-shadow: none; }
+.hj-avsnitt-huvud p { margin: 6px 0 0; color: var(--text-2); font-size: .9rem; line-height: 1.55; max-width: 72ch; }
+.hj-avsnitt-kropp { display: grid; gap: 12px; margin-top: 16px; min-width: 0; }
+.hj-avsnitt-kropp h4 { margin: 8px 0 0; font: 600 .9375rem/1.3 var(--font-rubrik); }
+.hj-avsnitt-kropp p { margin: 0; font-size: .875rem; line-height: 1.6; color: var(--text); max-width: 78ch; }
+.hj-lista { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.hj-lista li { position: relative; padding-left: 18px; font-size: .875rem; line-height: 1.55; overflow-wrap: anywhere; }
+.hj-lista li::before { content: ''; position: absolute; left: 3px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.hj-tabell-ram { min-width: 0; overflow-x: auto; border-radius: 14px; border: 1px solid var(--kant); }
+.hj-tabell { width: 100%; border-collapse: collapse; font-size: .8125rem; line-height: 1.5; }
+.hj-tabell th, .hj-tabell td { padding: 9px 14px; text-align: left; vertical-align: top; border-top: 1px solid var(--kant); overflow-wrap: anywhere; }
+.hj-tabell thead th { border-top: 0; background: rgb(var(--t-blaeck-rgb, 11 21 32) / .04); color: var(--text-2); font: 600 .75rem/1.3 var(--font-rubrik); }
+.hj-tabell tbody th { font-weight: 600; color: var(--text); width: 32%; }
+.hj-tabell td { color: var(--text-2); }
+.hj-kod { margin: 0; padding: 14px 16px; border-radius: 14px; overflow-x: auto; background: rgb(var(--zy-122130, 18 33 48) / 1); color: #e8eef3;
+  font: 500 .8rem/1.65 ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* 06 Vanliga frågor ------------------------------------------------------------------------------------------------- */
+.hj-fragor { margin: 0; padding: 6px 0; list-style: none; }
+.hj-fraga { overflow: visible; border-top: 1px solid var(--kant); }
+.hj-fraga:first-child { border-top: 0; }
+.hj-fraga .hj-kap-knapp { grid-template-columns: minmax(0, 1fr) auto; padding: 14px 20px; }
+.hj-fraga-q { font: 600 .9375rem/1.35 var(--font-rubrik); }
+.hj-fraga .hj-kap-inne { padding: 0 20px; }
+.hj-fraga[data-oppen] .hj-kap-inne { padding-bottom: 16px; }
+.hj-fraga .hj-kap-inne p { margin: 0; color: var(--text-2); font-size: .875rem; line-height: 1.6; max-width: 72ch; }
+.hj-fot { margin: 0; color: var(--text-3); font-size: .8125rem; text-align: center; }
+
+/* 07 Tomlägen ------------------------------------------------------------------------------------------------------- */
+.hj-inga { margin: 0; padding: 22px; border-radius: 22px; border: 1px dashed var(--kant-2); color: var(--text-2); font-size: .875rem; text-align: center; }
+.hj-inga p { margin: 0; }
+.hj-inga-knappar { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
+.hj-dok .hj-ingen-traff { grid-column: 1 / -1; }
+
+/* Mer-arket på mobilen: Inställningar, Min profil och Hjälp som tre rutor i en rad (inte två plus en ensam) */
+html body .mer-ark .mer-rutor:has(> .mer-rad:nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* 08 Smalare skärmar ------------------------------------------------------------------------------------------------ */
+@media (max-width: 1180px) {
+  .hj-seg-lang { display: none; } .hj-seg-kort { display: inline; }
+}
+@media (max-width: 999px) {
+  .hj-dok { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  /* innehållsförteckningen blir en klistrad kapselrad som rullar i sidled inom sig själv */
+  .hj-toc { top: var(--topph, 0px); z-index: 3; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 6px; border-radius: 99px;
+    background: color-mix(in srgb, var(--vit-tack, var(--vit)) 86%, transparent); -webkit-backdrop-filter: saturate(1.6) blur(18px); backdrop-filter: saturate(1.6) blur(18px); }
+  .hj-toc-huvud { display: none; }
+  .hj-toc-lista { display: flex; gap: 4px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; scroll-padding: 0 12px;
+    mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 14px), transparent); }
+  .hj-toc-lista::-webkit-scrollbar { display: none; }
+  .hj-toc-lista button { flex: none; display: inline-flex; min-height: 34px; padding: 0 12px; border-radius: 99px; white-space: nowrap; }
+  .hj-toc-nr { display: none; }
+  .hj-skriv { width: 40px; min-width: 40px; height: 40px; min-height: 40px; padding: 0; justify-content: center; border-radius: 50%; gap: 0; overflow: hidden; }
+  .hj-skriv-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .hj-skriv .ikon { margin: 0; }
+}
+@media (max-width: 640px) {
+  .hj-verktyg { display: grid; justify-content: stretch; gap: 8px; }
+  .hj-seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
+  .hj-seg button { justify-content: center; min-height: 40px; padding: 0 6px; }
+  .hj-seg-antal { position: absolute; top: -4px; right: 0; min-width: 16px; height: 16px; font-size: .625rem; line-height: 16px; padding: 0 4px; }
+  .hj-roll { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; }
+  .hj-roll-etikett { display: none; }
+  .hj-roll button { justify-content: center; min-height: 40px; padding: 0 2px; font-size: .74rem; }
+  .hj-toc-lista button { min-height: 40px; }
+  .hj-kap-knapp { grid-template-columns: auto minmax(0, 1fr) auto; padding: 14px; gap: 4px 12px; }
+  .hj-kap-meta { grid-column: 2; grid-row: 2; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-start; }
+  .hj-kap-pil { grid-column: 3; grid-row: 1; }
+  .hj-kap .hj-kap-inne { padding: 0 14px; } .hj-kap[data-oppen] .hj-kap-inne { padding-bottom: 14px; }
+  .hj-kap-knappar .knapp { flex: 1 1 140px; justify-content: center; }
+  .hj-flik-huvud .knapp { width: 100%; justify-content: center; }
+  .hj-bara-stor { display: none; }
+  .hj-framsteg { padding: 14px 16px; gap: 12px; }
+  .hj-ring { width: 44px; height: 44px; }
+  .hj-kurs-huvud { padding: 10px 14px; gap: 12px; }
+  .hj-turer { padding: 0 6px 4px; }
+  .hj-tur { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; padding: 10px 6px; }
+  .hj-tur-meta { grid-column: 2; grid-row: 2; }
+  .hj-tur > .knapp { grid-column: 3; grid-row: 1 / span 2; }
+  .hj-avsnitt-huvud { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  /* tabellerna blir rader med etiketter – ingen sidledsrullning */
+  .hj-tabell-ram { overflow: visible; border: 0; border-radius: 0; }
+  .hj-tabell, .hj-tabell tbody, .hj-tabell tr, .hj-tabell th, .hj-tabell td { display: block; width: auto; }
+  .hj-tabell thead { display: none; }
+  .hj-tabell tr { padding: 10px 12px; margin-top: 8px; border-radius: 14px; border: 1px solid var(--kant); }
+  .hj-tabell tr:first-child { margin-top: 0; }
+  .hj-tabell th, .hj-tabell td { padding: 0; border: 0; }
+  .hj-tabell tbody th { width: auto; margin-bottom: 4px; }
+  .hj-tabell td + td, .hj-tabell th + td { margin-top: 4px; }
+  .hj-tabell tr > :not(:first-child)::before { content: attr(data-etikett); display: block; color: var(--text-3); font: 600 .6875rem/1.4 var(--font-rubrik); }
+  .hj-fraga .hj-kap-knapp { padding: 14px 16px; } .hj-fraga .hj-kap-inne { padding: 0 16px; }
+  .hj-sok { width: 100%; }
+}
+@media (max-width: 360px) {
+  .hj-seg button { font-size: .75rem; }
+  .hj-roll button { font-size: .6875rem; }
+  .hj-kap-knapp > .emo-ruta, .hj-kurs-huvud > .emo-ruta { width: 34px; height: 34px; }
+}
+
+/* 09 Reducerad rörelse ---------------------------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hj-kap-kropp, .hj-kap-pil .ikon, .hj-seg button, .hj-roll button { transition: none; }
+  .hj-laddar-prick { animation: none; }
+}
+
+/* 10 Utskrift: ett rent A4-papper (skrivUtPapper lägger det i body > .mall-utskrift) ------------------------------------- */
+@media print {
+  @page hjdok { size: A4; margin: 16mm 16mm 18mm; }
+  .mall-utskrift .hj-papper { page: hjdok; color: #0b1520; background: #fff; font: 10pt/1.5 -apple-system, 'Segoe UI', Inter, system-ui, sans-serif; }
+  .hj-papper * { color: inherit; }
+  .hj-p-huvud { padding-bottom: 10pt; margin-bottom: 14pt; border-bottom: 1.5pt solid #183653; }
+  .hj-p-marke { font: 600 8pt/1 inherit; letter-spacing: .04em; color: #0f6e57; }
+  .hj-p-huvud h1 { margin: 4pt 0 2pt; font-size: 20pt; line-height: 1.15; color: #183653; }
+  .hj-p-huvud p { margin: 0; font-size: 8.5pt; color: #4a5866; }
+  .hj-p-toc { margin-bottom: 14pt; padding: 8pt 12pt; border: .75pt solid #d5dbe1; border-radius: 6pt; }
+  .hj-p-toc ol { margin: 4pt 0 0; padding-left: 0; columns: 2; list-style: decimal inside; }
+  .hj-p-avsnitt { margin-top: 14pt; }
+  .hj-p-avsnitt h2 { display: flex; align-items: baseline; gap: 6pt; margin: 0 0 4pt; font-size: 13pt; color: #183653; break-after: avoid; }
+  .hj-p-avsnitt h2 span { color: #0f6e57; font-size: 10pt; }
+  .hj-p-avsnitt h4 { margin: 8pt 0 3pt; font-size: 10.5pt; break-after: avoid; }
+  .hj-p-avsnitt p { margin: 0 0 6pt; }
+  .hj-p-ingress { color: #4a5866; }
+  .hj-p-avsnitt ol, .hj-p-avsnitt ul { margin: 4pt 0 6pt; padding-left: 16pt; }
+  .hj-p-avsnitt li { margin: 2pt 0; break-inside: avoid; }
+  .hj-p-tips { margin-top: 4pt; padding: 6pt 10pt; border-left: 2pt solid #e0b44a; background: #fbf6e9; }
+  .hj-p-avsnitt dt { margin-top: 6pt; font-weight: 600; } .hj-p-avsnitt dd { margin: 1pt 0 0; }
+  .hj-papper .hj-lista { display: block; list-style: disc; padding-left: 14pt; } .hj-papper .hj-lista li { padding: 0; } .hj-papper .hj-lista li::before { display: none; }
+  .hj-papper .hj-tabell-ram { border: 0; overflow: visible; }
+  .hj-papper .hj-tabell { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 8.5pt; }
+  .hj-papper .hj-tabell th, .hj-papper .hj-tabell td { display: table-cell; padding: 4pt 6pt; border: .5pt solid #d5dbe1; text-align: left; vertical-align: top; }
+  .hj-papper .hj-tabell thead { display: table-header-group; } .hj-papper .hj-tabell thead th { background: #eef2f5; }
+  .hj-papper .hj-tabell tr { display: table-row; break-inside: avoid; } .hj-papper .hj-tabell tbody { display: table-row-group; }
+  .hj-papper .hj-tabell tr > ::before { content: none !important; }
+  .hj-papper .hj-kod { padding: 6pt 8pt; border: .5pt solid #d5dbe1; border-radius: 4pt; background: #f4f6f8; color: #0b1520; font: 8pt/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
+}

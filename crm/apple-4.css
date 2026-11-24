@@ -1,0 +1,80 @@
+/* Apple-stilen, område 4 (iOS-teamet 2026-11-23) – laddas efter apple.css. Bara html[data-stil="apple"]. */
+
+/* 4.01 Lugna etiketter (ledning, profil, admin): de små versala etiketterna med spärr (PIPELINE, ÖPPNA AFFÄRER, SÄLJ/CHEF/TEST …) blir
+   som i iOS Inställningar och Hälsa – vanlig skrift, lite större, grå. Färgen lyfts till minst 62 % av zonens text: 42–50 % i
+   .54–.6rem gav under 4,5:1 mot de mörka glasytorna. Avsnittens ögonrader (.lp-ogon "01 · Teamet") står kvar som de är. */
+html[data-stil="apple"] :is(.lp-fakta dt, .lp-saljare-tal dt, .lp-topp-huvud, .lp-schema-sumrubrik, .lp-karta-sumrubrik, .lp-om-kanal small, .lp-om-innehall > small,
+  .lp-arb-tal small, .lp-sk-rubrik, .lp-pipe-tot dt, .lp-upp-typ, .adm-rad-huvud, .adm-matris-huvud > span, .ao-tal-text small, .ao-statrad small) {
+  font-family: var(--font-brod); font-weight: 600; font-size: .7rem; letter-spacing: -.003em; text-transform: none; color: var(--z-t62, rgba(246, 244, 239, .62)); }
+html[data-stil="apple"] .lp-del { font: 600 .78rem/1.2 var(--font-brod); letter-spacing: -.005em; text-transform: none; color: var(--z-t66, rgba(246, 244, 239, .66)); }
+html[data-stil="apple"] .lp-del small { font-family: var(--font-siffror); font-variant-numeric: tabular-nums; }
+/* småtexter som låg på 42–50 % (veckodagar, datum, skalor, "4 dagar frånvaro" …): samma lyft */
+html[data-stil="apple"] :is(.lp-schema-v small, .lp-schema-d, .lp-schema-vem small, .lp-schema-sum b small, .lp-schema-sum em, .lp-karta-dag small, .lp-karta-skala,
+  .lp-karta-dag) { color: var(--z-t62, rgba(246, 244, 239, .62)); }
+html[data-stil="apple"] :is(.lp-schema-d, .lp-schema-v, .lp-karta-dag) { font-family: var(--font-brod); letter-spacing: 0; text-transform: none; }
+html[data-stil="apple"] :is(.lp-schema-d b, .lp-karta-dag b, .lp-schema-sum b, .lp-karta-sum, .lp-saljare-tal dd, .lp-pipe-tot dd, .lp-arb-tal strong, .ao-tal-text strong,
+  .ao-statrad strong, .anv-roller b) { font-family: var(--font-siffror); font-variant-numeric: tabular-nums; }
+html[data-stil="apple"] .lp-schema-v-nu { color: var(--z-accent, var(--accent)); }
+
+/* 4.02 Filterbrickorna i banden (Teamet: Alla/Tillgängliga …, Konton, Granskningsloggen): iOS-kapslar utan ring, vald bricka som en
+   ljus platta med mörk text (samma platta som kalenderns Månad | År) i stället för den lysande mintfyllningen med glöd. Färgerna är zonernas tokens
+   (slutgranskningen: förut fasta #0b1520/vitt). */
+html[data-stil="apple"] .lp-filterrad { gap: 6px; }
+html[data-stil="apple"] .lp-filterrad > .lp-filter { min-height: 30px; padding: 0 13px; font: 600 .78rem/1 var(--font-brod); letter-spacing: -.008em;
+  color: var(--z-t78, rgba(246, 244, 239, .78)); background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya07, .07)); box-shadow: none;
+  transition: background-color .2s ease, color .2s ease, transform .3s var(--ap-studs); }
+html[data-stil="apple"] .lp-filterrad > .lp-filter:hover { background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya12, .12)); }
+html[data-stil="apple"] .lp-filterrad > .lp-filter[aria-pressed="true"] { color: rgb(var(--zy-122130, 18 33 48)); background: rgb(var(--z-yv-rgb, 255 255 255) / .92);
+  box-shadow: 0 1px 2px rgb(var(--z-skugga-rgb, 0 0 0) / .18), 0 3px 8px -2px rgb(var(--z-skugga-rgb, 0 0 0) / .16); }
+
+/* 4.03 Fält i de mörka banden (adminpanelens "Sök konto …" och inställningslistorna): apple.css fyller .falt med en mörk slöja – på
+   ett mörkt band blev sökrutan nästan osynlig. Här en ljus slöja i zonens färg och zonens text. */
+html[data-stil="apple"] :is(.lp-band, .sh-hjalte, .ao-hjalte, .sidhjalte) .falt:not(:focus) { color: var(--z-text, var(--pa-mork));
+  background-color: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya08, .08)); box-shadow: inset 0 0 0 .5px rgb(var(--z-vit-rgb, 255 255 255) / .1); }
+html[data-stil="apple"] :is(.lp-band, .sh-hjalte, .ao-hjalte, .sidhjalte) .falt:hover:not(:focus, :disabled) { background-color: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya12, .12)); }
+html[data-stil="apple"] :is(.lp-band, .sh-hjalte, .ao-hjalte, .sidhjalte) .falt::placeholder { color: var(--z-t62, rgba(246, 244, 239, .62)); opacity: 1; }
+html[data-stil="apple"] .adm-sok { min-height: 30px; margin-left: 6px; border-radius: 999px; padding-block: 4px; font-size: .8rem; }
+
+/* 4.04 Adminpanelens kontotabell som en iOS inset-grupp: en yta med hårfina avdelare mellan raderna i stället för fyra lösa lådor. */
+html[data-stil="apple"] .adm-tabell { row-gap: 0; }
+html[data-stil="apple"] .adm-rad:not(.adm-rad-huvud) { border-radius: 0; background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya05, .05));
+  box-shadow: inset 0 .5px 0 rgb(var(--z-vit-rgb, 255 255 255) / .1); transition: background-color .2s ease; }
+html[data-stil="apple"] .adm-rad-huvud + .adm-rad { border-radius: 16px 16px 0 0; box-shadow: none; }
+html[data-stil="apple"] .adm-rad:not(.adm-rad-huvud):last-child { border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; }
+html[data-stil="apple"] .adm-rad:not(.adm-rad-huvud):hover { background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya08, .08)); box-shadow: inset 0 .5px 0 rgb(var(--z-vit-rgb, 255 255 255) / .1); }
+html[data-stil="apple"] .adm-rad-huvud + .adm-rad:hover { box-shadow: none; }
+
+/* 4.05 Profilens och teamets kalender: pricken "jobbade" satt i dagens övre högra hörn – i de smala rutorna såg den ut att höra till
+   nästa dag (" • 3"). Nu står den direkt till höger om dagens siffra, som Kalenders prickar hör till sitt datum. */
+@media (min-width: 641px) {
+  html[data-stil="apple"] .lk-dag .lk-jobbat { top: 16px; right: auto; left: 36px; }
+}
+
+/* 4.06 Inställningar: Mallar i chatten – förklaringen stod 38 px under rubriken och fältets etikett låg tätt mot den. Nu samma rytm som
+   Utseende: texten direkt under rubriken, luft före formuläret och etiketterna som små grå iOS-rubriker ovanför fälten. Utseendets två
+   reglage bildar en inset-grupp (en yta, avdelare). */
+html[data-stil="apple"] .inst-chattmallar .inst-tema__not { margin: 0 2px 18px; }
+html[data-stil="apple"] .ch-mall-ny { gap: 14px; }
+html[data-stil="apple"] .ch-mall-ny label { display: grid; gap: 6px; }
+html[data-stil="apple"] .ch-mall-ny .etikett { margin: 0 4px; font: 600 .74rem/1.2 var(--font-brod); letter-spacing: -.003em; color: var(--text-2); }
+html[data-stil="apple"] .inst-tema .glas-vaxel + .glas-vaxel { margin-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; box-shadow: inset 0 .5px 0 var(--ap-har); }
+html[data-stil="apple"] .inst-tema .glas-vaxel:has(+ .glas-vaxel) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+/* "Logga in som" är bara en symbol – som rund glasknapp (iOS ikonknapp) i stället för en lös pil mellan Ändra och Inaktivera */
+html[data-stil="apple"] .adm-atgarder .adm-ikonknapp { width: 34px; min-height: 34px; height: 34px; padding: 0; justify-self: center; border-radius: 50%;
+  color: var(--z-t78, rgba(246, 244, 239, .78)); background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya07, .07)); }
+html[data-stil="apple"] .adm-atgarder .adm-ikonknapp:hover { color: var(--z-text, var(--pa-mork)); background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya12, .12)); }
+html[data-stil="apple"] .adm-atgarder .adm-ikonknapp .ikon { width: 15px; height: 15px; margin: 0; }
+/* Smal tabell (mobil och smal kolumn): Ändra, Logga in som och Inaktivera är bara symboler – alla tre som lika runda glasknappar,
+   sökrutan på en egen rad i linje med brickorna */
+@container admtabell (max-width: 700px) {
+  html[data-stil="apple"] .adm-rad .adm-atgarder .knapp { width: 36px; min-height: 36px; height: 36px; padding: 0; border-radius: 50%;
+    color: var(--z-t78, rgba(246, 244, 239, .78)); background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya07, .07)); box-shadow: none; }
+}
+@media (max-width: 640px) {
+  html[data-stil="apple"] .adm-rad .adm-atgarder .knapp { width: 40px; min-height: 40px; height: 40px; padding: 0; border-radius: 50%;
+    color: var(--z-t78, rgba(246, 244, 239, .78)); background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya07, .07)); box-shadow: none; }
+  html[data-stil="apple"] .adm-sok { flex: 1 1 100%; margin-left: 0; }
+}
+/* Ljus: zonerna är ljust glas och de omarkerade brickorna blir vita – den valda brickan blir då en mörk kapsel med vit text
+   (som valda filter i Foton/Musik i ljust läge), annars syns inte vilket som är valt. */
+html[data-stil="apple"][data-tema="ljus"] .lp-filterrad > .lp-filter[aria-pressed="true"] { color: rgb(var(--t-glas-rgb, 255 255 255)); background: rgb(var(--t-blaeck-rgb) / .86); box-shadow: 0 2px 6px -2px rgb(var(--t-skugga-rgb) / .35); }

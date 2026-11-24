@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Integritetspolicy – Uperformance</title>
+<meta name="description" content="Hur Uperformance behandlar personuppgifter på hemsidan, vid inloggningen och i kundsystemet.">
+<!-- Förhandsversion: ta bort noindex vid lansering -->
+<meta name="robots" content="noindex">
+<meta name="referrer" content="same-origin">
+<link rel="canonical" href="https://www.uperformance.se/integritet.html">
+<meta name="theme-color" content="#0b1520">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="assets/logga.css?v=4">
+<link rel="stylesheet" href="assets/integritet.css?v=3">
+<script src="assets/logga.js?v=1" defer></script>
+<script src="assets/integritet.js?v=1" defer></script>
+</head>
+<body>
+<!-- Integritetspolicyn (2026-11-23, användaren: "fixa GDPR … starkare än standard", sedan "gör sidan mycket snyggare, mer Uperformances
+     stil och färg, och iOS"). Inga uppgifter är påhittade: det som står i [hakparentes] fyller Uperformance i (företagsuppgifter, kontakt,
+     var servern finns, den externa tredjeparten för medicinska data). Låt en jurist eller ett dataskyddsombud granska texten före lansering.
+     Tiderna för gallring är serverns inställningar (server/konfig.js, server/gallring.js). Inga typsnitt eller skript hämtas utifrån. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ip-skold" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6L12 3z"/><path d="m8.8 12 2.2 2.2 4.4-4.4"/></symbol>
+  <symbol id="ip-oga-av" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-2.9 3.8M6.3 6.3A17 17 0 0 0 2 12s3.5 7 10 7a9.6 9.6 0 0 0 4.3-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="ip-klocka" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="ip-hjarta" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/><path d="M8 12h2l1.2-2 1.6 4 1.2-2h2"/></symbol>
+  <symbol id="ip-hus" viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/></symbol>
+  <symbol id="ip-glob" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></symbol>
+  <symbol id="ip-kunder" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></symbol>
+  <symbol id="ip-las" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="ip-nyckel" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l2 2M15 8l2 2"/></symbol>
+  <symbol id="ip-hand" viewBox="0 0 24 24"><path d="M7 11V5.5a1.5 1.5 0 0 1 3 0V11M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10.5V6a1.5 1.5 0 0 1 3 0v6.5M16 9.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-.6a6 6 0 0 1-4.5-2.1L4 15.3a1.6 1.6 0 0 1 2.4-2.1L7 14"/></symbol>
+  <symbol id="ip-penna" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="m13.5 6.5 4 4"/></symbol>
+  <symbol id="ip-pil" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="ip-pil-v" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+</svg>
+
+<header class="ip-topp">
+  <a class="ip-logga" href="./" aria-label="Uperformance – till startsidan" data-up-logga="hel"></a>
+  <a class="ip-tillbaka" href="./"><svg class="ip-ik" aria-hidden="true"><use href="#ip-pil-v"/></svg>Till startsidan</a>
+</header>
+
+<section class="ip-hjalte" aria-labelledby="ip-titel">
+  <div class="ip-norrsken" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="ip-hjalte-inne">
+    <p class="ip-ogon"><span class="ip-prick" aria-hidden="true"></span>Integritetspolicy · version 1 · 23 november 2026</p>
+    <h1 id="ip-titel">Dina uppgifter.<br><em>Tryggt hos oss.</em></h1>
+    <p class="ip-ingress">Vi samlar bara in det vi behöver, sparar det inte längre än nödvändigt och säljer eller delar aldrig dina uppgifter för reklam. Här står vad vi gör, varför, hur länge – och vilka rättigheter du har.</p>
+    <div class="ip-brickor" role="list">
+      <div class="ip-bricka" role="listitem"><span class="ip-ruta" data-ton="mint"><svg class="ip-ik" aria-hidden="true"><use href="#ip-oga-av"/></svg></span><b>Inga spårare</b><small>Ingen reklam, ingen besöksstatistik, inga spårningscookies.</small></div>
+      <div class="ip-bricka" role="listitem"><span class="ip-ruta" data-ton="is"><svg class="ip-ik" aria-hidden="true"><use href="#ip-penna"/></svg></span><b>Bara det du skickar</b><small>Vi får uppgifter om dig när du själv skriver till oss – eller när er beställning kräver det.</small></div>
+      <div class="ip-bricka" role="listitem"><span class="ip-ruta" data-ton="gul"><svg class="ip-ik" aria-hidden="true"><use href="#ip-klocka"/></svg></span><b>Raderas automatiskt</b><small>Förfrågningar efter 12 månader, IP-adresser maskeras efter 90 dagar.</small></div>
+      <div class="ip-bricka" role="listitem"><span class="ip-ruta" data-ton="rod"><svg class="ip-ik" aria-hidden="true"><use href="#ip-hjarta"/></svg></span><b>Hälsodata hålls isär</b><small>Bara med ditt samtycke – och bara testteamet ser svaren.</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="ip-rum">
+  <nav class="ip-innehall" aria-label="Innehåll">
+    <p>Innehåll</p>
+    <a href="#ansvarig" data-ip-lank>Vem ansvarar</a>
+    <a href="#hemsidan" data-ip-lank>Hemsidan</a>
+    <a href="#kunder" data-ip-lank>Kunder och testdagar</a>
+    <a href="#inloggning" data-ip-lank>Inloggning</a>
+    <a href="#tider" data-ip-lank>Hur länge</a>
+    <a href="#sakerhet" data-ip-lank>Säkerhet</a>
+    <a href="#rattigheter" data-ip-lank>Dina rättigheter</a>
+  </nav>
+
+  <main class="ip">
+    <section class="ip-kort" id="ansvarig" aria-labelledby="ip-1">
+      <h2 id="ip-1"><span class="ip-ruta" data-ton="navy"><svg class="ip-ik" aria-hidden="true"><use href="#ip-hus"/></svg></span>Vem ansvarar för dina uppgifter?</h2>
+      <p>Personuppgiftsansvarig är <b>Uperformance AB</b>, org.nr [fyll i], [adress].</p>
+      <a class="ip-kontakt" href="mailto:[e-post för dataskydd]"><span class="ip-ruta" data-ton="bla"><svg class="ip-ik" aria-hidden="true"><use href="#ip-penna"/></svg></span><span><small>Frågor om dina uppgifter</small><b>[e-post för dataskydd]</b></span><svg class="ip-ik ip-chevron" aria-hidden="true"><use href="#ip-pil"/></svg></a>
+    </section>
+
+    <section class="ip-kort" id="hemsidan" aria-labelledby="ip-2">
+      <h2 id="ip-2"><span class="ip-ruta" data-ton="mint"><svg class="ip-ik" aria-hidden="true"><use href="#ip-glob"/></svg></span>När du besöker hemsidan</h2>
+      <p>När du skickar en fråga, bokar en genomgång eller väljer ett paket sparar vi det du skriver: namn, e-post, eventuellt telefon och organisation, ungefär hur många ni är, önskad tid och ditt meddelande – och att du har läst den här policyn.</p>
+      <dl class="ip-lista">
+        <div><dt>Varför</dt><dd>För att svara dig och, om du vill, ta fram ett förslag.</dd></div>
+        <div><dt>Rättslig grund</dt><dd>Åtgärder före ett avtal på din begäran (art. 6.1 b) och vårt berättigade intresse av att besvara förfrågningar (art. 6.1 f).</dd></div>
+        <div><dt>Vilka ser det</dt><dd>Våra två säljare – de får ett mejl om att en förfrågan har kommit in – och systemets administratör.</dd></div>
+        <div><dt>Hur länge</dt><dd>Leder förfrågan inte till ett uppdrag raderas den automatiskt efter 12 månader. Blir ni kund flyttas uppgifterna till kundregistret.</dd></div>
+      </dl>
+      <p class="ip-not ip-not-varm"><svg class="ip-ik" aria-hidden="true"><use href="#ip-hjarta"/></svg><span>Skriv inga hälsouppgifter i meddelandet – vi behöver dem inte för att svara dig.</span></p>
+      <h3>Lagring i din webbläsare</h3>
+      <p>Sidan sparar några små inställningar i din egen webbläsare – aldrig hos oss och aldrig för spårning. Det är nödvändigt för funktionen, därför behövs ingen cookieruta.</p>
+      <dl class="ip-lista ip-lista-kod">
+        <div><dt><code>up-persona</code></dt><dd>Om du valt att se innehållet för företag eller idrott.</dd></div>
+        <div><dt><code>up-intro</code></dt><dd>Att introt redan har visats. Försvinner när du stänger fliken.</dd></div>
+      </dl>
+      <p class="ip-not"><svg class="ip-ik" aria-hidden="true"><use href="#ip-glob"/></svg><span><b>Typsnitt.</b> Typsnitten ligger på vår egen server. Sidan hämtar inget från Google eller andra externa tjänster, så din IP-adress lämnas inte ut när du besöker oss.</span></p>
+      <p class="ip-not"><svg class="ip-ik" aria-hidden="true"><use href="#ip-pil"/></svg><span><b>Länkar.</b> Länkar till andra webbplatser, till exempel Instagram, skickar inte med vilken sida du kom ifrån.</span></p>
+    </section>
+
+    <section class="ip-kort" id="kunder" aria-labelledby="ip-3">
+      <h2 id="ip-3"><span class="ip-ruta" data-ton="is"><svg class="ip-ik" aria-hidden="true"><use href="#ip-kunder"/></svg></span>Kunder, deltagare och testdagar</h2>
+      <p>När ett företag eller en förening beställer sparar vi kontaktpersoner (namn, roll, e-post, telefon), beställningen, offerter och ordrar – och för testdagen deltagarnas namn, e-post och personnummer.</p>
+      <dl class="ip-lista">
+        <div><dt>Varför</dt><dd>För att genomföra uppdraget, boka testdagen och fakturera.</dd></div>
+        <div><dt>Rättslig grund</dt><dd>Avtalet med er (art. 6.1 b) och rättslig förpliktelse för bokföring (art. 6.1 c).</dd></div>
+        <div><dt>Personnummer</dt><dd>Visas maskerade (<code>ÅÅÅÅMMDD-••••</code>) för alla utom testteamet och administratören, och skickas aldrig i dokument till kunden.</dd></div>
+        <div><dt>Hur länge</dt><dd>Så länge kundrelationen pågår. Underlag som bokföringslagen kräver sparas i sju år.</dd></div>
+        <div><dt>Biträdesavtal</dt><dd>Tecknas med arbetsgivaren innan deltagarnas uppgifter samlas in.</dd></div>
+      </dl>
+      <div class="ip-halsa">
+        <span class="ip-ruta" data-ton="rod"><svg class="ip-ik" aria-hidden="true"><use href="#ip-hjarta"/></svg></span>
+        <div><h3>Hälsouppgifter – känsliga personuppgifter</h3>
+        <p>Samlas bara in i hälsoformuläret, som du själv fyller i via en personlig länk och med ditt <b>uttryckliga samtycke</b> (art. 9.2 a). Svaren syns bara för testteamet – säljare och din arbetsgivare ser bara om formuläret är besvarat. Medicinska data hanteras av en extern tredjepart [namn och var uppgifterna lagras]. Du kan när som helst återkalla samtycket.</p></div>
+      </div>
+    </section>
+
+    <section class="ip-kort" id="inloggning" aria-labelledby="ip-4">
+      <h2 id="ip-4"><span class="ip-ruta" data-ton="navy"><svg class="ip-ik" aria-hidden="true"><use href="#ip-nyckel"/></svg></span>Inloggning och säkerhet</h2>
+      <p>För våra medarbetare som loggar in i kundsystemet sparar vi namn, e-post, roll och en säkerhetslogg över inloggningar och ändringar med tid och IP-adress.</p>
+      <dl class="ip-lista">
+        <div><dt>Varför</dt><dd>För att skydda kundernas uppgifter och kunna utreda en incident (berättigat intresse, art. 6.1 f, och kravet på säkerhet i art. 32).</dd></div>
+        <div><dt>Lösenord</dt><dd>Sparas aldrig i klartext – bara som ett saltat hashvärde. Tvåstegsverifiering med en app kan slås på för varje konto.</dd></div>
+      </dl>
+    </section>
+
+    <section class="ip-kort" id="tider" aria-labelledby="ip-5">
+      <h2 id="ip-5"><span class="ip-ruta" data-ton="gul"><svg class="ip-ik" aria-hidden="true"><use href="#ip-klocka"/></svg></span>Hur länge sparas det?</h2>
+      <p>Systemet gallrar av sig självt varje dygn – ingen behöver komma ihåg det.</p>
+      <ul class="ip-tider">
+        <li><span>Förfrågan som inte blev ett uppdrag</span><b>12 mån</b></li>
+        <li><span>IP-adress i säkerhetsloggen (maskeras)</span><b>90 dagar</b></li>
+        <li><span>Säkerhetsloggen</span><b>12 mån</b></li>
+        <li><span>Innehåll i borttagna uppgifter</span><b>30 dagar</b></li>
+        <li><span>Kopior av utskickade mejl</span><b>30 dagar</b></li>
+        <li><span>Bokföringsunderlag (lag)</span><b>7 år</b></li>
+      </ul>
+    </section>
+
+    <section class="ip-kort" id="sakerhet" aria-labelledby="ip-6">
+      <h2 id="ip-6"><span class="ip-ruta" data-ton="mint"><svg class="ip-ik" aria-hidden="true"><use href="#ip-skold"/></svg></span>Så skyddar vi uppgifterna</h2>
+      <ul class="ip-bockar">
+        <li>All trafik är krypterad (HTTPS).</li>
+        <li>Behörighet efter roll: säljare, testteam och administratör ser bara det de behöver.</li>
+        <li>Strikt säkerhetspolicy i webbläsaren mot skadlig kod, och uppladdade filer kontrolleras innan de sparas.</li>
+        <li>Säkerhetskopior och en åtkomstlogg över vem som har öppnat och ändrat uppgifter.</li>
+        <li>Uppgifterna lagras hos [leverantör] i [land]. [Om uppgifter överförs utanför EU/EES: ange grunden, t.ex. EU-kommissionens standardavtalsklausuler.]</li>
+      </ul>
+    </section>
+
+    <section class="ip-kort ip-kort-mork" id="rattigheter" aria-labelledby="ip-7">
+      <h2 id="ip-7"><span class="ip-ruta" data-ton="mint"><svg class="ip-ik" aria-hidden="true"><use href="#ip-hand"/></svg></span>Dina rättigheter</h2>
+      <div class="ip-ratt">
+        <span>Få ett registerutdrag</span><span>Få fel rättade</span><span>Bli raderad</span><span>Begränsa behandlingen</span><span>Invända</span><span>Få ut dina uppgifter</span>
+      </div>
+      <p>Skriv till <b>[e-post för dataskydd]</b> – vi svarar inom en månad, utan kostnad. Är du inte nöjd kan du klaga hos Integritetsskyddsmyndigheten, <a href="https://www.imy.se" rel="noopener noreferrer" target="_blank">imy.se</a>.</p>
+    </section>
+
+    <p class="ip-andring">Ändrar vi policyn står det överst med ett nytt datum och versionsnummer. En förfrågan sparas tillsammans med den version du läste.</p>
+  </main>
+</div>
+<footer class="ip-fot"><span>© 2026 Uperformance AB</span><a href="./">Till startsidan</a></footer>
+</body>
+</html>

@@ -1,0 +1,251 @@
+/* Uperformance CRM – anonyma enkäter (enkater.js, 2026-11-03): kortet på kunden och affären, arket Ny enkät, vyerna #/enkat/…
+   och #/enkater. Rapporten (staplarna) står i enkat-rapport.css. Bara tokens (CLAUDE.md) – inga nya fasta färger; glas och teman
+   följer med via --vit, --kant, --skugga. Inget rör sig hela tiden. */
+
+/* 01 Kortet på kundsidan och affären ------------------------------------------------------------ */
+.enk-kort-lista { display: grid; gap: 8px; padding: 12px clamp(18px, 2.2vw, 24px) clamp(18px, 2.2vw, 24px); }
+.enk-kort-alla { margin: -6px clamp(18px, 2.2vw, 24px) 18px; }
+.enk-kort-rad, .enk-alla-rad { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--kant); background: rgb(var(--t-blaeck-rgb) / .02); color: inherit; text-decoration: none; transition: border-color .2s, transform .35s var(--mjuk), background-color .2s; }
+.enk-kort-rad:hover, .enk-alla-rad:hover { border-color: var(--kant-2); background: rgb(var(--t-blaeck-rgb) / .04); transform: translateY(-1px); }
+.enk-kort-rad:active, .enk-alla-rad:active { transform: scale(.99); }
+.enk-kort-rad > .ikon, .enk-alla-rad > .ikon { width: 16px; height: 16px; color: var(--text-3); }
+.enk-kort-text { display: grid; gap: 3px; min-width: 0; }
+.enk-kort-text strong { font: 600 .9rem/1.3 var(--font-rubrik); overflow-wrap: anywhere; }
+.enk-kort-text small { color: var(--text-3); font-size: .78rem; }
+.enk-matare { position: relative; display: block; height: 6px; margin-top: 6px; border-radius: 99px; background: rgb(var(--t-blaeck-rgb) / .07); }
+.enk-matare i { position: absolute; inset: 0 auto 0 0; width: calc(var(--w) * 100%); min-width: 2px; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--is)); }
+/* strecket = anonymitetsgränsen (5 svar) */
+.enk-matare b { position: absolute; top: -3px; bottom: -3px; left: calc(var(--x) * 100%); width: 2px; border-radius: 2px; background: var(--text-3); opacity: .55; }
+.enk-alla-rad { grid-template-columns: minmax(0, 1fr) auto auto; }
+@media (max-width: 520px) { .enk-alla-rad { grid-template-columns: minmax(0, 1fr) auto; } .enk-alla-rad > .chip { grid-row: 2; grid-column: 1; justify-self: start; } .enk-alla-rad > .ikon { grid-row: 1 / span 2; grid-column: 2; } }
+
+/* Hjältens ikonknappar: står bara ikonknappar i raden (affären: Videomöte + Enkät) syns texten på alla */
+.sidhjalte-knappar:not(:has(> :not(.detalj-ikonknapp))) > .detalj-ikonknapp { width: auto; padding: 0 18px; border-radius: 999px; }
+.sidhjalte-knappar:not(:has(> :not(.detalj-ikonknapp))) > .detalj-ikonknapp .detalj-ikon-text { display: inline; margin-left: 8px; }
+
+/* 02 Arket Ny enkät ------------------------------------------------------------------------------ */
+.enk-ed { display: grid; gap: 16px; }
+.enk-ed > label, .enk-ed-rad > label { display: grid; gap: 0; min-width: 0; }
+.enk-ed textarea.falt { resize: vertical; min-height: 0; line-height: 1.45; }
+.enk-ed-rad { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 640px) { .enk-ed-rad { grid-template-columns: minmax(0, 1fr); } }
+.enk-ed .falt-hint { display: block; margin-top: 5px; color: var(--text-3); font-size: .76rem; }
+.enk-mallar { display: grid; gap: 0; }
+.enk-mallar-lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 760px) { .enk-mallar-lista { grid-template-columns: minmax(0, 1fr); } }
+.enk-mall { position: relative; display: block; cursor: pointer; }
+.enk-mall input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.enk-mall > span { display: grid; gap: 4px; height: 100%; padding: 14px 16px; border-radius: 16px; border: 1.5px solid var(--kant); background: var(--y-faf9f6, #faf9f6); transition: border-color .2s, box-shadow .3s, transform .35s var(--mjuk); }
+.enk-mall b { font: 600 .9rem/1.3 var(--font-rubrik); color: var(--text); }
+.enk-mall small { color: var(--text-2); font-size: .8rem; line-height: 1.4; }
+.enk-mall em { margin-top: 4px; font: 600 .7rem/1 var(--font-rubrik); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); }
+.enk-mall:hover > span { border-color: var(--kant-2); transform: translateY(-1px); }
+.enk-mall input:checked + span { border-color: var(--accent-text); box-shadow: 0 0 0 3px rgb(var(--t-accent-djup-rgb) / .14); }
+.enk-mall input:checked + span em { color: var(--accent-text); }
+.enk-mall input:focus-visible + span { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+.enk-ed-huvud { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+.enk-ed-huvud h3 { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+.enk-ed-huvud small { color: var(--text-3); font-size: .78rem; }
+.enk-ed-fragor { display: grid; gap: 10px; counter-reset: none; }
+.enk-ed-fraga { display: grid; gap: 10px; padding: 14px; border-radius: 16px; border: 1px solid var(--kant); background: var(--vit); box-shadow: var(--skugga); }
+.enk-ed-fraga[data-flyttad] { animation: enk-flyttad .6s var(--mjuk); }
+@keyframes enk-flyttad { from { transform: translateY(-6px); box-shadow: 0 0 0 3px rgb(var(--t-accent-djup-rgb) / .25); } }
+.enk-ed-topp { display: grid; grid-template-columns: auto minmax(0, 14rem) 1fr; align-items: center; gap: 10px; }
+.enk-nr { display: grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--kol); color: var(--pa-mork); font: 600 .78rem/1 var(--font-rubrik); }
+/* Mörk: --kol ligger nästan i kortets ton – brickan blev osynlig och siffrorna stod nakna (resultatkorten har rundlar) */
+:root[data-tema="mork"] .enk-nr { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent-text); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 42%, transparent); }
+/* Mörk: siffran ljusare och stegens rad i --text-2 – mint på mintton och text-3 på det aktiva steget låg under 4,5:1 (verifieringen 2026-11-04) */
+:root[data-tema="mork"] .enk-nr { color: color-mix(in srgb, var(--accent) 62%, #fff); }
+:root[data-tema="mork"] .enk-gang-steg small { color: var(--text-2); }
+.enk-ed-typ { min-width: 0; }
+.enk-ed-verktyg { display: flex; justify-content: flex-end; gap: 6px; }
+.enk-ed-verktyg .ikonknapp { width: 40px; height: 40px; border-radius: 12px; }
+.enk-ed-verktyg .ikonknapp .ikon { width: 16px; height: 16px; transform: rotate(180deg); }
+.enk-ed-verktyg .enk-ner .ikon { transform: none; }
+.enk-ed-verktyg .enk-bort .ikon { transform: none; }
+.enk-ed-verktyg .ikonknapp:disabled { opacity: .35; cursor: default; }
+.enk-ed-verktyg .enk-bort:not(:disabled):hover { color: var(--rod-text); border-color: var(--rod); }
+.enk-ed-text textarea { font-weight: 500; }
+.enk-ed-skala { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.enk-ed-alt { display: grid; }
+.enk-ed-flera, .enk-ed-kravs { justify-self: start; padding: 8px 12px; min-height: 40px; align-items: center; } /* 40 px pekyta (var 39) */
+.enk-ed-not { display: flex; gap: 8px; align-items: flex-start; color: var(--text-3); font-size: .8rem; line-height: 1.45; }
+.enk-ed-not .ikon { width: 15px; height: 15px; flex: none; margin-top: 1px; }
+.enk-ed-ny { display: grid; gap: 8px; padding: 14px; border-radius: 16px; border: 1.5px dashed rgb(var(--t-blaeck-rgb) / .14); }
+.enk-ed-ny .etikett { margin: 0; }
+.enk-ed-ny-knappar { display: flex; flex-wrap: wrap; gap: 8px; }
+.enk-ed-last, .enk-ed-utkast { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 12px 14px; border-radius: 14px; background: var(--is-ljus); color: var(--navy-text); font-size: .86rem; line-height: 1.45; }
+.enk-ed-last > span, .enk-ed-utkast > span { flex: 1 1 18rem; min-width: 0; }
+.enk-ed-last .ikon, .enk-ed-utkast .ikon { width: 16px; height: 16px; flex: none; }
+.enk-ed-fel { padding: 10px 14px; border-radius: 12px; background: var(--rod-ljus); color: var(--rod-text); font-size: .86rem; }
+@media (max-width: 640px) {
+  .enk-ed-topp { grid-template-columns: auto minmax(0, 1fr); }
+  .enk-ed-verktyg { grid-column: 1 / -1; justify-content: flex-start; }
+  .enk-ed-skala { grid-template-columns: minmax(0, 1fr); }
+  .enk-ed-ny-knappar .knapp { flex: 1 1 calc(50% - 8px); justify-content: center; min-height: 40px; }
+}
+
+/* QR-arket */
+.enk-qr { display: grid; justify-items: center; gap: 14px; text-align: center; }
+.enk-qr-bild { width: min(280px, 100%); padding: 12px; border-radius: 18px; background: #fff; box-shadow: var(--skugga); }
+.enk-qr-bild svg { width: 100%; height: auto; }
+.enk-qr-text { display: grid; gap: 3px; }
+.enk-qr-text b { font: 600 1rem/1.3 var(--font-rubrik); }
+.enk-qr-text small { color: var(--text-3); }
+
+/* 03 Vyn #/enkat/… -------------------------------------------------------------------------------- */
+/* Korten har ingen egen inre luft (crm.css) – innehållet under korthuvudet får samma sidmarginal som huvudet */
+.enk-rum .kort, .enk-alla .kort { padding-bottom: clamp(18px, 2.2vw, 24px); }
+.enk-rum .kort > :not(.kort-huvud), .enk-alla .kort > :not(.kort-huvud) { margin-inline: clamp(18px, 2.2vw, 24px); }
+.enk-rum .kort > .kort-huvud + *, .enk-alla .kort > .kort-huvud + * { margin-top: 14px; }
+.sidhjalte-enk .sidhjalte-ogon a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+.enk-rum { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 16px; align-items: start; margin-top: 16px; }
+.enk-huvud, .enk-sida { display: grid; gap: 16px; min-width: 0; }
+/* Den kortare kolumnen följer med när man rullar (klistraKolumner i crm.js sätter data-klistrad och --klister-topp) */
+@media (min-width: 1101px) { .enk-rum > [data-kolumn-klister][data-klistrad] { position: sticky; top: var(--klister-topp, 16px); } }
+@media (max-width: 1100px) { .enk-rum { grid-template-columns: minmax(0, 1fr); } .enk-sida { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); align-items: start; } }
+.enk-exempel { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 12px; padding: 10px 14px; border-radius: 12px; background: var(--gul-ljus); color: var(--gul-text); font-size: .84rem; }
+.enk-exempel .ikon { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+.enk-grans-inre { display: grid; gap: 12px; }
+.enk-grans-inre p { color: var(--text-2); max-width: 44rem; }
+.enk-grans-inre b { color: var(--text); }
+.enk-grans-prickar { display: flex; gap: 8px; }
+.enk-grans-prickar i { width: 34px; height: 34px; border-radius: 50%; border: 2px dashed rgb(var(--t-blaeck-rgb) / .2); }
+.enk-grans-prickar i[data-pa] { border: 0; background: radial-gradient(circle at 35% 30%, var(--accent-hover), var(--accent) 60%, var(--accent-djup)); }
+.enk-grans-tips { padding: 10px 14px; border-radius: 12px; background: var(--is-ljus); color: var(--navy-text) !important; font-size: .86rem; }
+.enk-dela-text { color: var(--text-2); font-size: .86rem; line-height: 1.5; }
+.enk-dela .lankruta { margin-top: 12px; }
+.enk-dela-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.enk-dela-knappar:empty { display: none; }
+.enk-dela-stangd { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: rgb(var(--t-blaeck-rgb) / .04); color: var(--text-2); font-size: .84rem; }
+.enk-dela-stangd .ikon, .enk-dela-not .ikon { width: 15px; height: 15px; flex: none; margin-top: 1px; }
+.enk-dela-not { margin-top: 10px; color: var(--text-3); font-size: .78rem; line-height: 1.45; }
+.enk-om-lista { display: grid; gap: 8px; }
+.enk-om-lista li { display: flex; gap: 8px; align-items: flex-start; color: var(--text-2); font-size: .86rem; line-height: 1.45; }
+.enk-om-lista .ikon { width: 15px; height: 15px; flex: none; margin-top: 2px; color: var(--accent-text); }
+.enk-fragelista ol { display: grid; gap: 8px; }
+.enk-fragelista li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; }
+.enk-fragelista li b { display: block; font: 600 .86rem/1.35 var(--font-rubrik); overflow-wrap: anywhere; }
+.enk-fragelista li small { color: var(--text-3); font-size: .76rem; }
+.enk-fragelista .enk-nr { width: 24px; height: 24px; font-size: .72rem; }
+
+/* 04 #/enkater ------------------------------------------------------------------------------------ */
+.enk-alla { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; } /* korten i egen höjd (fyllSida sträcker rummet), prototypraden nederst */
+.enk-alla > .enk-arlig { margin-top: auto; }
+.enk-sa-steg { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 12px; padding: 0; list-style: none; }
+.enk-sa-steg li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; }
+.enk-sa-steg b { display: block; font: 600 .88rem/1.35 var(--font-rubrik); }
+.enk-sa-steg small { display: block; margin-top: 2px; color: var(--text-2); font-size: .8rem; line-height: 1.45; }
+.enk-sa-steg .enk-nr { width: 26px; height: 26px; font-size: .74rem; }
+.enk-alla-lista { display: grid; gap: 8px; }
+.enk-tom { display: grid; justify-items: center; gap: 12px; padding: 32px 20px; text-align: center; }
+.enk-tom p { max-width: 30rem; color: var(--text-2); }
+.enk-arlig { margin: 0; }
+
+/* mobilen (2026-11-04): ögonradens länkar (kunden, affären) har en pekyta på 40 px – utseendet som förut */
+@media (max-width: 640px) { .sidhjalte-enk .sidhjalte-ogon a { position: relative; } .sidhjalte-enk .sidhjalte-ogon a::after { content: ''; position: absolute; inset: -14px 0; } } /* länken är 13 px hög: -8 px gav 29 px */
+
+/* 05 Rättningarna efter testarna (2026-11-04, team/enkat-rattat.md) ------------------------------------ */
+/* Mobil: ögonraden visar bara affären när det finns en (kunden är knappen under), och bryts jämnt i stället för mitt i namnen (ux-G10) */
+.sidhjalte-enk .sidhjalte-ogon { text-wrap: balance; }
+@media (max-width: 640px) { .sidhjalte-enk .enk-ogon-kund-dold { display: none; } }
+
+/* Raderna i listan och på kundsidan: brickan efter titeln, raden om gränsen under mätaren (ux-G7) */
+.enk-rad-titel { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; min-width: 0; }
+.enk-rad-titel .chip { flex: none; }
+.enk-grans-rad { display: flex; align-items: center; gap: 6px; margin-top: 2px; color: var(--text-3); font-size: .76rem; }
+.enk-grans-rad .ikon { width: 13px; height: 13px; flex: none; }
+.enk-alla-grupp + .enk-alla-grupp { margin-top: 18px; }
+.enk-alla-rubrik { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; color: var(--text-3); font: 600 .74rem/1 var(--font-rubrik); letter-spacing: .08em; text-transform: uppercase; }
+.enk-tom { grid-template-columns: auto minmax(0, 1fr) auto; justify-items: start; align-items: center; gap: 16px 20px; padding: 24px 0 !important; text-align: left; }
+.enk-tom h2 { font-size: 1.05rem; }
+.enk-tom p { margin-top: 4px; }
+@media (max-width: 640px) { .enk-tom { grid-template-columns: minmax(0, 1fr); } .enk-tom .knapp { justify-self: stretch; justify-content: center; } }
+
+/* Enkätens gång (ux-G3): fem steg över hela bredden – klara med bock, det aktiva i mint, kommande dämpade */
+.enk-gang { margin-top: 16px; padding: 0 !important; }
+.enk-gang-steg { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0 !important; padding: 0; list-style: none; }
+.enk-gang-steg li { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; padding: 16px clamp(12px, 1.4vw, 18px); }
+.enk-gang-steg li + li { border-left: 1px solid var(--kant); }
+.enk-gang-steg li::after { content: ''; position: absolute; inset: auto 0 0; height: 3px; background: rgb(var(--t-blaeck-rgb) / .06); }
+.enk-gang-steg li[data-status="klar"]::after { background: var(--accent); opacity: .55; }
+.enk-gang-steg li[data-status="aktiv"]::after { background: linear-gradient(90deg, var(--accent), var(--is)); }
+.enk-gang-nr { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: rgb(var(--t-blaeck-rgb) / .07); color: var(--text-2); box-shadow: inset 0 0 0 1px var(--kant-2); font: 600 .74rem/1 var(--font-rubrik); }
+.enk-gang-nr .ikon { width: 14px; height: 14px; stroke-width: 3; }
+.enk-gang-steg li[data-status="klar"] .enk-gang-nr { background: var(--accent); color: var(--ink); }
+.enk-gang-steg li[data-status="aktiv"] .enk-gang-nr { background: var(--accent-ljus); color: var(--accent-text); box-shadow: 0 0 0 2px var(--accent-text); }
+.enk-gang-steg b { display: block; font: 600 .84rem/1.3 var(--font-rubrik); color: var(--text); }
+.enk-gang-steg li[data-status="kommande"] b { color: var(--text-2); }
+.enk-gang-steg small { display: block; margin-top: 2px; color: var(--text-3); font-size: .74rem; line-height: 1.35; }
+/* Mobil och surfplatta: en rad i sidled (som stegremsorna på kund och affär) – en lodrät lista tog en halv skärm */
+@media (max-width: 900px) {
+  .enk-gang { overflow: hidden; }
+  .enk-gang-steg { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(148px, 42%); overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .enk-gang-steg::-webkit-scrollbar { display: none; }
+  .enk-gang-steg li { padding: 12px 14px; scroll-snap-align: start; }
+}
+
+/* Ankarraden (mobil och surfplatta, en kolumn – magnus-M10) */
+.enk-ankare { display: none; }
+@media (max-width: 1100px) {
+  .enk-ankare { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; scrollbar-width: none; }
+  .enk-ankare .knapp { flex: 1 0 auto; justify-content: center; min-height: 40px; }
+  /* ≤ 380 px: alla tre ryms utan sidledsrullning – utan ikoner och med tätare luft (verifieringen 2026-11-04, Frågorna hamnade utanför i 320) */
+  @media (max-width: 380px) { .enk-ankare { gap: 6px; } .enk-ankare .knapp { flex: 1 1 0; min-width: 0; padding-inline: 8px; } .enk-ankare .knapp .ikon { display: none; } }
+  [data-enk-del] { scroll-margin-top: calc(var(--topph, 0px) + 12px); }
+  [data-enk-del]:focus { outline: none; }
+}
+
+/* Nästa steg (ux-G1): svarslänken överst i huvudkolumnen medan färre än fem har svarat */
+.enk-nasta { box-shadow: 0 0 0 1.5px rgb(var(--t-accent-djup-rgb) / .35), var(--skugga); }
+.enk-nasta .kort-huvud h2 { font-size: 1.05rem; }
+.enk-nasta-grans { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; margin-top: 16px; padding: 14px; border-radius: 14px; background: rgb(var(--t-blaeck-rgb) / .03); }
+.enk-nasta-grans p { color: var(--text-2); font-size: .86rem; line-height: 1.5; }
+.enk-nasta-grans b { color: var(--text); }
+.enk-nasta-grans .enk-grans-prickar i { width: 24px; height: 24px; }
+/* Precis skapad (i stället för toasten som täckte kortet bredvid): en lugn bekräftelse överst i Nästa steg, ingen knapp */
+.enk-skapad { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 12px; padding: 10px 14px; border-radius: 12px; background: var(--accent-ljus); color: var(--accent-text); font-size: .86rem; line-height: 1.45; }
+.enk-skapad .ikon { width: 15px; height: 15px; flex: none; margin-top: 2px; stroke-width: 2.6; }
+.enk-skapad b { font-weight: 700; }
+@media (max-width: 520px) { .enk-nasta-grans { grid-template-columns: minmax(0, 1fr); } }
+/* Foten med det som ändrar enkäten eller länken (ux-G12) */
+.enk-dela-fot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--kant); }
+.enk-omgang { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 14px; padding: 10px 14px; border-radius: 12px; background: var(--is-ljus); color: var(--navy-text); font-size: .84rem; line-height: 1.45; }
+.enk-omgang .ikon { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+
+/* Frågorna ihopfällda när resultatet visas (ux-G2) */
+.enk-rum .enk-fragelista-fall { padding-bottom: 0; }
+/* .kort i väljaren: ".enk-rum .kort > :not(.kort-huvud)" vägde mer och gav details 18–24 px indrag – rubriken stod inte i linje med korten ovanför */
+.enk-rum .kort.enk-fragelista-fall > details { margin-inline: 0; }
+.enk-fraga-fall > summary { cursor: pointer; list-style: none; flex-wrap: wrap; }
+.enk-fraga-fall > summary::-webkit-details-marker { display: none; }
+.enk-fraga-fall > summary small { margin-left: auto; color: var(--text-3); font-size: .78rem; }
+.enk-fraga-fall > summary:focus-visible { outline: 3px solid var(--accent-text); outline-offset: -3px; border-radius: inherit; }
+.enk-fraga-fall > :not(summary) { margin-inline: clamp(18px, 2.2vw, 24px); }
+.enk-fraga-fall > ol { margin-top: 4px; }
+.enk-fraga-fall[open] { padding-bottom: clamp(18px, 2.2vw, 24px); }
+.enk-fraga-sam { margin-top: 0 !important; margin-bottom: 10px; }
+
+/* Arket: numrerade avsnitt (ux-G8), flervalets räknare (magnus-M8), låsta frågor som läslista (ux-G9) */
+.enk-ed-avsnitt { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--kant); }
+.enk-ed > .enk-ed-avsnitt:first-child, .enk-ed > .enk-ed-utkast + .enk-ed-avsnitt { border-top: 0; padding-top: 0; }
+.enk-ed-avsnitt h3 { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+.enk-ed-avsnitt small { margin-left: auto; color: var(--text-3); font-size: .78rem; }
+.enk-ed-avsnitt .enk-nr { width: 24px; height: 24px; font-size: .72rem; }
+.enk-ed-hjalp { margin: -8px 0 10px; color: var(--text-3); font-size: .8rem; }
+.enk-ed-altn { float: right; margin-left: 8px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.enk-ed-altn[data-over] { color: var(--rod-text); font-weight: 700; }
+.enk-ed-lastlista { gap: 6px; }
+.enk-ed-last-rad { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 12px; border-radius: 12px; background: rgb(var(--t-blaeck-rgb) / .03); }
+.enk-ed-last-rad b { display: block; font: 600 .88rem/1.35 var(--font-rubrik); overflow-wrap: anywhere; }
+.enk-ed-last-rad small { color: var(--text-3); font-size: .76rem; }
+.enk-ed-last-rad .enk-nr { width: 24px; height: 24px; font-size: .72rem; }
+.enk-ed-tips { margin-right: auto; color: var(--text-3); font-size: .74rem; }
+@media (max-width: 760px), (pointer: coarse) { .enk-ed-tips { display: none; } }
+.enk-ed-fel { margin-top: 2px; }
+/* Mobil: mallarna som en remsa i sidled – förut tog de hela första skärmen på 320 px (ux-G8) */
+@media (max-width: 760px) {
+  .enk-mallar-lista { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(196px, 74%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; scrollbar-width: thin; }
+  .enk-mall { scroll-snap-align: start; }
+  .enk-mall > span { padding: 12px 14px; }
+}

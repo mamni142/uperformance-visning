@@ -1,0 +1,393 @@
+/* Uperformance – kundens resultatsida för anonyma enkäter (enkat-resultat.html, 2026-11-04). Ritningen: team/forskning-enkatresultat.md.
+   Formspråket är CRM:ets (mörk hjälte med glas, ink/navy/mint/is, Poppins + Manrope); kundsidorna är alltid temat Original.
+   Rörelse EN gång när något kommer i bild (#portal[data-anim] + [data-in][data-syns]): bara transform, opacity och
+   stroke-dashoffset. Inget rör sig i vila. Djupet: glaslager i hjälten som lutar lite efter musen (--lx/--ly, enkat-resultat.js).
+   Avsnitt: 01 grund, 02 hjälten, 03 faktaremsan, 04 Starkast/Att titta på, 05 verktygsraden, 06 översikten, 07 fråga för fråga
+   och tabellen, 08 med egna ord, 09 så skyddas svaren, 10 rörelse, 11 mobil, 12 utskrift. */
+
+/* 01 Grund -------------------------------------------------------------------------------------------------------- */
+.enkat-resultat-sida { --rk-e: cubic-bezier(.2, 0, 0, 1); --rk-neg: var(--navy); --rk-neu: rgba(11, 21, 32, .16); --rk-pos: var(--accent);
+  --rk-ljus: rgba(246, 244, 239, .78); --rk-ljus-2: rgba(246, 244, 239, .66); --rk-glas: rgba(255, 255, 255, .06); --rk-glaskant: rgba(255, 255, 255, .12); }
+.enkat-resultat-sida .portal { display: grid; gap: 16px; }
+.enkat-resultat-sida .portal > * { margin: 0; min-width: 0; }
+.rk-dold-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.rk-nr { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--ben); font: 600 .76rem/1 var(--font-rubrik); }
+.rk-under { color: var(--text-2); font-size: .88rem; line-height: 1.5; }
+.rk-etikett { color: var(--accent); font: 600 .7rem/1 var(--font-rubrik); letter-spacing: .14em; text-transform: uppercase; }
+.rk-knapp { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--kant-2); background: var(--vit); color: var(--text);
+  font: 600 .84rem/1 var(--font-rubrik); cursor: pointer; transition: transform .14s ease-out, border-color .14s ease-out, background-color .14s ease-out; }
+.rk-knapp .ikon { width: 16px; height: 16px; }
+.rk-knapp:hover { border-color: var(--navy); }
+.rk-knapp:active { transform: scale(.97); }
+.enkat-resultat-sida :is(button, a, input, select, [tabindex]):focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+.rk-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 99px; background: var(--accent-ljus); color: var(--accent-djup); font: 600 .74rem/1 var(--font-rubrik); transition: opacity .3s ease-out; }
+.rk-pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-djup); }
+.rk-pill[data-ut] { opacity: 0; }
+.rk-omgang { display: flex; gap: 10px; align-items: flex-start; padding: 12px 16px; border-radius: 14px; background: var(--is-ljus); color: var(--navy-text); font-size: .86rem; line-height: 1.5; }
+.rk-omgang .ikon { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+
+/* 02 Hjälten "I korthet" ------------------------------------------------------------------------------------------ */
+.rk-hjalte { --lx: 0; --ly: 0; position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 22px 32px; align-items: center;
+  padding: clamp(22px, 3.4vw, 44px); border-radius: 30px; color: var(--ben);
+  background: radial-gradient(120% 120% at 0% 100%, var(--ink) 35%, transparent 75%), radial-gradient(90% 130% at 100% 0%, var(--navy), transparent 70%), var(--ink);
+  box-shadow: 0 30px 60px -36px rgba(11, 21, 32, .7), inset 0 1px 0 rgba(255, 255, 255, .06); }
+/* Två ljusfläckar bakom glaset – det bakre lagret i djupet, glider motsatt pekaren */
+.rk-hjalte-ljus { position: absolute; inset: 0; z-index: -1; pointer-events: none; transform: translate3d(calc(var(--lx) * -14px), calc(var(--ly) * -10px), 0); }
+.rk-hjalte-ljus i { position: absolute; border-radius: 50%; }
+.rk-hjalte-ljus i:first-child { width: 520px; height: 520px; right: -120px; top: -220px; background: radial-gradient(closest-side, rgba(126, 224, 195, .22), transparent); }
+.rk-hjalte-ljus i:last-child { width: 460px; height: 460px; left: 30%; bottom: -300px; background: radial-gradient(closest-side, rgba(167, 210, 255, .16), transparent); }
+.rk-hjalte::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(rgba(246, 244, 239, .07) 1px, transparent 1.3px); background-size: 22px 22px;
+  mask-image: linear-gradient(110deg, transparent 30%, #000 75%); }
+.rk-hjalte-text { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-content: start; } /* minmax(0, …): ett långt sammansatt ord i rubriken får inte göra kolumnen bredare än hjälten (klipptes i 320 px) */
+.rk-ogonrad { color: var(--rk-ljus-2); font: 600 .72rem/1.4 var(--font-rubrik); letter-spacing: .12em; text-transform: uppercase; text-wrap: balance; }
+.rk-hjalte h1 { font: 600 clamp(1.6rem, 1.1rem + 2vw, 2.5rem)/1.1 var(--font-rubrik); letter-spacing: -.03em; color: var(--ben); overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; text-wrap: balance; }
+.rk-hjalte h1:focus { outline: none; }
+.rk-hjalte-text > p { max-width: 36rem; color: var(--rk-ljus); font-size: 1rem; line-height: 1.55; }
+.rk-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.rk-chips > * { display: inline-flex; align-items: center; gap: 7px; min-height: 32px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--rk-glaskant); background: var(--rk-glas); color: var(--ben); font: 500 .8rem/1.2 var(--font-brod); text-decoration: none; }
+.rk-chips .ikon { width: 14px; height: 14px; color: var(--accent); flex: none; }
+@media (pointer: coarse) { .rk-chips > a { min-height: 40px; } } /* länken Så skyddas svaren går att trycka på (var 32 px) */
+.rk-chips a:hover { border-color: rgba(126, 224, 195, .5); }
+/* Glaspanelen: ringen + huvudtalet. Det främre lagret – lutar högst 3° och flyttar högst 6 px efter pekaren */
+.rk-glas { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 22px; align-items: center; padding: clamp(18px, 2.2vw, 26px); border-radius: 24px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)); border: 1px solid var(--rk-glaskant);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 24px 50px -30px rgba(0, 0, 0, .8); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+  transform: perspective(900px) rotateX(calc(var(--ly) * -3deg)) rotateY(calc(var(--lx) * 3deg)) translate3d(calc(var(--lx) * 6px), calc(var(--ly) * 6px), 0); }
+.rk-ring { --s: 132px; position: relative; width: var(--s); height: var(--s); }
+.rk-ring svg { width: 100%; height: 100%; overflow: visible; }
+.rk-ring-streck line { stroke: rgba(246, 244, 239, .22); stroke-width: 1.2; stroke-linecap: round; }
+.rk-ring-spar { fill: none; stroke: rgba(246, 244, 239, .1); stroke-width: 9; }
+.rk-ring-bage { fill: none; stroke: var(--accent); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 100 100; stroke-dashoffset: calc(100 - var(--p)); filter: drop-shadow(0 0 6px rgba(126, 224, 195, .45)); }
+.rk-ring[data-under] .rk-ring-bage { stroke: var(--gul); filter: none; }
+.rk-ring-mal { stroke: var(--ben); stroke-width: 2; stroke-linecap: round; }
+.rk-ring-mitt { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 3px; }
+.rk-ring-mitt b { font: 600 calc(var(--s) * .26)/1 var(--font-rubrik); letter-spacing: -.04em; color: var(--ben); font-variant-numeric: tabular-nums; }
+.rk-ring-mitt b small { margin-left: 2px; font-size: .5em; color: var(--ben); } /* "%" i samma färg som talet – förut 4,0:1 */
+.rk-ring-mitt em { font: 600 .64rem/1 var(--font-rubrik); font-style: normal; letter-spacing: .1em; text-transform: uppercase; color: var(--rk-ljus); }
+.rk-huvudtal { display: grid; gap: 6px; min-width: 0; }
+.rk-huvudtal > b { font: 600 clamp(2.6rem, 2rem + 2vw, 3.5rem)/1 var(--font-rubrik); letter-spacing: -.04em; color: var(--ben); font-variant-numeric: tabular-nums; }
+.rk-huvudtal > b small { margin-left: 2px; font-size: .5em; color: var(--accent); }
+.rk-huvudtal-text { font: 600 1.02rem/1.2 var(--font-rubrik); color: var(--ben); }
+.rk-huvudtal > small { color: var(--rk-ljus-2); font-size: .8rem; line-height: 1.4; }
+.rk-huvudtal .er-tre-stapel { --er-neg: color-mix(in srgb, var(--is) 45%, var(--navy)); --er-neu: rgba(246, 244, 239, .26); margin-top: 6px; height: 12px; border-radius: 6px; }
+.rk-huvudtal .er-tre-stapel i span { display: none; }
+.rk-tre-tal { display: flex; flex-wrap: wrap; gap: 2px 12px; color: var(--rk-ljus); font-size: .76rem; }
+.rk-tre-tal span { display: inline-flex; align-items: center; gap: 6px; }
+.rk-tre-tal span::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); }
+.rk-tre-tal [data-del="neg"]::before { background: color-mix(in srgb, var(--is) 45%, var(--navy)); }
+.rk-tre-tal [data-del="neu"]::before { background: rgba(246, 244, 239, .4); }
+.rk-prickar { display: flex; gap: 8px; margin: 4px 0; }
+.rk-prickar i { width: 26px; height: 26px; border-radius: 50%; border: 2px dashed rgba(246, 244, 239, .3); }
+.rk-prickar i[data-pa] { border: 0; background: radial-gradient(circle at 35% 30%, var(--accent-hover), var(--accent) 60%, var(--accent-djup)); }
+/* Tre insikter – räknade med regler (ENKATLOGIK.analys); hela kortet är en knapp till frågan */
+.rk-insikter { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 0; list-style: none; }
+.rk-insikt { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-content: start; padding: 16px; border-radius: 18px;
+  background: rgba(255, 255, 255, .045); border: 1px solid rgba(255, 255, 255, .1); transition: transform .14s ease-out, border-color .14s ease-out, background-color .14s ease-out; }
+.rk-insikt:has(.rk-insikt-knapp):hover { transform: translateY(-2px); border-color: rgba(126, 224, 195, .4); background: rgba(255, 255, 255, .07); }
+.rk-insikt-knapp { position: absolute; inset: 0; z-index: 1; border: 0; border-radius: inherit; background: none; cursor: pointer; }
+.rk-insikt-knapp:focus-visible { outline: 2px solid var(--accent) !important; outline-offset: 2px; }
+.rk-insikt-ikon { grid-row: span 3; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: rgba(126, 224, 195, .14); box-shadow: inset 0 0 0 1px rgba(126, 224, 195, .3); color: var(--accent); }
+.rk-insikt[data-typ="lag"] .rk-insikt-ikon { background: rgba(167, 210, 255, .14); box-shadow: inset 0 0 0 1px rgba(167, 210, 255, .3); color: var(--is); }
+.rk-insikt[data-typ="delad"] .rk-insikt-ikon { background: rgba(246, 244, 239, .08); box-shadow: inset 0 0 0 1px rgba(246, 244, 239, .2); color: var(--ben); }
+.rk-insikt-ikon .ikon { width: 20px; height: 20px; }
+.rk-insikt-rubrik { color: var(--accent); font: 600 .68rem/1.3 var(--font-rubrik); letter-spacing: .12em; text-transform: uppercase; }
+.rk-insikt[data-typ="lag"] .rk-insikt-rubrik { color: var(--is); }
+.rk-insikt[data-typ="delad"] .rk-insikt-rubrik { color: var(--rk-ljus); }
+.rk-insikt strong { color: var(--ben); font: 600 .96rem/1.35 var(--font-brod); overflow-wrap: break-word; }
+.rk-insikt small { color: var(--rk-ljus); font-size: .8rem; }
+
+/* 03 Faktaremsan – fyra tal med hårfina avdelare ------------------------------------------------------------------------ */
+.rk-fakta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; border-radius: 22px; background: var(--vit); border: 1px solid var(--kant); box-shadow: 0 14px 30px -26px rgba(11, 21, 32, .5); }
+.rk-fakta > div { display: grid; gap: 6px; padding: 12px 16px; min-width: 0; }
+.rk-fakta > div + div { border-left: 1px solid var(--kant); }
+.rk-fakta dt { display: flex; align-items: center; gap: 7px; color: var(--text-2); font: 600 .7rem/1.2 var(--font-rubrik); letter-spacing: .1em; text-transform: uppercase; } /* --text-2: förut 3,9–4,5:1 mot kortets toning */
+.rk-fakta dt .ikon { width: 14px; height: 14px; color: var(--accent-djup); flex: none; }
+.rk-fakta dd { display: grid; gap: 3px; margin: 0; }
+.rk-fakta dd b { font: 600 clamp(1.25rem, 1rem + .9vw, 1.65rem)/1.1 var(--font-rubrik); letter-spacing: -.03em; color: var(--text); overflow-wrap: break-word; }
+.rk-fakta dd small { color: var(--text-2); font-size: .78rem; line-height: 1.35; }
+
+/* 04 Starkast / Att titta på ------------------------------------------------------------------------------------------ */
+.rk-rang { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.rk-rang-kort, .rk-block, .rk-skydd { padding: clamp(16px, 2.4vw, 24px); border-radius: 24px; background: var(--vit); border: 1px solid var(--kant); box-shadow: 0 14px 30px -26px rgba(11, 21, 32, .5); }
+.rk-rang-kort h2, .rk-block h2, .rk-skydd h2 { display: flex; align-items: center; gap: 10px; font: 600 1.2rem/1.2 var(--font-rubrik); letter-spacing: -.02em; }
+.rk-rang-kort h2 .ikon { width: 20px; height: 20px; color: var(--accent-djup); }
+.rk-rang-kort[data-ton="lag"] h2 .ikon { color: var(--navy); }
+.rk-rang-kort .rk-under { margin-top: 4px; }
+.rk-rang-kort ol { display: grid; gap: 6px; margin-top: 12px; padding: 0; list-style: none; }
+.rk-rang-rad { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "text pos pil" "stapel stapel stapel"; gap: 8px 12px; align-items: center; width: 100%; padding: 12px; border: 0; border-radius: 14px;
+  background: rgba(11, 21, 32, .03); color: inherit; text-align: left; font: inherit; cursor: pointer; transition: background-color .14s ease-out, transform .14s ease-out; }
+.rk-rang-rad:hover { background: rgba(11, 21, 32, .06); }
+.rk-rang-rad:hover .rk-rang-pil { transform: translateX(3px); }
+.rk-rang-text { grid-area: text; display: grid; gap: 2px; min-width: 0; }
+.rk-rang-text b { font: 600 .92rem/1.35 var(--font-brod); color: var(--text); overflow-wrap: break-word; }
+.rk-rang-text small, .rk-rad-text small { color: var(--text-2); font-size: .76rem; }
+.rk-rang-rad .rk-div { grid-area: stapel; }
+.rk-rang-pos { grid-area: pos; display: grid; justify-items: end; line-height: 1; }
+.rk-rang-pos b, .rk-rad-pos b { font: 600 1.35rem/1 var(--font-rubrik); letter-spacing: -.03em; color: var(--text); font-variant-numeric: tabular-nums; }
+.rk-rang-pos small, .rk-rad-pos small { margin-top: 3px; color: var(--text-2); font-size: .7rem; }
+.rk-rang-pil { grid-area: pil; color: var(--text-2); transition: transform .14s ease-out; }
+.rk-rang-pil .ikon { width: 16px; height: 16px; }
+
+/* 05 Verktygsraden – klistrad under toppraden på breda skärmar --------------------------------------------------------------- */
+.rk-verktyg-plats { position: sticky; top: calc(var(--rk-topp, 60px) + 8px); z-index: 20; }
+.rk-verktyg { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px; border-radius: 20px; background: rgba(255, 255, 255, .86); border: 1px solid var(--kant);
+  box-shadow: 0 16px 34px -24px rgba(11, 21, 32, .45); -webkit-backdrop-filter: blur(12px) saturate(1.3); backdrop-filter: blur(12px) saturate(1.3); }
+.rk-seg { position: relative; display: inline-flex; padding: 3px; gap: 2px; border-radius: 99px; background: rgba(11, 21, 32, .06); }
+.rk-seg button { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 12px; border: 0; border-radius: 99px; background: none; color: var(--text-2);
+  font: 600 .84rem/1 var(--font-rubrik); cursor: pointer; white-space: nowrap; transition: background-color .14s ease-out, color .14s ease-out, box-shadow .14s ease-out; }
+.rk-seg button .ikon { width: 15px; height: 15px; }
+.rk-seg button:hover { color: var(--text); }
+.rk-seg button[aria-pressed="true"] { background: var(--vit); color: var(--text); box-shadow: 0 1px 2px rgba(11, 21, 32, .14), 0 4px 12px -6px rgba(11, 21, 32, .3); }
+.rk-seg button[aria-pressed="true"] .ikon { color: var(--accent-djup); }
+.rk-sortera { display: inline-flex; align-items: center; gap: 8px; color: var(--text-2); font: 600 .78rem/1 var(--font-rubrik); }
+.rk-sortera[hidden] { display: none; }
+.rk-sortera select { min-height: 40px; padding: 0 34px 0 14px; border-radius: 99px; border: 1px solid var(--kant-2); color: var(--text); font: 600 .84rem/1 var(--font-rubrik); cursor: pointer; appearance: none;
+  background: var(--vit) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23183653' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center / 14px; }
+.rk-export { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+.rk-export .rk-knapp { padding: 0 12px; }
+.rk-verktyg { gap: 8px; }
+
+/* 06 Översikten: en divergerande stapel per skalfråga --------------------------------------------------------------------- */
+.rk-vyer { display: grid; gap: 16px; }
+.rk-vyer > [data-vypanel] { display: grid; gap: 16px; }
+.rk-vyer > [hidden] { display: none; }
+.rk-vyer, .rk-vyer > [data-vypanel], .rk-vyer > [data-vypanel] > * { min-width: 0; }
+/* Omritning (nya svar i en annan flik, sortering): staplarna växer bara vid första visningen */
+#portal:not([data-anim]) :is(.er-skala-stapel i, .er-stapel i) { animation: none; }
+.enkat-resultat-sida .er-fraga[data-typ="janej"] li[data-v="nej"] .er-stapel i { background: var(--is); }
+.rk-block-huvud { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 20px; margin-bottom: 14px; }
+.rk-block-huvud .rk-under { max-width: 44rem; }
+.rk-forklaring { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--text-2); font-size: .78rem; }
+.rk-forklaring span { display: inline-flex; align-items: center; gap: 6px; }
+.rk-forklaring i { width: 12px; height: 12px; border-radius: 3px; background: var(--rk-pos); }
+.rk-forklaring i[data-del="neg"] { background: var(--rk-neg); }
+.rk-forklaring i[data-del="neu"] { background: var(--rk-neu); box-shadow: inset 0 0 0 1px rgba(11, 21, 32, .2); }
+.rk-rader, .rk-ovriga { display: grid; gap: 4px; padding: 0; list-style: none; }
+.rk-rad { display: grid; grid-template-columns: 28px minmax(0, 1.25fr) minmax(220px, 1fr) 6.5rem 4.6rem; gap: 14px; align-items: center; padding: 12px 10px; border-radius: 14px; transition: background-color .14s ease-out; }
+.rk-rad + .rk-rad { box-shadow: 0 -1px 0 var(--kant); }
+.rk-rad:hover { background: rgba(11, 21, 32, .03); }
+.rk-rad-text { display: grid; gap: 3px; min-width: 0; }
+.rk-rad-text b { font: 600 .94rem/1.35 var(--font-brod); color: var(--text); overflow-wrap: break-word; }
+.rk-neutral { justify-self: start; padding: 5px 9px; border-radius: 99px; background: rgba(11, 21, 32, .06); color: var(--text-2); font: 600 .72rem/1 var(--font-rubrik); white-space: nowrap; }
+.rk-rad-pos { display: grid; justify-items: end; line-height: 1; }
+.rk-rad-dold { grid-template-columns: 28px minmax(0, 1.25fr) minmax(0, 1.6fr); }
+.rk-las { display: flex; gap: 8px; align-items: center; color: var(--text-2); font-size: .86rem; }
+.rk-las .ikon { width: 15px; height: 15px; flex: none; }
+/* Divergerande stapel: spåret ±100 %, mittlinje, stödlinjer vid ±50 %; talen utanför ändarna (alltid läsbara) */
+.rk-div { display: grid; grid-template-columns: 2.9em minmax(0, 1fr) 2.9em; gap: 8px; align-items: center; min-width: 0; }
+.rk-div-tal { font: 600 .76rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; color: var(--navy-text); text-align: right; }
+.rk-div-tal[data-del="pos"] { color: var(--accent-djup); text-align: left; }
+.rk-div-spar { position: relative; display: grid; grid-template-columns: 1fr 2px 1fr; height: 16px; }
+.rk-div-sida { position: relative; display: flex; background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(11, 21, 32, .08) calc(50% - .5px), rgba(11, 21, 32, .08) calc(50% + .5px), transparent calc(50% + .5px)), rgba(11, 21, 32, .035); }
+.rk-div-sida[data-del="neg"] { justify-content: flex-end; border-radius: 8px 0 0 8px; }
+.rk-div-sida[data-del="pos"] { border-radius: 0 8px 8px 0; }
+.rk-div-sida i { width: calc(var(--w) * 100%); background: var(--rk-neg); border-radius: 8px 0 0 8px; transform-origin: 100% 50%; }
+.rk-div-sida[data-del="pos"] i { background: var(--rk-pos); border-radius: 0 8px 8px 0; transform-origin: 0 50%; }
+.rk-div-mitt { background: rgba(11, 21, 32, .4); margin: -3px 0; border-radius: 2px; }
+.rk-div-liten .rk-div-spar { height: 10px; }
+/* Ja/nej och flerval */
+.rk-ovrig { display: grid; gap: 10px; padding: 14px 10px; border-radius: 14px; }
+.rk-ovrig + .rk-ovrig { box-shadow: 0 -1px 0 var(--kant); }
+.rk-ovrig header { display: flex; gap: 14px; align-items: start; }
+.rk-janej { display: flex; gap: 2px; height: 30px; margin-left: 42px; border-radius: 10px; overflow: hidden; }
+.rk-janej i { flex: 1 1 0; display: flex; align-items: center; padding: 0 10px; overflow: hidden; background: var(--accent); color: var(--ink); font: 600 .8rem/1 var(--font-rubrik); font-style: normal; white-space: nowrap; transform-origin: 0 50%; }
+.rk-janej i[data-v="nej"] { justify-content: flex-end; background: var(--is); }
+.rk-janej-tal { margin-left: 42px; color: var(--text-2); font-size: .78rem; }
+.rk-alt { display: grid; gap: 8px; margin-left: 42px; padding: 0; list-style: none; }
+.rk-alt li { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) 3.2em; gap: 12px; align-items: center; }
+.rk-alt-text { font: 600 .86rem/1.3 var(--font-brod); color: var(--text); overflow-wrap: break-word; }
+.rk-alt-spar { height: 12px; border-radius: 99px; background: rgba(11, 21, 32, .06); overflow: hidden; }
+.rk-alt-spar i { display: block; height: 100%; width: calc(var(--w) * 100%); min-width: 3px; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--is)); transform-origin: 0 50%; }
+.rk-alt b { text-align: right; font: 600 .84rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; }
+
+/* 07 Fråga för fråga (ENKATLOGIK.fragorHtml) och tabellen ---------------------------------------------------------------- */
+.enkat-resultat-sida .er-fraga { background: var(--vit); border-radius: 20px; scroll-margin-top: calc(var(--rk-topp, 60px) + 90px); }
+.enkat-resultat-sida .er-fraga:focus { outline: none; }
+.enkat-resultat-sida .er-fraga[data-markerad] { animation: rk-markerad 1.4s var(--rk-e); }
+@keyframes rk-markerad { 0%, 40% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 3px transparent; } }
+.enkat-resultat-sida .er-fraga-huvud small, .enkat-resultat-sida .er-medel small, .enkat-resultat-sida .er-skala-del small, .enkat-resultat-sida .er-skala-ander,
+.enkat-resultat-sida .er-stapel-text small, .enkat-resultat-sida .er-sammanfatt, .enkat-resultat-sida .er-dold { color: var(--text-2); }
+.rk-tabell-ram { overflow-x: auto; border-radius: 14px; border: 1px solid var(--kant); }
+.rk-tabell-ram + .rk-tabell-ram { margin-top: 14px; }
+.rk-tabell { width: 100%; border-collapse: collapse; font-size: .86rem; font-variant-numeric: tabular-nums; }
+.rk-tabell caption { padding: 12px 14px; text-align: left; color: var(--text); font: 600 .9rem/1.3 var(--font-rubrik); background: rgba(11, 21, 32, .03); }
+.rk-tabell th, .rk-tabell td { padding: 10px 12px; text-align: right; vertical-align: top; border-top: 1px solid var(--kant); white-space: nowrap; }
+.rk-tabell thead th { color: var(--text-2); font: 600 .72rem/1.2 var(--font-rubrik); letter-spacing: .06em; text-transform: uppercase; }
+.rk-tabell th:first-child { text-align: left; white-space: normal; min-width: 14rem; }
+.rk-tabell tbody th { font-weight: 600; color: var(--text); }
+.rk-tabell tbody th .rk-nr { width: 22px; height: 22px; margin-right: 8px; font-size: .68rem; }
+.rk-tabell small { color: var(--text-2); }
+.rk-tabell .rk-td-alt { text-align: left; white-space: normal; }
+.rk-tabell tbody th[rowspan] { border-right: 1px solid var(--kant); }
+.rk-tabell td[colspan] { text-align: left; color: var(--text-2); white-space: normal; }
+
+/* 08 Med egna ord ----------------------------------------------------------------------------------------------------- */
+.rk-egna { display: grid; gap: 14px; }
+.rk-egna .rk-block-huvud { margin-bottom: 0; }
+/* Varje fritextfråga direkt i blocket (ingen egen ruta – citatkorten blev annars en låda i en låda i en låda); flera frågor skiljs med en linje */
+.rk-egna-kort { display: grid; gap: 14px; }
+.rk-egna-kort + .rk-egna-kort { padding-top: 18px; border-top: 1px solid var(--kant); }
+.rk-egna-huvud { display: flex; gap: 14px; align-items: start; }
+.rk-sok { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.rk-sokfalt { position: relative; flex: 1 1 240px; max-width: 360px; }
+.rk-sokfalt .ikon { position: absolute; left: 13px; top: 50%; width: 16px; height: 16px; translate: 0 -50%; color: var(--text-2); pointer-events: none; }
+.rk-sokfalt input { width: 100%; min-height: 42px; padding: 0 14px 0 38px; border-radius: 99px; border: 1px solid var(--kant-2); background: var(--vit); color: var(--text); font: 500 .9rem/1 var(--font-brod); }
+.rk-sokfalt input::placeholder { color: var(--text-2); opacity: 1; }
+.rk-ordchips { display: flex; flex-wrap: wrap; gap: 6px; }
+.rk-ordchips button { min-height: 34px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--kant-2); background: var(--vit); color: var(--text); font: 600 .8rem/1 var(--font-brod); cursor: pointer; }
+.rk-ordchips button small { color: var(--text-2); font-weight: 500; }
+.rk-ordchips button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--ben); }
+.rk-ordchips button[aria-pressed="true"] small { color: var(--rk-ljus); }
+.rk-sok-status { color: var(--text-2); font-size: .8rem; }
+.rk-citat { columns: 2 300px; column-gap: 12px; padding: 0; list-style: none; }
+.rk-citat li { break-inside: avoid; margin-bottom: 12px; }
+.rk-citat blockquote { position: relative; margin: 0; padding: 16px 16px 16px 44px; border-radius: 14px; background: var(--vit); border: 1px solid var(--kant); box-shadow: inset 3px 0 0 var(--is);
+  color: var(--text); font-size: .95rem; line-height: 1.55; max-width: 62ch; overflow-wrap: anywhere; }
+.rk-citat blockquote::before { content: '”'; position: absolute; left: 14px; top: 6px; color: var(--text-2); font: 600 2rem/1 var(--font-rubrik); opacity: .55; }
+.rk-citat mark { padding: 0 2px; border-radius: 3px; background: var(--accent-ljus); color: var(--accent-djup); box-shadow: inset 0 -2px 0 var(--accent); }
+.rk-tomt { color: var(--text-2); font-size: .9rem; }
+.rk-fler { justify-self: start; }
+
+/* 09 Så skyddas svaren -------------------------------------------------------------------------------------------------- */
+.rk-skydd { scroll-margin-top: calc(var(--rk-topp, 60px) + 16px); }
+.rk-skydd:focus { outline: none; }
+.rk-skydd-huvud { display: flex; gap: 14px; align-items: center; }
+.rk-skydd-huvud p { color: var(--text-2); font-size: .88rem; margin-top: 2px; }
+.rk-skydd-ikon { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 14px; background: var(--accent-ljus); color: var(--accent-djup); }
+.rk-skydd-ikon .ikon { width: 22px; height: 22px; }
+.rk-skydd ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 8px; margin-top: 16px; padding: 0; list-style: none; }
+.rk-skydd li { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: rgba(11, 21, 32, .03); color: var(--text); font-size: .88rem; line-height: 1.45; }
+.rk-skydd li .ikon { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--accent-djup); }
+.rk-vanta { margin: 0; }
+.rk-fot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; color: var(--text-2); }
+
+/* 10 Rörelse – en gång, när något kommer i bild --------------------------------------------------------------------------- */
+#portal[data-anim] [data-in] { transition: opacity .45s var(--rk-e), transform .45s var(--rk-e); }
+#portal[data-anim] [data-in]:not([data-syns]) { opacity: 0; transform: translateY(12px); }
+#portal[data-anim] .rk-hjalte-text[data-in] { transition-duration: .52s; }
+#portal[data-anim] .rk-insikt[data-in] { transition-duration: .42s; transition-timing-function: cubic-bezier(0, 0, .3, 1); }
+#portal[data-anim] .rk-insikt:nth-child(2) { transition-delay: 60ms; }
+#portal[data-anim] .rk-insikt:nth-child(3) { transition-delay: 120ms; }
+#portal[data-anim] .rk-glas[data-in]:not([data-syns]) { transform: perspective(900px) translateY(14px) rotateX(6deg); }
+#portal[data-anim] .rk-ring-bage { transition: stroke-dashoffset .9s var(--rk-e) .12s; }
+#portal[data-anim] [data-in]:not([data-syns]) .rk-ring-bage { stroke-dashoffset: 100; }
+#portal[data-anim] [data-in] :is(.rk-vaxa, .rk-vaxa-x, .rk-alt-spar i, .er-tre-stapel) { transition: transform .6s var(--rk-e) calc(var(--d, 0) * 30ms + 100ms); }
+#portal[data-anim] [data-in]:not([data-syns]) :is(.rk-vaxa, .rk-vaxa-x, .rk-alt-spar i, .er-tre-stapel) { transform: scaleX(0); }
+/* De andra vyerna: korten tonar in första gången vyn väljs; byte av vy med View Transition (240 ms) */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .24s; animation-timing-function: ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .rk-glas, .rk-hjalte-ljus { transform: none !important; }
+  .rk-insikt, .rk-knapp, .rk-rang-rad, .rk-rang-pil { transition: none; }
+}
+
+/* 11 Mobil och surfplatta -------------------------------------------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .rk-hjalte { grid-template-columns: minmax(0, 1fr); }
+  .rk-rad { grid-template-columns: 28px minmax(0, 1fr) 4.6rem; grid-template-areas: "nr text pos" "nr stapel stapel" "nr neutral neutral"; row-gap: 8px; }
+  .rk-rad .rk-nr { grid-area: nr; align-self: start; }
+  .rk-rad .rk-rad-text { grid-area: text; }
+  .rk-rad .rk-div { grid-area: stapel; }
+  .rk-rad .rk-neutral { grid-area: neutral; }
+  .rk-rad .rk-rad-pos { grid-area: pos; align-self: start; }
+  .rk-rad-dold { grid-template-areas: "nr text" "nr las"; grid-template-columns: 28px minmax(0, 1fr); }
+  .rk-rad-dold .rk-las { grid-area: las; }
+}
+@media (max-width: 860px) {
+  .rk-insikter { grid-template-columns: minmax(0, 1fr); }
+  .rk-fakta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rk-fakta > div:nth-child(3) { border-left: 0; }
+  .rk-fakta > div:nth-child(n + 3) { border-top: 1px solid var(--kant); }
+  .rk-rang { grid-template-columns: minmax(0, 1fr); }
+  .rk-verktyg-plats { position: static; }
+  .rk-export { margin-left: 0; }
+}
+@media (max-width: 640px) {
+  .enkat-resultat-sida .portal { gap: 12px; }
+  .rk-hjalte { padding: 20px 18px; border-radius: 24px; gap: 18px; }
+  .rk-glas { grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 16px; }
+  .rk-ring { --s: 104px; }
+  .rk-ring-spar, .rk-ring-bage { stroke-width: 10; }
+  .rk-ring-mitt em { font-size: .52rem; letter-spacing: .06em; }
+  .rk-export .rk-knapp { flex-direction: column; gap: 4px; min-height: 54px; font-size: .74rem; line-height: 1.1; text-align: center; }
+  .rk-rad { grid-template-columns: 28px minmax(0, 1fr) auto; grid-template-areas: "nr text text" "nr stapel stapel" "nr neutral pos"; }
+  .rk-rad .rk-rad-pos { display: flex; align-items: baseline; gap: 5px; align-self: center; }
+  .rk-rad .rk-rad-pos b { font-size: 1.15rem; }
+  .rk-rad .rk-neutral { align-self: center; }
+  .rk-huvudtal > b { font-size: 2.4rem; }
+  .rk-insikt { padding: 14px; }
+  .rk-verktyg { display: grid; grid-template-columns: minmax(0, 1fr); border-radius: 18px; }
+  .rk-seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+  .rk-seg button { justify-content: center; min-height: 40px; padding: 0 8px; }
+  /* Vyerna: varje knapp får sin text + lika mycket extra luft – "Fråga för fråga" var 3–5 px bredare än en tredjedel (402/320) */
+  .rk-seg:not(.rk-seg-liten) { display: flex; }
+  .rk-seg:not(.rk-seg-liten) button { flex: 1 1 auto; min-width: 0; }
+  .rk-export .rk-knapp > span { white-space: nowrap; }
+  .rk-sortera { justify-content: space-between; }
+  .rk-sortera select { flex: 1; max-width: 70%; }
+  .rk-export { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rk-export .rk-knapp { padding: 0 8px; }
+  .rk-janej, .rk-janej-tal, .rk-alt { margin-left: 0; }
+  .rk-alt li { grid-template-columns: minmax(0, 1fr) 3.2em; row-gap: 6px; }
+  .rk-alt-text { grid-column: 1 / -1; }
+  .rk-rad, .rk-ovrig { padding: 12px 4px; }
+  .rk-tabell th:first-child { min-width: 11rem; }
+  .rk-citat blockquote { padding-left: 40px; }
+}
+@media (max-width: 400px) {
+  .rk-glas { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .rk-fakta { grid-template-columns: minmax(0, 1fr); }
+  .rk-fakta > div { border-left: 0 !important; }
+  .rk-fakta > div + div { border-top: 1px solid var(--kant); }
+  .rk-seg button .ikon { display: none; }
+  .rk-seg button { padding: 0 4px; font-size: .76rem; }
+  .rk-rad { grid-template-columns: 24px minmax(0, 1fr) auto; gap: 8px 10px; }
+  .rk-rang-rad { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "text pos" "stapel stapel"; }
+  .rk-rang-pil { display: none; }
+  .rk-div { grid-template-columns: 2.6em minmax(0, 1fr) 2.6em; gap: 6px; }
+  .rk-hjalte h1 { font-size: 1.5rem; }
+}
+/* Under 360 px ryms inte "Kopiera länk" på en rad i en tredjedel (bröts i 320): kort text, länkikonen säger resten – "länk" läses
+   ändå av skärmläsare (visuellt dold, inte borttagen) */
+@media (max-width: 359px) {
+  .rk-export .rk-knapp { position: relative; }
+  .rk-export .rk-lang { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+/* 12 Utskrift (A4): ljust papper, sammanfattningen, Starkast/Att titta på, tabellerna och citaten – oberoende av vald vy ------------- */
+@media print {
+  .rk-hjalte { display: block; padding: 0 0 10px; border-radius: 0; color: var(--ink); background: none !important; box-shadow: none; border-bottom: 2px solid var(--ink); }
+  .rk-hjalte::after, .rk-hjalte-ljus, .rk-chips a, .rk-verktyg-plats, .rk-pill, .rk-insikt-knapp, .rk-rang-pil, .rk-fler, .rk-sok { display: none !important; }
+  .rk-hjalte h1, .rk-huvudtal > b, .rk-huvudtal-text, .rk-insikt strong, .rk-ring-mitt b, .rk-ring-mitt b small { color: var(--ink) !important; }
+  .rk-ogonrad, .rk-hjalte-text > p, .rk-huvudtal > small, .rk-tre-tal, .rk-insikt small, .rk-ring-mitt em, .rk-insikt-rubrik { color: #465260 !important; }
+  .rk-chips > * { border-color: rgba(11, 21, 32, .2); background: none; color: var(--ink); }
+  .rk-glas { display: grid; grid-template-columns: auto minmax(0, 1fr); margin-top: 10px; padding: 10px 0; border: 0; background: none; box-shadow: none; backdrop-filter: none; transform: none !important; }
+  .rk-ring { --s: 112px; }
+  .rk-ring-mitt em { font-size: .5rem; letter-spacing: .06em; }
+  .rk-etikett { color: var(--accent-djup); }
+  .rk-tabell th:first-child { min-width: 9rem; }
+  .rk-ring-spar { stroke: rgba(11, 21, 32, .1); }
+  .rk-ring-bage { stroke: var(--accent-djup); filter: none; }
+  .rk-ring-streck line { stroke: rgba(11, 21, 32, .2); }
+  .rk-insikter { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 8px; }
+  .rk-insikt { break-inside: avoid; border-color: rgba(11, 21, 32, .15); background: none; }
+  .rk-insikt-ikon { color: var(--accent-djup) !important; }
+  .rk-huvudtal .er-tre-stapel { --er-neg: var(--navy); --er-neu: rgba(11, 21, 32, .16); }
+  .rk-fakta, .rk-rang-kort, .rk-block, .rk-skydd { box-shadow: none; break-inside: avoid; }
+  .rk-block { break-inside: auto; }
+  [data-vypanel="oversikt"], [data-vypanel="fraga"] { display: none !important; }
+  [data-vypanel="tabell"] { display: grid !important; }
+  .rk-citat { columns: 2; }
+  .rk-citat li, .rk-tabell tr { break-inside: avoid; }
+  .rk-tabell-ram { overflow: visible; }
+  .rk-tabell th, .rk-tabell td { padding: 5px 7px; }
+  #portal [data-in] { opacity: 1 !important; transform: none !important; }
+  #portal :is(.rk-vaxa, .rk-vaxa-x, .rk-alt-spar i, .er-tre-stapel) { transform: none !important; }
+  #portal .rk-ring-bage { stroke-dashoffset: calc(100 - var(--p)) !important; }
+  .enkat-resultat-sida * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.rk-vanta .ogiltig-ikon { background: var(--is-ljus); color: var(--navy); box-shadow: none; }
+
+/* Ingen fyrkantig skugga (2026-11-23, användaren: "fixa bugg-skuggan som ser ut som en fyrkant, på hela CRM"): filter: drop-shadow på en
+   form INNE i en SVG (ringarnas bågar, kurvor, mätare) klipps vid formens filterruta och syns som en fyrkant runt ringen. Formerna får
+   inget filter – ringarna är rena som i Fitness. Filter på hela svg-elementet (t.ex. ikonerna) påverkas inte. */
+svg :is(circle, ellipse, path, line, polyline, polygon, rect) { filter: none !important; }

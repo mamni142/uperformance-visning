@@ -1,0 +1,123 @@
+/* Apple-stilen, område 2 (iOS-teamet 2026-11-23) – laddas efter apple.css. Bara html[data-stil="apple"].
+   Kunder (#/kunder), kundsidan (#/kund/<id>), affären (#/affar/<id>), projekttavlan (#/projekt) och projektsidan (#/projekt/<id>).
+   Samma recept som apple.css: form, typografi och material – aldrig paletten (temats tokens). Avsnitt:
+   A1 kundlistan som inset-grupperad lista · A2 lugna etiketter (inga versaler med spärr) · A3 accentstaplar → tonade kort
+   · A4 tidslinjens typval som segment · A5 checklistan som iOS-rader · A6 offerttabellen · A7 projektets underlag
+   · A8 ägarbrickorna som kapslar · A9 kortens "Alla"-länkar · A10 mobil. */
+
+/* A1 Kundlistan (#/kunder) som en iOS inset-grupperad lista: EN vit yta med 22 px hörn och hårfina avdelare mellan raderna
+   (indragna till textens start, som i Kontakter/Inställningar) i stället för arton fristående kort med egna skuggor.
+   Hovring = svag fyllning i raden. Kolumnrubrikerna står lugnt ovanför, i vanlig skrift. */
+html[data-stil="apple"] .kr-lista { padding: 0 0 6px; border-radius: 22px; background: var(--vit); }
+html[data-stil="apple"] .kr-tabell { border-spacing: 0; }
+html[data-stil="apple"] .kr-tabell th { padding: 16px 16px 10px; font: 600 .75rem/1.2 var(--font-brod); letter-spacing: -.005em; text-transform: none; color: var(--text-3);
+  box-shadow: inset 0 -.5px 0 var(--ap-har); }
+html[data-stil="apple"] .kr-tabell td, html[data-stil="apple"] .kr-tabell td:is(:first-child, :last-child) { padding-block: 12px; border-radius: 0; background: transparent; box-shadow: none;
+  background-image: linear-gradient(var(--ap-har), var(--ap-har)); background-repeat: no-repeat; background-position: right bottom; background-size: 100% .5px;
+  transition: background-color .2s ease; }
+/* avdelaren börjar efter avataren (42 px bricka + 14 px luft + radens indrag) */
+html[data-stil="apple"] .kr-tabell td:first-child { background-size: calc(100% - clamp(14px, 1.6vw, 20px) - 56px) .5px; }
+html[data-stil="apple"] .kr-tabell tbody tr:last-child td { background-image: none; }
+html[data-stil="apple"] .kr-rad:hover td { background-color: var(--ap-fyll); }
+html[data-stil="apple"] .kr-rad:hover .kr-ava { transform: none; }
+html[data-stil="apple"] .kr-namn { font-family: var(--font-rubrik); font-weight: 600; letter-spacing: -.016em; }
+html[data-stil="apple"] :is(.kr-belopp, .kr-k-senast .kr-text) { font-family: var(--font-siffror); font-variant-numeric: tabular-nums; }
+/* kundens bricka som en iOS-avatar: rund i stället för fyrkant, statusprick kvar */
+html[data-stil="apple"] .kr-ava .logga-ruta { border-radius: 50%; }
+html[data-stil="apple"] .kr-pers-ava { box-shadow: inset 0 0 0 .5px rgb(var(--t-navy-rgb) / .1); }
+/* den smala listan (mobil/surfplatta) – samma grupp */
+html[data-stil="apple"] :is(.kr-mobil, .kr-tomt) { border-radius: 22px; background: var(--vit); }
+
+/* A2 Etiketter: Apple skriver små rubriker i vanlig skrift, medelvikt, grått – inte VERSALER med bred spärr. Gäller etiketterna
+   i mina vyer (kundregistrets "i en blick", kundresans rubrik, Klubbmotorns Provision, Nästa bästa steg, projektets underlag).
+   Hjältens ögonrad och glaskortens etiketter är gemensamma för alla vyer och står kvar (apple.css 01). */
+html[data-stil="apple"] :is(.kr-blick-etikett, .kr-ruta-etikett, .kd-resa-etikett, .kd-klubb-etikett, .pj-kontroll-rubrik, .pj-bestallning small) {
+  text-transform: none; letter-spacing: -.005em; font-family: var(--font-brod); }
+html[data-stil="apple"] .kr-blick-etikett { font-size: .8rem; font-weight: 600; }
+html[data-stil="apple"] .kr-blick-etikett::before { display: none; }
+html[data-stil="apple"] .kr-ruta-etikett { font-size: .76rem; }
+html[data-stil="apple"] .kd-resa-etikett { font-size: .74rem; font-weight: 600; }
+html[data-stil="apple"] .kd-klubb-etikett { font-size: .78rem; font-weight: 600; }
+html[data-stil="apple"] .pj-kontroll-rubrik { margin-top: 8px; font-size: .8rem; font-weight: 600; }
+html[data-stil="apple"] .pj-bestallning small { font-size: .74rem; font-weight: 600; }
+/* "Nästa bästa steg"/"Nästa steg · Testteamet": en lugn rad i tonens färg, utan strecket före */
+html[data-stil="apple"] :is(.af-rum, .kd-rum, .sidhjalte-detalj ~ .rutnat-2) .overrad { font: 600 .8rem/1.2 var(--font-brod); letter-spacing: -.005em; text-transform: none; }
+html[data-stil="apple"] :is(.af-rum, .kd-rum, .sidhjalte-detalj ~ .rutnat-2) .overrad::before { display: none; }
+
+/* A3 Accentstaplarna till vänster (Nästa bästa steg, omtestkortet, citatet från uppföljningsmötet) var en äldre markering som
+   iOS inte har. Kortet bär tonen i sin yta och sin ikonruta i stället; citatet blir en tonad ruta med rundade hörn. */
+html[data-stil="apple"] .sidhjalte-detalj ~ :is(.af-rum, .rutnat-2) :is(.nasta-kort, .omtestkort, .kort:has(> .relation))::before { display: none; }
+html[data-stil="apple"] .af-nasta-inre { padding-left: var(--af-pad); }
+html[data-stil="apple"] .af-rum .af-nasta { border-radius: 24px; }
+html[data-stil="apple"] .omtestkort { border-radius: 18px; }
+html[data-stil="apple"] .testkort-citat { border-left: 0; border-radius: 12px; padding: 10px 14px; background: var(--ap-fyll); }
+html[data-stil="apple"] .sidhjalte-detalj ~ .rutnat-2 .testkort-datum { border-radius: 14px; font-variant-numeric: tabular-nums; }
+
+/* A4 Tidslinjens typval (Anteckning · Möte · Samtal · Mejl) som en iOS segmenterad kontroll: grå skena, det valda som en ljus
+   platta med skugga – inte en mintram. Bara i kundsidans och affärens skrivruta. */
+html[data-stil="apple"] :is(.kd-rum, .af-rum) .skrivruta .typval { gap: 2px; padding: 2px; border-radius: 11px; background: var(--ap-fyll-2); }
+html[data-stil="apple"] :is(.kd-rum, .af-rum) .skrivruta .typval > label > span { min-height: 32px; padding-block: 6px; border: 0; border-radius: 9px; background: transparent; box-shadow: none;
+  font: 550 .8rem/1 var(--font-brod); letter-spacing: -.01em; color: var(--text-2); transition: background-color .25s var(--ap-fjader), box-shadow .25s var(--ap-fjader), color .2s; }
+html[data-stil="apple"] :is(.kd-rum, .af-rum) .skrivruta .typval > label:hover > span { color: var(--text); }
+html[data-stil="apple"] :is(.kd-rum, .af-rum) .skrivruta .typval input:checked + span { background: var(--vit); color: var(--text); border: 0;
+  box-shadow: 0 0 0 .5px rgb(var(--t-blaeck-rgb) / .04), 0 3px 8px rgb(var(--t-skugga-rgb) / .12), 0 3px 1px rgb(var(--t-skugga-rgb) / .04); }
+html[data-stil="apple"] :is(.kd-rum, .af-rum) .skrivruta .typval input:focus-visible + span { outline: 3px solid rgb(var(--t-accent-djup-rgb) / .5); outline-offset: 1px; }
+
+/* A4b Typvalet i Mörk (slutgranskningen): --vit är där samma mörka yta som kortet, så det valda läget syntes inte. Ljusare grå platta
+   som iOS segment i mörkt läge – samma som apple-3.css A1b. */
+html[data-stil="apple"][data-tema="mork"] :is(.kd-rum, .af-rum) .skrivruta .typval input:checked + span { background: rgb(var(--t-blaeck-rgb) / .17);
+  box-shadow: inset 0 .5px 0 rgb(var(--t-blaeck-rgb) / .2), 0 3px 8px rgb(var(--t-skugga-rgb) / .3); }
+
+/* A5 Checklistan (Från offert till order) som iOS-rader: fyllda rutor utan ram och utan den gula/gröna stapeln till vänster,
+   bocken som rund iOS-bock, klar = tonad i accent. Kontrollpunkten syns fortfarande på sin ägarbricka. */
+html[data-stil="apple"] .checkrad { border: 0; border-radius: 14px; background: var(--ap-fyll); box-shadow: none; }
+html[data-stil="apple"] .checkrad[data-kontroll], html[data-stil="apple"] .checklista .checkrad[data-kontroll],
+html[data-stil="apple"] .checklista .checkrad[data-kontroll]:has(input:checked) { border-left: 0; box-shadow: none; }
+html[data-stil="apple"] .checkrad:has(input:checked) { background: var(--accent-ljus); box-shadow: inset 0 0 0 .5px rgb(var(--t-accent-djup-rgb) / .25); }
+html[data-stil="apple"] .af-check .checkrad:hover:not(:has(input:disabled)) { border-color: transparent; background-color: var(--ap-fyll-2); }
+html[data-stil="apple"] .af-check .checkrad:has(input:checked):hover:not(:has(input:disabled)) { background-color: var(--accent-ljus); }
+html[data-stil="apple"] .checkrad input[type="checkbox"] { width: 22px; height: 22px; border-radius: 50%; }
+html[data-stil="apple"] .af-check .checkrad { grid-template-columns: 22px minmax(0, 1fr); align-items: center; }
+html[data-stil="apple"] .af-matare i { height: 5px; }
+
+/* A6 Offerttabellen på affären: kolumnrubrikerna i vanlig skrift, hårfina radlinjer och lika breda siffror */
+html[data-stil="apple"] .af-rum .tabell th { font: 600 .75rem/1.2 var(--font-brod); letter-spacing: -.005em; text-transform: none; color: var(--text-3); }
+html[data-stil="apple"] .af-rum .tabell :is(th, td) { border-bottom-width: .5px; }
+html[data-stil="apple"] .af-rum .tabell :is(td.num, th.num, .num) { font-variant-numeric: tabular-nums; }
+
+/* A7 Projektets underlag (Underlag från sälj): fälten som iOS-celler – etiketten i vanlig skrift ovanför värdet, fyllda rutor utan
+   ram. Saknade/ändrade fält behåller sin ton (röd/blå) men med hårfin kant. */
+html[data-stil="apple"] .pj-f { border-radius: 14px; background: var(--ap-fyll); box-shadow: none; }
+html[data-stil="apple"] .pj-f dt { font: 600 .75rem/1.3 var(--font-brod); letter-spacing: -.005em; text-transform: none; }
+html[data-stil="apple"] .pj-f dt em { font-size: .68rem; }
+html[data-stil="apple"] .pj-f[data-saknas] { box-shadow: inset 0 0 0 .5px color-mix(in srgb, var(--rod) 55%, transparent); }
+html[data-stil="apple"] .pj-f[data-andrad] { box-shadow: inset 0 0 0 .5px color-mix(in srgb, var(--f-1d5b8c, #1d5b8c) 45%, transparent); }
+html[data-stil="apple"] .pj-bestallning { border-radius: 14px; }
+
+/* A8 Ägarbrickorna (Sälj · Testteam · Kontrollpunkt) som iOS-kapslar i vanlig skrift – samma färger som förut */
+html[data-stil="apple"] #vy .agarband { padding: 3px 8px; border-radius: 999px; font: 600 .68rem/1.15 var(--font-brod); letter-spacing: -.003em; text-transform: none; }
+html[data-stil="apple"] #vy .checklista .checkrad .agarband { padding: 3px 9px; font-size: .68rem; letter-spacing: -.003em; }
+
+/* A9 Kortens länk "Alla →" (Abonnemang på kundsidan) som de andra kortens kapsel (Dokument "Alla"): ingen understruken text */
+html[data-stil="apple"] .kd-abonnemang .kort-huvud .textlank { display: inline-flex; align-items: center; padding: 6px 11px; border-radius: 999px; background: var(--ap-fyll);
+  color: var(--text-2); font: 600 .78rem/1 var(--font-rubrik); text-decoration: none; transition: background-color .2s, color .2s; }
+html[data-stil="apple"] .kd-abonnemang .kort-huvud .textlank:hover { background: var(--ap-fyll-2); color: var(--text); }
+
+/* A5b Checklistans bockar som runda iOS-bockar (samma ritning som .kryss i crm.css – egen ruta i stället för webbläsarens fyrkant) */
+html[data-stil="apple"] .checkrad input[type="checkbox"] { -webkit-appearance: none; appearance: none; display: grid; place-items: center; flex: none; margin: 0;
+  border: 1.5px solid var(--kant-2); background: var(--vit) no-repeat center / 12px 12px; cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, transform .3s var(--ap-studs); }
+html[data-stil="apple"] .checkrad input[type="checkbox"]:hover:not(:disabled) { border-color: var(--accent-text); }
+html[data-stil="apple"] .checkrad input[type="checkbox"]:active:not(:disabled) { transform: scale(.9); }
+html[data-stil="apple"] .checkrad input[type="checkbox"]:checked { border-color: transparent; background-color: var(--accent-djup); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+html[data-stil="apple"] .checkrad input[type="checkbox"]:disabled { cursor: default; opacity: .6; }
+html[data-stil="apple"] .checkrad input[type="checkbox"]:focus-visible { outline: 3px solid rgb(var(--t-accent-djup-rgb) / .5); outline-offset: 2px; }
+
+/* A7b Projektets Ansvariga: rollen ovanför namnet i vanlig skrift (som en iOS-cell), raderna fyllda utan ram */
+html[data-stil="apple"] .pj-person small { font: 600 .74rem/1.2 var(--font-brod); letter-spacing: -.005em; text-transform: none; }
+html[data-stil="apple"] .pj-person { border-radius: 14px; background: var(--ap-fyll); box-shadow: none; }
+html[data-stil="apple"] .pj-person:hover { background: var(--ap-fyll-2); box-shadow: none; }
+html[data-stil="apple"] .pj-person-fast:hover { background: var(--ap-fyll); }
+
+/* A3b Tidslinjens årtal ("2025") som en lugn rubrik med rundade siffror, utan bred spärr */
+html[data-stil="apple"] :is(.kd-rum, .af-rum) .tidslinje-ar { font: 650 .8rem/1 var(--font-siffror); letter-spacing: 0; font-variant-numeric: tabular-nums; }

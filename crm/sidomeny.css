@@ -1,0 +1,726 @@
+/* =====================================================================================
+   Uperformance CRM – sidomenyn som i Legohus CRM (FAS 2, 2026-11-03). Laddas sist (efter sidorals.css) och bestämmer menyns slutliga form:
+   ett rundat glaskort med luft runt om – märket med CRM-pillret, raden sök / aviseringar / +, Säljvy/Chefsvy, grupperna med rubriker och
+   räknare, markören som glider mellan raderna, det egna (Meddelanden, Att göra, Inställningar) i en egen yta längst ner, Mer när höjden
+   inte räcker, kontokortet med pil och foten Hemsidan / Logga ut. Kanten med knappen (lång flik ⇄ rund i rälsen) och glidningen
+   (sidomeny.js) har Legohus tider och kurvor. Färgerna är temats tokens: ljust glas i Original, Ljus och Färgglad, mörkt glas i Mörk.
+   Reglerna utgår från #sidomeny (menyns id) så att de står över de äldre lagren i crm.css, premium.css, sidor.css och ledning.css.
+   Allt som rör sig hela tiden är transform/opacitet; inget i menyn rör sig av sig självt.
+   ===================================================================================== */
+
+/* ---- 01 Måtten och lägena (dator) ---- */
+@media (min-width: 1000px) {
+  :root { --glid: .46s; --sido-b: clamp(240px, 17vw, 288px); --sidobredd: calc(var(--sido-b) + var(--hjalte-luft, 12px)); }
+  html:root body .app { grid-template-columns: var(--sidobredd) minmax(0, 1fr); }
+  html body #sidomeny { position: sticky; z-index: 35; top: var(--hjalte-luft); width: var(--sido-b); height: calc(100dvh - 2 * var(--hjalte-luft)); margin: var(--hjalte-luft) 0 var(--hjalte-luft) var(--hjalte-luft);
+    display: flex; flex-direction: column; gap: 0; padding: 14px; border-radius: 28px; overflow: hidden; isolation: isolate; color: var(--text); transform: none; opacity: 1; }
+  html body #sidomeny::before, html body #sidomeny::after { display: none; }
+  html body #sidomeny > * { order: 0; position: relative; }
+  /* Infälld: kortet glider ut åt vänster, rälsen tar över */
+  html[data-sido-dold] body #sidomeny { position: fixed; top: var(--hjalte-luft); left: var(--hjalte-luft); margin: 0; width: var(--sido-b);
+    transform: translateX(calc(-100% - 3 * var(--hjalte-luft))); opacity: 0; pointer-events: none; }
+  html:root[data-sido-dold] body .app { grid-template-columns: minmax(0, 1fr); }
+  /* innehållet börjar efter rälsen (8 + 48 px) med samma luft som runt menyn */
+  html:root body .huvud { transition: none; }
+  html:root[data-sido-dold] body .huvud { padding-left: 56px; } /* 56 + 12 = 68: luften mot rälsen (8–56) är 12 px som uppe och till höger (2026-11-04, förut 8) */
+}
+
+/* ---- 02 Glaset: halvgenomskinligt över de stilla färgfläckarna (glas.css), utan riktig oskärpa – Glas av: täckt yta i samma tema ---- */
+@media (min-width: 1000px) {
+  html[data-glas] body #sidomeny {
+    background: var(--g-bild-reflex, none), linear-gradient(170deg, rgb(var(--t-glas-rgb) / .56), rgb(var(--t-glas-rgb) / .32));
+    box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .24), inset 0 1px 0 rgb(var(--t-glans-rgb) / .5), 0 0 0 1px rgb(var(--t-kant-rgb, 11 21 32) / var(--g-kant, .07)),
+      0 24px 50px -30px rgb(var(--t-skugga-rgb) / .6);
+    -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html:not([data-glas]) body #sidomeny {
+    background: radial-gradient(90% 26% at 50% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+      radial-gradient(80% 22% at 0% 100%, color-mix(in srgb, var(--is) 24%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--vit), color-mix(in srgb, var(--vit) 82%, var(--ben)));
+    box-shadow: 0 0 0 1px var(--kant), inset 0 1px 0 rgb(var(--t-glans-rgb) / .9), 0 34px 64px -44px rgb(var(--t-skugga-rgb) / .5), 0 12px 26px -22px rgb(var(--t-skugga-rgb) / .35); }
+}
+
+/* ---- 03 Märket: ett eget litet kort med U-märket, namnet och CRM-pillret ---- */
+@media (min-width: 1000px) {
+  #sidomeny .sido-topp { display: block; flex: none; margin: 0 0 6px; padding: 0; z-index: 1; }
+  #sidomeny .sido-ny:empty { display: none; }
+  #sidomeny .varumarke { display: flex; align-items: center; justify-content: center; gap: 8px; height: 50px; padding: 12px 10px; border-radius: 18px; overflow: hidden; text-decoration: none; color: var(--text);
+    background: radial-gradient(80% 90% at 50% 0%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 70%), linear-gradient(160deg, rgb(var(--t-glas-rgb) / .95), rgb(var(--t-glas-rgb) / .62));
+    box-shadow: inset 0 1px 0 rgb(var(--t-glans-rgb)), 0 0 0 1px rgb(var(--t-blaeck-rgb) / .05), 0 18px 34px -26px rgb(var(--t-skugga-rgb) / .55);
+    transition: transform .2s cubic-bezier(.23, 1, .32, 1), box-shadow .2s cubic-bezier(.23, 1, .32, 1); }
+  #sidomeny .varumarke:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgb(var(--t-glans-rgb)), 0 0 0 1px color-mix(in srgb, var(--accent-text) 28%, transparent), 0 22px 40px -26px rgb(var(--t-accent-djup-rgb) / .6); }
+  #sidomeny .varumarke svg { flex: none; width: 24px; height: 24px; color: var(--navy-text); }
+  #sidomeny .varumarke > span { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  #sidomeny .varumarke strong { font: 600 .875rem/1 var(--font-rubrik); letter-spacing: -.02em; white-space: nowrap; color: var(--text); }
+  #sidomeny .varumarke small { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 6px 10px 6px 8px; border-radius: 999px; white-space: nowrap;
+    font: 600 .6875rem/1 var(--font-rubrik); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text);
+    background: linear-gradient(160deg, color-mix(in srgb, rgb(var(--t-glas-rgb)) 88%, var(--accent)), color-mix(in srgb, rgb(var(--t-glas-rgb)) 62%, var(--accent)));
+    box-shadow: inset 0 1px 0 rgb(var(--t-glans-rgb)), inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 24%, transparent), 0 8px 18px -12px rgb(var(--t-accent-djup-rgb) / .45); }
+  /* Mörk: mint text på den mintblandade pillren låg på 3,9:1 – texten blandas mot temats ljusa text (≥ 4,8:1) */
+  html[data-tema="mork"] #sidomeny .varumarke small { color: color-mix(in srgb, var(--accent-text) 35%, var(--text)); }
+  #sidomeny .varumarke small::before { content: ''; flex: none; width: 7px; height: 7px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #e3fff5, var(--accent) 70%);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent); }
+}
+
+/* ---- 04 Raden med sök, aviseringarna och + ---- */
+@media (min-width: 1000px) {
+  #sidomeny .sido-verktyg { display: flex; flex: none; align-items: center; gap: 6px; margin: 2px 0 8px; z-index: 2; }
+  #sidomeny .sido-verktyg .sok { position: relative; flex: 1 1 0; min-width: 0; max-width: none; margin: 0; }
+  #sidomeny .sido-verktyg .sok > .ikon { position: absolute; z-index: 1; left: 14px; top: 50%; width: 16px; height: 16px; margin: 0; transform: translateY(-50%); color: var(--text-3); opacity: .8; stroke-width: 1.7; pointer-events: none; }
+  #sidomeny .sido-verktyg .sok input { width: 100%; height: 44px; min-height: 0; padding: 0 8px 0 39px; border: 0; border-radius: 14px; outline: 0; font: 500 .9375rem/1 var(--font-brod); color: var(--text);
+    background: rgb(var(--t-glas-rgb) / .38); box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .3), 0 0 0 1px rgb(var(--t-kant-rgb, 11 21 32) / calc(var(--g-kant, .07) * .8));
+    transition: background-color .18s ease, box-shadow .22s ease; }
+  #sidomeny .sido-verktyg .sok input::placeholder { color: var(--text-3); opacity: 1; }
+  #sidomeny .sido-verktyg .sok input:hover { background: rgb(var(--t-glas-rgb) / .62); }
+  #sidomeny .sido-verktyg .sok input:focus { background: rgb(var(--t-glas-rgb) / .8); box-shadow: inset 0 0 0 1.5px var(--accent-text), 0 0 0 4px color-mix(in srgb, var(--accent) 26%, transparent); }
+  #sidomeny .sido-verktyg .sok-kbd { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); padding: 4px 6px; border: 0; border-radius: 7px; font: 600 .625rem/1 var(--font-rubrik); color: var(--text-3);
+    background: rgb(var(--t-blaeck-rgb) / .05); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07); pointer-events: none; }
+  #sidomeny .sido-verktyg .sok input:focus ~ .sok-kbd, #sidomeny .sido-verktyg .sok input:not(:placeholder-shown) ~ .sok-kbd { opacity: 0; }
+  #sidomeny .sido-verktyg .sok input:placeholder-shown::-webkit-search-cancel-button { display: none; }
+  html:not([data-glas]) #sidomeny .sido-verktyg .sok input { background: var(--vit); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07), 0 10px 20px -18px rgb(var(--t-skugga-rgb) / .55); }
+  #sidomeny .klocka-plats { display: contents; }
+  #sidomeny .sido-verktyg .knapp-ny { flex: none; width: 44px; height: 44px; min-height: 0; padding: 0; gap: 0; border: 0; border-radius: 14px; font-size: 0; color: var(--ink);
+    background: linear-gradient(160deg, #b5f0de, var(--accent) 62%, #5fd0ae);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .55), 0 12px 22px -14px rgb(var(--t-accent-djup-rgb) / .75);
+    transition: background-color .18s ease, box-shadow .22s ease, transform .28s cubic-bezier(.3, 1.5, .5, 1); }
+  #sidomeny .sido-verktyg .knapp-ny .ikon { width: 18px; height: 18px; stroke-width: 2.4; }
+  #sidomeny .sido-verktyg .knapp-ny:hover:not(:disabled) { transform: translateY(-1px) rotate(90deg); color: var(--ink); background: linear-gradient(160deg, #b5f0de, var(--accent) 62%, #5fd0ae);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .55), 0 16px 26px -14px rgb(var(--t-accent-djup-rgb) / .85); }
+  /* Ctrl K står i sökrutan bara när den ryms */
+}
+@media (min-width: 1000px) and (max-width: 1600px) { #sidomeny .sido-verktyg .sok-kbd { display: none; } }
+
+/* Aviseringsklockan (aviseringar.js): samma ruta som sökningen, brickan i hörnet */
+.klocka { position: relative; flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 14px; cursor: pointer; color: var(--text-2);
+  background: rgb(var(--t-glas-rgb) / .38); box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .3), 0 0 0 1px rgb(var(--t-kant-rgb, 11 21 32) / calc(var(--g-kant, .07) * .8));
+  transition: background-color .18s ease, color .18s ease, box-shadow .22s ease; -webkit-tap-highlight-color: transparent; }
+html:not([data-glas]) .klocka { background: var(--vit); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07), 0 10px 20px -18px rgb(var(--t-skugga-rgb) / .55); }
+.klocka:hover, .klocka[aria-expanded="true"] { color: var(--text); background: rgb(var(--t-glas-rgb) / .7); }
+.klocka .ikon { width: 18px; height: 18px; stroke-width: 1.9; transform-origin: 50% 12%; }
+.klocka[data-ny] .ikon { animation: klocka-ring .9s cubic-bezier(.3, 1.5, .5, 1); }
+@keyframes klocka-ring { 0% { transform: rotate(0); } 20% { transform: rotate(14deg); } 40% { transform: rotate(-11deg); } 60% { transform: rotate(7deg); } 80% { transform: rotate(-3deg); } 100% { transform: none; } }
+.klocka > b { position: absolute; top: -5px; right: -5px; display: grid; place-items: center; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; pointer-events: none;
+  font: 700 .625rem/1 var(--font-rubrik); font-style: normal; color: var(--ink); background: var(--accent); box-shadow: 0 0 0 2px rgb(var(--t-glas-rgb) / .9); }
+.klocka > b[data-varm] { background: var(--gul); }
+.klocka:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+
+/* ---- 05 Säljvy / Chefsvy: en växel med en glidande puck ---- */
+@media (min-width: 1000px) {
+  #sidomeny .vy-vaxel { flex: none; margin: 0 2px 6px; padding: 3px; border-radius: 999px; background: rgb(var(--t-blaeck-rgb) / .05); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .06); border: 0; }
+  #sidomeny .vy-vaxel button { min-height: 32px; padding: 0 8px; gap: 6px; font: 600 .78rem/1 var(--font-rubrik); color: var(--text-3); background: none; transition: color .35s ease; }
+  html[data-sido-tat] #sidomeny .vy-vaxel button { min-height: 28px; }
+  #sidomeny .vy-vaxel button:hover { color: var(--text); }
+  #sidomeny .vy-vaxel button[aria-pressed="true"] { color: var(--text); }
+  #sidomeny .vy-vaxel button .ikon { width: 15px; height: 15px; transition: transform .45s cubic-bezier(.34, 1.56, .64, 1); }
+  #sidomeny .vy-vaxel button[aria-pressed="true"] .ikon { transform: scale(1.1); }
+  #sidomeny .vy-vaxel-puck { background: linear-gradient(135deg, rgb(var(--t-glas-rgb)), color-mix(in srgb, rgb(var(--t-glas-rgb)) 70%, var(--accent)));
+    box-shadow: 0 6px 16px -8px rgb(var(--t-accent-djup-rgb) / .6), inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 30%, transparent);
+    transition: transform .5s cubic-bezier(.34, 1.4, .64, 1), background .4s ease, box-shadow .4s ease; }
+  #sidomeny .vy-vaxel[data-lage="chef"] .vy-vaxel-puck { transform: translateX(100%); background: linear-gradient(160deg, var(--kol-3), var(--kol));
+    box-shadow: 0 8px 18px -8px rgb(var(--t-skugga-rgb) / .7), inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent); }
+  #sidomeny .vy-vaxel[data-lage="chef"] button[aria-pressed="true"] { color: var(--pa-mork); }
+  html[data-tema="mork"] #sidomeny .vy-vaxel[data-lage="chef"] .vy-vaxel-puck { background: linear-gradient(160deg, #35506b, #263c52); }
+}
+
+/* ---- 06 Raderna, rubrikerna, räknarna och markören ---- */
+@media (min-width: 1000px) {
+  #sidomeny nav[data-nav] { position: relative; z-index: 1; flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 2px; margin: 0 -4px; padding: 3px 4px 14px;
+    overflow: hidden auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(#000 calc(100% - 16px), transparent); mask-image: linear-gradient(#000 calc(100% - 16px), transparent); }
+  #sidomeny nav[data-nav]::-webkit-scrollbar { display: none; }
+  #sidomeny .navlank { position: relative; z-index: 1; flex: none; display: flex; align-items: center; gap: 11px; min-height: 38px; padding: 0 10px 0 12px; border: 0; border-radius: 12px; overflow: hidden;
+    color: var(--text-2); background: none; box-shadow: none; font: 500 .9rem/1.2 var(--font-brod); letter-spacing: -.005em; text-decoration: none; transform: none;
+    transition: color .18s ease, background-color .18s ease; -webkit-tap-highlight-color: transparent; }
+  html[data-sido-tat] #sidomeny .navlank { min-height: 34px; }
+  #sidomeny .navlank .ikon { flex: none; width: 18px; height: 18px; padding: 0; border-radius: 0; background: none; box-shadow: none; color: var(--text-3); stroke-width: 1.8;
+    transition: transform .28s cubic-bezier(.3, 1.5, .5, 1), color .18s ease; }
+  #sidomeny .navlank-text { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: transform .28s cubic-bezier(.2, .8, .3, 1); }
+  #sidomeny .navlank:hover { color: var(--text); background: rgb(var(--t-glas-rgb) / .34); }
+  #sidomeny .navlank:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+  #sidomeny .navlank[aria-current="page"] { color: var(--text); font-weight: 600; background: transparent; box-shadow: none; }
+  #sidomeny .navlank[aria-current="page"]:hover { background: rgb(var(--t-glas-rgb) / .34); }
+  #sidomeny .navlank[aria-current="page"] .ikon, #sidomeny .navlank[aria-current="page"] .ikon[data-hopp] { color: var(--accent-text) !important; background: none !important; box-shadow: none !important; filter: none !important;
+    animation: sido-vald .42s cubic-bezier(.3, 1.5, .5, 1); }
+  html[data-vy-chef] #sidomeny .navlank[data-nav-till="chef"] .ikon { color: var(--accent-text); }
+  #sidomeny .navlank .ikon[data-hopp] { animation: sido-vald .42s cubic-bezier(.3, 1.5, .5, 1); }
+  @media (hover: hover) {
+    #sidomeny .navlank:hover .ikon { color: var(--accent-text); transform: scale(1.1); }
+    #sidomeny .navlank:hover .navlank-text { transform: translateX(2px); }
+  }
+  /* räknarna: bara talet – varma (något väntar) med ljus bakgrund, den valda radens i accent */
+  #sidomeny .navlank .rakna { position: relative; z-index: 1; display: inline-grid; place-items: center; margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px;
+    color: var(--text-3); background: none; box-shadow: none; font: 600 .68rem/1 var(--font-rubrik); font-variant-numeric: tabular-nums; }
+  #sidomeny .navlank .rakna.rakna-varm { color: var(--gul-text); background: var(--gul-ljus); box-shadow: none; }
+  #sidomeny .navlank[aria-current="page"] .rakna { color: var(--accent-text); background: var(--accent-ljus); box-shadow: none; }
+  #sidomeny .navlank[aria-current="page"] .rakna.rakna-varm { color: var(--gul-text); background: var(--gul-ljus); }
+  /* rubrikerna: små och lugna, i meningsform */
+  #sidomeny .nav-etikett { display: flex; flex: none; align-items: center; margin: 9px 12px 3px; padding: 0; font: 500 .75rem/1.2 var(--font-brod); letter-spacing: 0; text-transform: none; color: var(--text-3); opacity: 1; } /* full täckning: med .85 låg grupprubrikerna på 3,96:1 i Original utan glas */
+  #sidomeny .nav-etikett::before { display: none; }
+  html[data-sido-tat] #sidomeny .nav-etikett { margin: 7px 12px 2px; }
+  html[data-vy-chef] #sidomeny .nav-etikett[data-lp-leda] { color: var(--text-3); }
+  /* markören: ett ljust glaskort bakom den valda raden, glider med en liten eftergivning (sidomeny.js placerar den) */
+  #sidomeny .nav-puck { position: absolute; z-index: 0; left: 0; top: 0; right: auto; width: 0; height: 38px; border-radius: 14px; pointer-events: none; opacity: 0;
+    background: linear-gradient(170deg, rgb(var(--t-glas-rgb) / .8), rgb(var(--t-glas-rgb) / .44));
+    box-shadow: inset 0 1px 0 rgb(var(--t-glans-rgb) / .6), inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 22%, transparent), 0 10px 22px -14px color-mix(in srgb, var(--accent-text) 70%, transparent);
+    transition: transform .46s cubic-bezier(.3, 1.28, .5, 1), height .3s ease, opacity .25s ease; }
+  #sidomeny .nav-puck::before { display: none; }
+  #sidomeny .nav-puck[data-synlig] { opacity: 1; }
+  html:not([data-glas]) #sidomeny .nav-puck { border-radius: 12px; background: var(--vit); box-shadow: 0 1px 0 rgb(var(--t-blaeck-rgb) / .04), 0 8px 20px -14px rgb(var(--t-accent-djup-rgb) / .55); }
+  html[data-tema="mork"] #sidomeny .nav-puck { background: linear-gradient(170deg, rgb(var(--t-glas-rgb) / .95), rgb(var(--t-glas-rgb) / .6)); }
+  /* det egna: en egen yta längst ner (rubriken syns bara som avdelare i rälsen och i Mer) */
+  #sidomeny .nav-mitt { order: 9 !important; margin-top: auto; display: grid; gap: 2px; padding: 2px; border-radius: 16px; background: rgb(var(--t-glas-rgb) / .22); box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .16); }
+  html:not([data-glas]) #sidomeny .nav-mitt { background: rgb(var(--t-blaeck-rgb) / .03); box-shadow: none; }
+  #sidomeny .nav-mitt > .nav-etikett { display: none; }
+  #sidomeny .nav-mitt:not(:has(> .navlank:not([hidden]):not([data-mer-dold]))):not(:has(> .nav-merknapp)) { display: none; }
+  /* Mer: raderna som inte ryms (sidomeny.js) */
+  #sidomeny [data-mer-dold] { display: none !important; }
+  #sidomeny .nav-merknapp { width: 100%; font: 500 .9rem/1.2 var(--font-brod); text-align: left; cursor: pointer; }
+  #sidomeny .nav-merknapp > span { flex: 1; }
+  #sidomeny .nav-merknapp[aria-expanded="true"] { color: var(--text); background: rgb(var(--t-glas-rgb) / .8); box-shadow: 0 8px 18px -12px rgb(var(--t-skugga-rgb) / .5); }
+  #sidomeny .nav-merantal { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; font: 600 .66rem/1 var(--font-rubrik); color: var(--gul-text); background: var(--gul-ljus); }
+  #sidomeny .nav-merantal[hidden] { display: none; }
+  /* "Mer ↓" när menyn ändå har rader under kanten (bara i mycket låga fönster) */
+  #sidomeny .nav-mer-pil { position: absolute; z-index: 2; top: -40px; left: 50%; display: inline-flex; align-items: center; gap: 5px; padding: 6px 11px 6px 13px; border: 0; border-radius: 999px;
+    font: 600 .6875rem/1 var(--font-rubrik); color: var(--accent-text); background: linear-gradient(160deg, rgb(var(--t-glas-rgb)), color-mix(in srgb, rgb(var(--t-glas-rgb)) 90%, var(--accent)));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 28%, transparent), 0 10px 20px -12px rgb(var(--t-accent-djup-rgb) / .6);
+    opacity: 0; transform: translate(-50%, 6px); pointer-events: none; cursor: pointer; transition: opacity .18s ease, transform .28s cubic-bezier(.3, 1.5, .5, 1); }
+  #sidomeny .nav-mer-pil .ikon { width: 12px; height: 12px; stroke-width: 2.4; }
+  #sidomeny[data-nav-mer] .nav-mer-pil { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+}
+@keyframes sido-vald { from { transform: scale(.82); } }
+.nav-merpop { position: fixed; z-index: 400; min-width: 220px; max-height: calc(100dvh - 24px); overflow: auto; padding: 6px; border-radius: 18px; color: var(--text);
+  background: rgb(var(--t-glas-rgb) / .92); box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .3), 0 0 0 1px rgb(var(--t-kant-rgb, 11 21 32) / calc(var(--g-kant, .07) + .03)), 0 24px 48px -20px rgb(var(--t-skugga-rgb) / .55);
+  -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); animation: merpop-in .22s cubic-bezier(.2, .8, .25, 1) both; transform-origin: 0 100%; }
+html:not([data-glas]) .nav-merpop { background: var(--vit); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.nav-merpop[data-ut] { animation: merpop-ut .18s ease both; }
+@keyframes merpop-in { from { opacity: 0; transform: translateX(-8px) scale(.97); } }
+@keyframes merpop-ut { to { opacity: 0; transform: translateX(-6px) scale(.98); } }
+.nav-merpop .navlank { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 38px; padding: 0 10px; border: 0; border-radius: 12px; background: none; color: var(--text);
+  font: 500 .9rem/1 var(--font-brod); text-decoration: none; cursor: pointer; transition: background-color .2s ease; }
+.nav-merpop .navlank:hover, .nav-merpop .navlank:focus-visible { background: color-mix(in srgb, var(--accent) 18%, transparent); outline: 0; }
+.nav-merpop .navlank .ikon { width: 18px; height: 18px; flex: none; color: var(--text-2); }
+.nav-merpop .navlank .rakna { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; display: inline-grid; place-items: center; font: 600 .68rem/1 var(--font-rubrik); color: var(--text-3); }
+.nav-merpop .navlank .rakna.rakna-varm { color: var(--gul-text); background: var(--gul-ljus); }
+.nav-merpop .navlank .rakna[hidden] { display: none; }
+.nav-merrubrik { margin: 8px 10px 4px; font: 600 .6rem/1 var(--font-rubrik); letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); }
+.nav-merrubrik:first-child { margin-top: 4px; }
+
+/* ---- 07 Foten: läget, kontokortet och Hemsidan / Logga ut ---- */
+@media (min-width: 1000px) {
+  #sidomeny .sido-fot { position: relative; z-index: 1; flex: none; display: grid; gap: 6px; margin: 0; padding: 12px 0 0; border: 0; order: 0; }
+  #sidomeny .sido-lage { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; min-height: 0; margin: 0; padding: 0 8px 2px; order: 0; }
+  #sidomeny .sido-lage:not(:has(> :not([hidden]))) { display: none; }
+  #sidomeny .sido-lage .prototyp { display: inline-flex; align-items: center; gap: 8px; min-width: 0; padding: 0; background: none; box-shadow: none; border: 0; white-space: nowrap;
+    font: 600 .68rem/1.25 var(--font-rubrik); letter-spacing: .02em; color: var(--gul-text); }
+  #sidomeny .sido-lage .prototyp::before { content: ''; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--gul); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gul) 22%, transparent); }
+  #sidomeny .sido-lage .sparstatus { flex: none; margin-left: auto; padding: 4px 8px; border-radius: 999px; font: 600 .64rem/1 var(--font-rubrik); color: var(--text-2); background: rgb(var(--t-blaeck-rgb) / .05); box-shadow: none; }
+  #sidomeny .sido-lage .sparstatus[data-lage="sparat"] { color: var(--accent-text); background: var(--accent-ljus); }
+  #sidomeny .sido-lage .sparstatus[data-lage="fel"] { color: var(--gul-text); background: var(--gul-ljus); }
+  /* kontokortet: avatar med ring och närvaroprick, namn, status och en rund pil */
+  #sidomeny .anvandarval { position: relative; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px; border: 0; border-radius: 18px; overflow: hidden; color: var(--text);
+    background: rgb(var(--t-blaeck-rgb) / .043); box-shadow: none; transition: background-color .2s ease; }
+  #sidomeny .anvandarval:hover { background: var(--accent-ljus); border: 0; }
+  #sidomeny .anvandarval:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; box-shadow: none; }
+  #sidomeny .anvandarval[aria-expanded="true"] { background: var(--accent-ljus); box-shadow: none; border: 0; }
+  #sidomeny .anvandarval .avatar { flex: none; width: 36px; height: 36px; font-size: .75rem; box-shadow: 0 0 0 2px rgb(var(--t-glas-rgb)), 0 0 0 3.5px color-mix(in srgb, var(--accent-text) 30%, transparent); }
+  #sidomeny .anvandarval .avatar[data-narvaro]::after { --avatar-kant: rgb(var(--t-glas-rgb)); }
+  #sidomeny .anv-text { display: grid; gap: 0; min-width: 0; flex: 1 1 auto; }
+  /* långa namn bryts på två rader i stället för att klippas ("Gustav Svenss…") */
+  #sidomeny .anv-text strong { font: 600 .84rem/1.2 var(--font-rubrik); letter-spacing: -.01em; color: var(--text); overflow: hidden; white-space: normal; text-overflow: clip; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  #sidomeny .anv-text small { font: 500 .74rem/1.45 var(--font-brod); color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #sidomeny .anv-text .anv-roll { color: var(--text-3); } /* var zonens ljusa text – på ljus yta nästan osynlig */
+  #sidomeny .anvandarval .anv-notis { right: 46px; } /* pilen står fri: den öppnar alltid kontomenyn */
+  #sidomeny .anvandarval > .ikon { flex: none; box-sizing: border-box; width: 32px; height: 32px; margin-left: 2px; padding: 9px; border-radius: 50%; color: var(--text-2);
+    background: rgb(var(--t-glas-rgb)); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .06); transition: background-color .2s ease, color .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1); }
+  #sidomeny .anvandarval:hover > .ikon { color: var(--accent-text); background: rgb(var(--t-glas-rgb)); }
+  #sidomeny .anvandarval[aria-expanded="true"] > .ikon { transform: rotate(180deg); }
+  /* chattens notis i kortet (chatt.js): ljus ruta i ljusa teman */
+  #sidomeny .anvandarval .anv-notis { color: var(--text); background: linear-gradient(135deg, rgb(var(--t-glas-rgb)), color-mix(in srgb, rgb(var(--t-glas-rgb)) 74%, var(--accent)));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 40%, transparent), 0 0 22px -8px color-mix(in srgb, var(--accent) 80%, transparent); }
+  #sidomeny .anvandarval .anv-notis-text b, #sidomeny .anvandarval .anv-notis > i { color: var(--accent-text); }
+  #sidomeny .anvandarval .anv-notis-text span { color: var(--text-2); }
+  /* foten: Hemsidan och Logga ut i en tunn glasrad, återställ (demo) som rund ikon sist */
+  #sidomeny .sido-lankar { display: flex; align-items: center; gap: 2px; min-height: 38px; margin: 2px 0 0; padding: 3px; border-radius: 14px;
+    background: rgb(var(--t-glas-rgb) / .32); box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .2); }
+  html:not([data-glas]) #sidomeny .sido-lankar { background: rgb(var(--t-blaeck-rgb) / .03); box-shadow: none; }
+  #sidomeny .sido-lankar .sido-lank { flex: 1 1 0; min-width: 0; display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 32px; padding: 0 8px; border: 0; border-radius: 11px;
+    font: 500 .8125rem/1 var(--font-brod); letter-spacing: -.01em; color: var(--text-2); background: none; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transform: none;
+    transition: background-color .18s ease, color .18s ease; }
+  #sidomeny .sido-lankar .sido-lank .ikon { width: 14px; height: 14px; }
+  #sidomeny .sido-lankar .sido-lank:hover { color: var(--accent-text); background: rgb(var(--t-glas-rgb) / .72); }
+  #sidomeny .sido-lankar .sido-ikonlank { flex: none; width: 32px; padding: 0; color: var(--text-3); transition: transform .5s cubic-bezier(.22, 1, .36, 1), color .2s ease, background-color .2s ease; }
+  #sidomeny .sido-lankar .sido-ikonlank:hover { transform: rotate(-120deg); color: var(--text); }
+}
+
+/* ---- 07b Låga fönster, andra steget (sidomeny.js anpassa, data-sido-tat="2"): märket, verktygsraden och foten tätare innan rader
+   flyttas in under Mer – så att Översikt och fler sidor står kvar (förut visade 1280 × 480 bara den valda sidan) ---- */
+@media (min-width: 1000px) {
+  html[data-sido-tat="2"] #sidomeny { padding-block: 10px; }
+  html[data-sido-tat="2"] #sidomeny .sido-topp { margin-bottom: 4px; }
+  html[data-sido-tat="2"] #sidomeny .varumarke { height: 40px; padding-block: 6px; border-radius: 15px; }
+  html[data-sido-tat="2"] #sidomeny .sido-verktyg { margin: 0 0 5px; }
+  html[data-sido-tat="2"] #sidomeny .sido-verktyg .sok input { height: 36px; border-radius: 12px; }
+  html[data-sido-tat="2"] #sidomeny .sido-verktyg .klocka, html[data-sido-tat="2"] #sidomeny .sido-verktyg .knapp-ny { width: 36px; height: 36px; border-radius: 12px; }
+  html[data-sido-tat="2"] #sidomeny .vy-vaxel { margin-bottom: 4px; }
+  html[data-sido-tat="2"] #sidomeny nav[data-nav] { padding-bottom: 8px; -webkit-mask-image: linear-gradient(#000 calc(100% - 8px), transparent); mask-image: linear-gradient(#000 calc(100% - 8px), transparent); }
+  html[data-sido-tat="2"] #sidomeny .sido-fot { padding-top: 4px; gap: 3px; }
+  html[data-sido-tat="2"] #sidomeny .anvandarval { min-height: 44px; padding-block: 4px; }
+  html[data-sido-tat="2"] #sidomeny .anvandarval .avatar { width: 32px; height: 32px; }
+  html[data-sido-tat="2"] #sidomeny .sido-lankar { min-height: 32px; padding: 2px; }
+  html[data-sido-tat="2"] #sidomeny .sido-lankar .sido-lank { min-height: 28px; }
+}
+
+/* ---- 08 Kanten och knappen: en lång flik mitt i mellanrummet, rund på sin plats i rälsen när menyn är infälld ---- */
+@media (min-width: 1000px) {
+  html:root body .sido-kant { position: fixed; z-index: 36; left: calc(var(--sidobredd) + 6px); top: var(--hjalte-luft); bottom: var(--hjalte-luft); width: 0; clip-path: none; transform: none; opacity: 1; transition: none; pointer-events: none; }
+  html:root body .sido-kant::before, html:root body .sido-kant::after { display: none; animation: none; }
+  html:root[data-sido-dold] body .sido-kant { transform: translateX(calc(-1 * var(--sidobredd))); }
+  html:root body .sido-kant .sido-knapp { position: absolute; top: 50%; left: 0; display: grid; place-items: center; width: 24px; height: 64px; margin: -32px 0 0 -12px; padding: 0; border: 0; border-radius: 999px; opacity: 1; pointer-events: auto;
+    color: var(--accent-text); background: linear-gradient(180deg, rgb(var(--t-glas-rgb)), color-mix(in srgb, rgb(var(--t-glas-rgb)) 90%, var(--accent)));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-text) 28%, transparent), inset 0 1px 0 rgb(var(--t-glans-rgb)), 0 2px 4px -2px rgb(var(--t-skugga-rgb) / .25), 0 12px 24px -12px rgb(var(--t-accent-djup-rgb) / .5);
+    transform: none; transition: background-color .2s ease, color .2s ease, box-shadow .25s ease, translate .2s cubic-bezier(.23, 1, .32, 1), top .46s cubic-bezier(.32, .72, 0, 1); }
+  html:root body .sido-kant .sido-knapp::before, html:root body .sido-kant .sido-knapp::after { display: none; animation: none; }
+  html:root body .sido-kant .sido-knapp .ikon { width: 16px; height: 16px; stroke-width: 2.4; transform: rotate(90deg); transition: translate .2s cubic-bezier(.23, 1, .32, 1); }
+  html:root body .sido-kant .sido-knapp:hover, html:root body .sido-kant .sido-knapp[data-nara], html:root body .sido-kant .sido-knapp:focus-visible { transform: none; opacity: 1; color: var(--accent-text); background: rgb(var(--t-glas-rgb));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 45%, transparent), 0 6px 14px -10px rgb(var(--t-accent-djup-rgb) / .5); }
+  html:root body .sido-kant .sido-knapp:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; }
+  html:root body .sido-kant .sido-knapp:active { transform: none; }
+  html:root:not([data-sido-dold]) body .sido-kant .sido-knapp:hover > .ikon { translate: -1px 0; }
+  html:root[data-sido-dold] body .sido-kant .sido-knapp { top: var(--rals-knapp-y, 157px); left: 26px; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+    color: var(--accent-text); background: var(--accent-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 32%, transparent); }
+  html:root[data-sido-dold] body .sido-kant .sido-knapp .ikon { transform: rotate(-90deg); }
+  html:root[data-sido-dold] body .sido-kant .sido-knapp:hover, html:root[data-sido-dold] body .sido-kant .sido-knapp[data-nara], html:root[data-sido-dold] body .sido-kant .sido-knapp:focus-visible { transform: none; background: var(--accent-ljus);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 55%, transparent), 0 8px 18px -10px rgb(var(--t-accent-djup-rgb) / .6); }
+  html:root[data-sido-dold] body .sido-kant .sido-knapp:hover > .ikon { translate: 1px 0; }
+  html[data-konto-oppen]:not([data-sido-dold]) .sido-kant { opacity: 0; pointer-events: none; }
+}
+
+/* ---- 09 Glidningen: medan delarna bär data-glider spelar sidomeny.js upp hela rörelsen med Web Animations. CSS-övergångarna på samma
+   delar stängs av så länge (annars drar de åt eget håll). Inget rör layouten under glidningen; 3D-scenerna står still (scen3d.js). ---- */
+@media (min-width: 1000px) {
+  :is(.app, .huvud, #vy, #sidomeny, .sido-kant, .sido-rals, .chf-ikon)[data-glider], .sido-kant[data-glider-barn] :is(.sido-knapp, .sido-knapp .ikon), .sido-rals[data-glider-barn] * { transition: none !important; }
+  /* barnen via ett eget attribut (bara på kanten och rälsen): "[data-glider] *" gällde attributet överallt, och då räknades stilen
+     om för hela .app och #vy när glidningen började och slutade (25–30 ms, fynd-2-prestanda 2) */
+  :is(#sidomeny, .sido-kant, #vy, .sido-rals)[data-glider] { will-change: transform; }
+}
+
+/* ---- 10 Entrén när CRM:et öppnas (en gång) ---- */
+@media (min-width: 1000px) and (prefers-reduced-motion: no-preference) {
+  html.sido-entre #sidomeny :is(.sido-topp, .sido-verktyg, .vy-vaxel, nav > .navlank, nav > .nav-etikett, .nav-mitt, .sido-fot) { animation: sido-in .5s cubic-bezier(.2, .8, .25, 1) backwards; }
+  html.sido-entre #sidomeny .sido-verktyg { animation-delay: .03s; }
+  html.sido-entre #sidomeny .vy-vaxel { animation-delay: .05s; }
+  html.sido-entre #sidomeny nav > :nth-child(n + 2) { animation-delay: .06s; }
+  html.sido-entre #sidomeny nav > :nth-child(n + 5) { animation-delay: .1s; }
+  html.sido-entre #sidomeny nav > :nth-child(n + 8) { animation-delay: .14s; }
+  html.sido-entre #sidomeny nav > :nth-child(n + 11) { animation-delay: .18s; }
+  html.sido-entre #sidomeny :is(.nav-mitt, .sido-fot) { animation-delay: .22s; }
+}
+@keyframes sido-in { from { opacity: 0; transform: translateX(-10px); } }
+
+/* ---- 11 Klickkänslan: en mjuk ring tonar ut från det man tryckte på (trycket i sig: sidomeny.js). Krusningen i menyraderna ---- */
+.klick-ring { position: fixed; z-index: 1000; pointer-events: none;
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--accent) 75%, transparent), 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+  animation: klick-ring .46s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes klick-ring { from { opacity: .9; transform: scale(.985); } to { opacity: 0; transform: scale(1.05); } }
+#sidomeny .krusning, .flikrad .krusning { background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 42%, transparent), color-mix(in srgb, var(--accent) 14%, transparent) 62%, transparent); }
+
+/* ---- 12 Rälsen (sidorals.css har formen): samma bredd och plats som Legohus – glaslisten 48 px från x 8, ikonerna mitt i (x 32) ---- */
+@media (min-width: 1000px) {
+  html:root body .sido-rals { left: 8px; width: 48px; border-radius: 24px; }
+  .rals-klocka-plats { display: contents; }
+  .sido-rals .klocka { width: 34px; height: 34px; border-radius: 50%; margin-top: 2px; color: var(--text-2); background: none; box-shadow: none; }
+  .sido-rals .klocka:hover, .sido-rals .klocka:focus-visible { color: var(--text); background: rgb(var(--t-glas-rgb) / .95); scale: 1.08; }
+  .sido-rals .klocka .ikon { width: 18px; height: 18px; }
+  .sido-rals .klocka > b { top: -1px; right: -3px; min-width: 15px; height: 15px; padding: 0 3px; font-size: .5625rem; box-shadow: 0 0 0 1.5px rgb(var(--t-glas-rgb) / .95); }
+}
+@media (min-width: 1000px) and (max-height: 820px) { .sido-rals .klocka { width: 30px; height: 30px; } .sido-rals .klocka .ikon { width: 16px; height: 16px; } }
+/* Klockan står direkt under sidorna (som i Legohus), kontot längst ner */
+@media (min-width: 1000px) {
+  html:root body .sido-rals .rals-lista { flex: 0 1 auto; }
+  html:root body .sido-rals .rals-konto { margin-top: auto; }
+}
+/* Låga fönster: tätare sidor i två steg; räcker det ändå inte rullar listan och tonar ut i kanterna (så att det syns att det finns fler) */
+@media (min-width: 1000px) and (max-height: 660px) {
+  html:root body .sido-rals .rals-lista { gap: 0; padding: 2px 0; }
+  html:root body .sido-rals .rals-lista a { width: 28px; height: 27px; }
+  html:root body .sido-rals .rals-lista .ikon { width: 15px; height: 15px; }
+  html:root body .sido-rals .rals-delare { margin: 2px 0; }
+  html:root body .sido-rals { gap: 3px; }
+}
+@media (min-width: 1000px) and (max-height: 560px) {
+  html:root body .sido-rals .rals-lista a { height: 24px; }
+  /* tredje steget: de runda knapparna överst och kontot lite mindre, så att alla sidor ryms ner till 480 px (fynd-2-meny 4) */
+  html:root body .sido-rals { gap: 2px; padding-block: 5px 6px; }
+  html:root body .sido-rals .rals-rund, html:root body .sido-rals .rals-plats { width: 28px; height: 28px; }
+  html:root body .sido-rals .rals-logga { margin-bottom: 0; }
+  html:root body .sido-rals .rals-delare { margin: 1px 0; }
+  html:root body .sido-rals .klocka { width: 28px; height: 28px; margin-top: 0; }
+  html:root body .sido-rals .rals-konto, html:root body .sido-rals .rals-konto .avatar { width: 28px; height: 28px; }
+  html:root[data-sido-dold] body .sido-kant .sido-knapp { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+}
+/* rymms listan ändå inte gör sidorals.js raderna så låga som behövs (--rals-rad, högst ned till 20 px) */
+@media (min-width: 1000px) {
+  html:root body .sido-rals[data-rals-tat] .rals-lista { gap: 0; }
+  html:root body .sido-rals[data-rals-tat] .rals-lista a { height: var(--rals-rad, 24px); }
+  html:root body .sido-rals[data-rals-tat] .rals-lista .ikon { width: var(--rals-ikon, 15px); height: var(--rals-ikon, 15px); }
+}
+/* Räcker inte ens det rullar listan – då tonar den ut i kanten och en liten pil (sidorals.js, data-rals-mer) visar att det finns fler */
+@media (min-width: 1000px) {
+  .sido-rals .rals-mer-pil { position: relative; z-index: 2; flex: none; width: 100%; height: 0; padding: 0; border: 0; background: none; pointer-events: none; }
+  .sido-rals .rals-mer-pil > span { position: absolute; left: 50%; bottom: 1px; display: grid; place-items: center; width: 22px; height: 14px; border-radius: 999px; color: var(--accent-text);
+    background: rgb(var(--t-glas-rgb) / .96); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 30%, transparent), 0 4px 10px -6px rgb(var(--t-skugga-rgb) / .5);
+    opacity: 0; transform: translate(-50%, 3px); transition: opacity .18s ease, transform .25s cubic-bezier(.3, 1.5, .5, 1); }
+  .sido-rals .rals-mer-pil .ikon { width: 11px; height: 11px; stroke-width: 2.6; }
+  .sido-rals[data-rals-mer] .rals-mer-pil { pointer-events: auto; cursor: pointer; }
+  .sido-rals[data-rals-mer] .rals-mer-pil > span { opacity: 1; transform: translate(-50%, 0); }
+  .sido-rals[data-rals-mer] .rals-lista { -webkit-mask-image: linear-gradient(#000 calc(100% - 18px), transparent); mask-image: linear-gradient(#000 calc(100% - 18px), transparent); }
+  .sido-rals[data-rals-mer][data-rals-rullad] .rals-lista { -webkit-mask-image: linear-gradient(transparent, #000 10px, #000 calc(100% - 18px), transparent); mask-image: linear-gradient(transparent, #000 10px, #000 calc(100% - 18px), transparent); }
+}
+
+/* ---- 12b Ikonerna i menyn och sökträffarna (som ligger i menyn): menyn var en mörk yta i crm.css listor (ljusa ikoner). Nu är den
+   ljust glas i alla teman utom Mörk – då gäller de vanliga, mörkare tonerna (blek mint på vitt syntes knappt i Ctrl K). ---- */
+@media (min-width: 1000px) {
+  html:not([data-tema="mork"]) #sidomeny .emo { --emo-farg: var(--accent-text); --emo-grad: url(#ikg-mint) var(--accent-text); }
+  html:not([data-tema="mork"]) #sidomeny .emo[data-ton="rod"] { --emo-farg: var(--rod-text); --emo-grad: url(#ikg-rod) var(--rod-text); }
+  html:not([data-tema="mork"]) #sidomeny .emo[data-ton="gul"] { --emo-farg: var(--gul-text); --emo-grad: url(#ikg-gul) var(--gul-text); }
+  html:not([data-tema="mork"]) #sidomeny .emo[data-ton="orange"] { --emo-farg: var(--f-a35a14, #a35a14); --emo-grad: url(#ikg-orange) var(--f-a35a14, #a35a14); }
+  html:not([data-tema="mork"]) #sidomeny .emo[data-ton="is"] { --emo-farg: var(--f-2f5f88, #2f5f88); --emo-grad: url(#ikg-is) var(--f-2f5f88, #2f5f88); }
+  html:not([data-tema="mork"]) #sidomeny .emo.emo-ruta { background: var(--emo-bg, var(--accent-ljus)); box-shadow: inset 0 0 0 1px var(--emo-kant, rgb(var(--t-accent-djup-rgb) / .18)); }
+}
+
+/* ---- 13b Kontopanelen (ledning.js kontoMeny) som Legohus km-panel: täcker menyn exakt, en ljus glasyta i temats färger (mörk i Mörk)
+   i stället för den mörka zonen – avatar till vänster med namn och roller bredvid, statusknappen under, åtta statusar med kort namn,
+   kontona som ljusa rader, temat och foten. Panelen är inte längre en mörk zon (ingen data-mork-yta), så zonens tokens pekas här om
+   till temats vanliga – reglerna i ledning.css och tema.css som läser dem följer då med utan att skrivas om. ---- */
+html body :is(.lp-konto, #up-zon) { /* id-vikt: står över temats zonregler i tema-toner.css (där kontopanelen räknas som zon) */
+  --z-text: var(--text); --z-t40: var(--text-3); --z-t45: var(--text-3); --z-t50: var(--text-3); --z-t55: var(--text-3); --z-t60: var(--text-2); --z-t70: var(--text-2); --z-t78: var(--text-2);
+  --z-vit-rgb: var(--t-blaeck-rgb); --z-yv-rgb: var(--t-blaeck-rgb); --z-ya03: .03; --z-ya04: .035; --z-ya05: .04; --z-ya06: .05; --z-ya08: .06; --z-ya12: .09;
+  --z-accent: var(--accent-text); --zf-9ff0d4: var(--accent-text); --z-dimma: 30%; --z-dimma-mot: var(--text); --emo-farg: var(--text-2);
+  --kp-yta: var(--vit-tack, #fff); --kp-yta-2: color-mix(in srgb, var(--kp-yta) 86%, var(--ben));
+  color: var(--text); border-radius: var(--r, 28px);
+  background: radial-gradient(90% 30% at 50% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%), linear-gradient(180deg, var(--kp-yta), var(--kp-yta-2));
+  box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .3), 0 0 0 1px rgb(var(--t-kant-rgb, 11 21 32) / calc(var(--g-kant, .07) + .02)), 0 30px 70px -30px rgb(var(--t-skugga-rgb) / .55);
+  animation-name: kp-in; animation-duration: .28s; animation-timing-function: cubic-bezier(.2, .8, .25, 1); }
+html[data-glas] body .lp-konto { --kp-yta: rgb(var(--t-glas-rgb) / .84); --kp-yta-2: rgb(var(--t-glas-rgb) / .74); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%);
+  background: var(--g-bild-reflex, none), radial-gradient(90% 30% at 50% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%), linear-gradient(180deg, var(--kp-yta), var(--kp-yta-2));
+  box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .34), inset 0 1px 0 rgb(var(--t-glans-rgb) / .6), 0 0 0 1px rgb(var(--t-kant-rgb, 11 21 32) / calc(var(--g-kant, .07) + .02)), 0 30px 70px -30px rgb(var(--t-skugga-rgb) / .55); }
+html[data-tema="mork"][data-glas] body .lp-konto { --kp-yta: rgb(var(--t-glas-rgb) / .9); --kp-yta-2: rgb(var(--t-glas-rgb) / .82); }
+html body .lp-konto::before { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 70%, transparent), transparent); }
+html body .lp-konto-ram[data-i-sido] { background: none; animation: none; } /* en tonande ram blir backdrop-rot och tar bort panelens frost */
+html body .lp-konto-ram[data-stanger] .lp-konto { animation: kp-ut .22s ease-in both; }
+@keyframes kp-in { from { opacity: 0; transform: translateY(10px) scale(.98); } }
+@keyframes kp-ut { to { opacity: 0; transform: translateY(8px) scale(.98); } }
+html body .lp-konto > *, html body .lp-konto-lista > [role="listitem"] { animation-name: kp-rad-in; animation-duration: .28s; animation-delay: calc(30ms + var(--i, 0) * 30ms); }
+html body .lp-konto-lista > [role="listitem"] { animation-delay: calc(60ms + min(var(--i, 0), 6) * 20ms); }
+@keyframes kp-rad-in { from { opacity: 0; transform: translateY(6px); } }
+/* toppen: avatar till vänster, namn och roller bredvid, statusknappen över hela bredden */
+html body .lp-konto-topp { grid-template-columns: auto minmax(0, 1fr); justify-items: start; align-items: center; gap: 10px 14px; padding: 14px; text-align: left;
+  background: rgb(var(--t-glas-rgb) / .7); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07); }
+html:not([data-glas]) body .lp-konto-topp { background: var(--vit); }
+html body .lp-konto-topp .lp-konto-stang { top: 10px; right: 10px; }
+html body .lp-konto-bild { width: 56px; height: 56px; }
+html body .lp-konto-bild .lp-avatar { --s: 52px; box-shadow: 0 0 0 2.5px var(--kp-yta), 0 0 0 4px var(--narv); }
+html body .lp-konto-ring { display: none; }
+html body .lp-konto-du { justify-items: start; gap: 5px; padding-right: 30px; }
+html body .lp-konto-du small { display: none; }
+html body .lp-konto-du strong { font-size: .98rem; line-height: 1.2; color: var(--text); white-space: normal; text-overflow: clip; overflow-wrap: anywhere; } /* långa namn bryts i stället för att klippas */
+html body .lp-konto-roll { justify-content: flex-start; }
+html body .lp-konto .lp-roll { color: var(--text-2); background: rgb(var(--t-blaeck-rgb) / .05); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .08); }
+html body .lp-konto .lp-roll[data-roll="Försäljningschef"] { color: var(--orange-text, var(--text-2)); background: var(--orange-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--orange-text, #8a4a0c) 26%, transparent); }
+html body .lp-konto .lp-roll[data-roll="Testteam"] { color: var(--accent-text); background: var(--accent-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 26%, transparent); }
+html body .lp-konto .lp-roll[data-roll="Admin"] { color: color-mix(in srgb, #6a4fd6 70%, var(--text)); background: color-mix(in srgb, #a98bff 16%, var(--vit-tack, #fff)); box-shadow: inset 0 0 0 1px color-mix(in srgb, #a98bff 40%, transparent); }
+html body .lp-konto-statusknapp { grid-column: 1 / -1; margin-top: 0; color: var(--text); background: rgb(var(--t-blaeck-rgb) / .045); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .08); }
+html body .lp-konto-statusknapp > i { box-shadow: 0 0 0 3px color-mix(in srgb, var(--narv) 22%, transparent); }
+html body .lp-konto-statusknapp:hover { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--narv) 60%, transparent); }
+/* statusarna: lugna och lika – ytan, ikonen i statusens färg och ett kort namn under; den valda med en ring i färgen */
+html body .lp-konto-snabbval { gap: 3px; align-content: center; height: 50px; padding: 0 2px; color: var(--text-2); background: rgb(var(--t-glas-rgb) / .62); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .08);
+  transition: transform .2s cubic-bezier(.3, 1.5, .5, 1), background-color .2s, box-shadow .2s; }
+html:not([data-glas]) body .lp-konto-snabbval { background: var(--vit); }
+html body .lp-konto-snabbval .ikon { color: var(--narv); }
+html body .lp-konto-snabbval small { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 .58rem/1.25 var(--font-rubrik); letter-spacing: -.01em; color: inherit; }
+html body .lp-konto-snabbval:hover { transform: translateY(-2px); background: rgb(var(--t-glas-rgb) / .9); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--narv) 45%, transparent); }
+html body .lp-konto-snabbval[aria-pressed="true"], html body .lp-konto-snabbval[aria-pressed="true"]:hover { color: var(--text); background: color-mix(in srgb, var(--narv) 14%, var(--vit-tack, #fff)); box-shadow: inset 0 0 0 1.5px var(--narv); transform: none; }
+html body .lp-konto-snabbval[aria-pressed="true"] .ikon { color: color-mix(in srgb, var(--narv) 70%, var(--text)); }
+html body .lp-konto-snabbval:focus-visible, html body .lp-konto-rad:focus-visible, html body .lp-konto-lank:focus-visible, html body .lp-konto-stang:focus-visible, html body .lp-konto-statusknapp:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+/* kontona: ljusa rader, ditt eget med en mjuk accentton och bocken till höger */
+html body .lp-konto-rubrik { color: var(--text-3); }
+html body .lp-konto-rubrik small { color: var(--text-3); opacity: .85; }
+html body .lp-konto-rad { min-height: 62px; padding: 9px; border-radius: 16px; background: rgb(var(--t-glas-rgb) / .66); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .06); transition: transform .25s cubic-bezier(.3, 1.5, .5, 1), box-shadow .25s, background-color .2s; }
+html:not([data-glas]) body .lp-konto-rad { background: var(--vit); }
+html body button.lp-konto-rad:hover { transform: translateY(-2px); background: rgb(var(--t-glas-rgb) / .92); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--narv) 55%, transparent), 0 14px 26px -18px rgb(var(--t-skugga-rgb) / .6); }
+html body .lp-konto-jag, html:not([data-glas]) body .lp-konto-jag { background: color-mix(in srgb, var(--accent) 10%, var(--vit-tack, #fff)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent-text) 40%, transparent); }
+html[data-glas] body .lp-konto-jag { background: color-mix(in srgb, var(--accent) 14%, rgb(var(--t-glas-rgb) / .7)); }
+html body .lp-konto-text strong { color: var(--text); }
+html body .lp-konto-roller, html body .lp-konto-status { color: var(--text-3); }
+html body .lp-konto-status > i { box-shadow: none; }
+html body .lp-konto-status b { color: var(--text-2); }
+html body .lp-konto-status .lp-aktiv-nu { color: var(--accent-text); }
+html body .lp-konto-bock { left: auto; right: 10px; top: 50%; margin-top: -9px; color: var(--vit-tack, #fff); background: var(--accent-text); box-shadow: 0 0 0 3px var(--kp-yta); }
+html body .lp-konto-rad .lp-avatar { --avatar-kant: var(--kp-yta); }
+/* temat: proven på ljus yta */
+html body .lp-konto-tema .tema-knapp { background: rgb(var(--t-glas-rgb) / .6); color: var(--text-2); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .08); }
+html body .lp-konto-tema .tema-knapp:hover { background: rgb(var(--t-glas-rgb) / .9); color: var(--text); }
+html body .lp-konto-tema .tema-knapp[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 12%, var(--vit-tack, #fff)); color: var(--text); box-shadow: inset 0 0 0 2px var(--accent-text); }
+html body .lp-konto-tema-namn, html body .lp-konto-tema-lank { color: var(--text-2); }
+html body .lp-konto-tema-lank:hover { color: var(--accent-text); }
+html body .lp-konto-tema .glas-vaxel { background: rgb(var(--t-glas-rgb) / .6); color: var(--text); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07); }
+html body .lp-konto-tema .glas-vaxel:hover { background: rgb(var(--t-glas-rgb) / .9); }
+html body .lp-konto-tema .glas-vaxel__text small { display: block; font-size: .7rem; color: var(--text-3); } /* underraden som i Legohus */
+html body .lp-konto[data-tat] .lp-konto-tema .glas-vaxel__text small { display: none; }
+html body .lp-konto-tema .glas-vaxel__spar { background: rgb(var(--t-blaeck-rgb) / .16); }
+html body .lp-konto-tema .glas-vaxel[aria-checked="true"] .glas-vaxel__spar { background: var(--accent-text); }
+/* foten: tre lugna länkar under en tunn linje */
+html body .lp-konto-ram[data-i-sido] .lp-konto { justify-content: flex-start; } /* som Legohus: delarna uppifrån, foten längst ner */
+html body .lp-konto-fot { margin-top: auto; border-top: 1px solid rgb(var(--t-blaeck-rgb) / .08); }
+html body .lp-konto-lank { color: var(--text-2); background: none; box-shadow: none; font: 600 .7rem/1.2 var(--font-rubrik); }
+html body .lp-konto-lank .ikon { color: var(--accent-text); }
+html body .lp-konto-lank:hover { color: var(--text); background: var(--accent-ljus); transform: translateY(-2px); }
+/* tätare i låga fönster: statusarna utan namn i andra steget */
+html body .lp-konto[data-tat] .lp-konto-snabbval { height: 44px; }
+html body .lp-konto[data-tat] .lp-konto-topp { padding: 10px 12px; }
+html body .lp-konto[data-tat] .lp-konto-bild { width: 46px; height: 46px; }
+html body .lp-konto[data-tat] .lp-konto-bild .lp-avatar { --s: 42px; }
+html body .lp-konto[data-tat="2"] .lp-konto-snabbval { height: 28px; border-radius: 9px; }
+html body .lp-konto[data-tat="2"] .lp-konto-snabbval small { display: none; }
+@media (prefers-reduced-motion: reduce) { html body .lp-konto, html body .lp-konto > *, html body .lp-konto-lista > [role="listitem"] { animation: none; } html body .lp-konto-snabbval:hover, html body button.lp-konto-rad:hover, html body .lp-konto-lank:hover { transform: none; } }
+@media (prefers-reduced-transparency: reduce) { html[data-glas] body .lp-konto { --kp-yta: var(--vit-tack, #fff); --kp-yta-2: var(--vit-tack, #fff); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* ---- 13 Aviseringarna (arket, aviseringar.js) ---- */
+/* Dator: en panel uppe till höger som i Legohus – sidan bakom syns som den är (ingen mörk slöja eller oskärpa), klick utanför eller Esc stänger */
+@media (min-width: 1000px) {
+  html body dialog.ark:has(> .ark-kropp > .avis) { position: fixed; inset: 12px 12px auto auto; margin: 0; width: min(620px, calc(100vw - 340px)); max-height: calc(100dvh - 24px); transform-origin: 100% 0; }
+  html body dialog.ark:has(> .ark-kropp > .avis)[open] { animation: avis-in .32s cubic-bezier(.2, .8, .25, 1) both; }
+  html body dialog.ark:has(> .ark-kropp > .avis)::backdrop { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@keyframes avis-in { from { opacity: 0; transform: translateY(-8px) scale(.98); } }
+@media (prefers-reduced-motion: reduce) { html body dialog.ark:has(> .ark-kropp > .avis)[open] { animation: none; } }
+.avis { display: grid; gap: 14px; }
+.avis-topp { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.avis-topp .avis-lank { padding: 4px 2px; border: 0; background: none; font: 600 .8rem/1.2 var(--font-rubrik); color: var(--accent-text); cursor: pointer; }
+.avis-topp .avis-lank:hover { text-decoration: underline; }
+.avis-grupp { display: grid; gap: 4px; }
+.avis-rubrik { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font: 600 .78rem/1 var(--font-rubrik); color: var(--text-2); }
+.avis-rubrik i { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; font: 600 .66rem/1 var(--font-rubrik); font-style: normal; color: var(--text-2); background: rgb(var(--t-blaeck-rgb) / .06); }
+.avis-rad { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 10px 10px 10px 8px; border-radius: 16px; transition: background-color .18s ease; }
+.avis-rad:hover { background: rgb(var(--t-blaeck-rgb) / .04); }
+.avis-rad .emo { position: relative; }
+.avis-rad[data-ny] .emo::after { content: ''; position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--vit); }
+.avis-rad[data-varm][data-ny] .emo::after { background: var(--gul); }
+.avis-oppna { display: grid; gap: 3px; min-width: 0; padding: 0; border: 0; background: none; color: inherit; text-align: left; text-decoration: none; cursor: pointer; font: inherit; }
+.avis-oppna strong { font: 600 .9rem/1.3 var(--font-rubrik); color: var(--text); }
+.avis-oppna small { font-size: .78rem; line-height: 1.4; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.avis-oppna:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 8px; }
+.avis-hoger { display: grid; justify-items: end; gap: 6px; }
+.avis-tid { font-size: .72rem; color: var(--text-3); white-space: nowrap; }
+.avis-knappar { display: flex; align-items: center; gap: 4px; }
+.avis-knappar button { display: inline-flex; align-items: center; gap: 4px; min-height: 30px; padding: 0 10px; border: 0; border-radius: 999px; font: 600 .72rem/1 var(--font-rubrik); color: var(--text-2);
+  background: rgb(var(--t-blaeck-rgb) / .06); cursor: pointer; transition: background-color .18s ease, color .18s ease; }
+.avis-knappar button:hover { color: var(--text); background: rgb(var(--t-blaeck-rgb) / .1); }
+.avis-knappar .avis-klar { color: var(--accent-text); background: var(--accent-ljus); }
+.avis-knappar .avis-bort { width: 30px; padding: 0; justify-content: center; }
+.avis-knappar .ikon { width: 14px; height: 14px; }
+.avis-tom { display: grid; justify-items: center; gap: 8px; padding: 28px 12px; text-align: center; color: var(--text-2); }
+.avis-tom strong { font: 600 .95rem/1.3 var(--font-rubrik); color: var(--text); }
+.avis-fot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid var(--kant); font-size: .78rem; color: var(--text-2); }
+.avis-fot .ikon { width: 15px; height: 15px; flex: none; color: var(--text-3); }
+.avis-fot > span { display: flex; align-items: center; gap: 8px; }
+@media (max-width: 640px) { .avis-rad { grid-template-columns: auto minmax(0, 1fr); } .avis-hoger { grid-column: 2; justify-items: start; grid-auto-flow: column; align-items: center; } }
+/* mobilen (2026-11-04): huvudet är samma yta som listan (listan rullar i .ark-kropp, inget behöver täckas) – inget vitt band; pekytor ≥ 40 px;
+   "Visa på skrivbordet" bara där det finns ett skrivbord */
+@media (max-width: 640px) {
+  html body dialog.ark .ark-huvud.avis-huvud { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .avis-knappar button { min-height: 40px; padding: 0 14px; }
+  .avis-knappar .avis-bort { width: 40px; }
+  .avis-topp .avis-lank { min-height: 40px; padding: 0 2px; }
+  .avis-oppna { min-height: 40px; align-content: center; }
+}
+@media (max-width: 640px) and (pointer: coarse) { .avis-fot > .knapp { display: none; } }
+
+/* ---- 15 Mobilen som Legohus: flikraden och Mer-arket är ljust glas i temats färger (mörkt i Mörk) som sidomenyn på dator.
+   Formen står kvar (flikraden och plusknappen som ett par längst ner – Kundmötets docka och toasterna räknar med den). Flikraden och
+   Mer-arket var mörka zoner: zonens tokens pekas om till temats vanliga här. :is(…, #up-zon) ger regeln id-vikt (även om inget har
+   det id:t), så att den står över temats zonregler i tema-toner.css utan !important. ---- */
+@media (max-width: 999px) {
+  :is(.flikrad, .mer-ark, dialog.ark:has(> .mer-ark), #up-zon) {
+    --z-text: var(--text); --z-vit: var(--text); --z-t40: var(--text-3); --z-t45: var(--text-3); --z-t50: var(--text-3); --z-t55: var(--text-3); --z-t58: var(--text-3); --z-t60: var(--text-2);
+    --z-t62: var(--text-2); --z-t70: var(--text-2); --z-t78: var(--text-2); --z-t82: var(--text-2); --z-t85: var(--text-2);
+    --z-text-rgb: var(--t-blaeck-rgb); --z-vit-rgb: var(--t-blaeck-rgb); --z-yv-rgb: var(--t-blaeck-rgb); --z-yb-rgb: var(--t-blaeck-rgb);
+    --z-ya03: .03; --z-ya04: .035; --z-ya045: .04; --z-ya05: .04; --z-ya06: .05; --z-ya07: .055; --z-ya08: .06; --z-ya11: .08; --z-ya12: .09;
+    --z-accent: var(--accent-text); --zf-9ff0d4: var(--accent-text); --zf-ffd98f: var(--gul-text); --z-dimma: 30%; --z-dimma-mot: var(--text); --emo-farg: var(--text-2); }
+  /* flikraden: ett ljust glaskort, den valda fliken som en mjuk accentyta */
+  html body .flikrad { background: linear-gradient(170deg, rgb(var(--t-glas-rgb) / .97), rgb(var(--t-glas-rgb) / .9));
+    box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / .3), inset 0 1px 0 rgb(var(--t-glans-rgb) / .6), 0 0 0 1px rgb(var(--t-kant-rgb, 11 21 32) / calc(var(--g-kant, .07) + .02)),
+      0 22px 44px -22px rgb(var(--t-skugga-rgb) / .55), 0 8px 18px -14px rgb(var(--t-skugga-rgb) / .4); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html[data-glas] body .flikrad { background: var(--g-bild-reflex, none), linear-gradient(170deg, rgb(var(--t-glas-rgb) / .86), rgb(var(--t-glas-rgb) / .72));
+    -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%); }
+  html:not([data-glas]) body .flikrad { background: var(--vit); }
+  html body .flikrad::before { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 60%, transparent), transparent); }
+  html body .flikrad a, html body .flikrad button { color: var(--text-2); }
+  html body .flikrad [aria-current="page"] { color: var(--text); font-weight: 600; background: var(--accent-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 22%, transparent); }
+  html body .flikrad [aria-current="page"] .ikon { color: var(--accent-text); }
+  html body .flikrad-bricka { box-shadow: 0 0 0 2px var(--vit-tack, #fff); }
+
+  /* Mer-arket: ljust, kontot överst, sidorna som rutor (namnet under ikonen, förklaringen för skärmläsare och som verktygstips) */
+  html body dialog.ark:has(> .mer-ark) { color: var(--text);
+    background: radial-gradient(110% 40% at 100% 0%, color-mix(in srgb, var(--is) 18%, transparent), transparent 62%), radial-gradient(100% 40% at 0% 100%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 64%),
+      linear-gradient(180deg, var(--vit-tack, #fff), color-mix(in srgb, var(--vit-tack, #fff) 88%, var(--ben)));
+    box-shadow: 0 -20px 60px -30px rgb(var(--t-skugga-rgb) / .45), inset 0 0 0 1px rgb(var(--t-glans-rgb) / .3); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html[data-glas] body dialog.ark:has(> .mer-ark) { background: var(--g-bild-reflex, none), radial-gradient(110% 40% at 100% 0%, color-mix(in srgb, var(--is) 18%, transparent), transparent 62%),
+      radial-gradient(100% 40% at 0% 100%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 64%), linear-gradient(180deg, rgb(var(--t-glas-rgb) / .95), rgb(var(--t-glas-rgb) / .9)); }
+  html body dialog.ark:has(> .mer-ark)::after { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 60%, transparent), transparent); }
+  html body dialog.ark:has(> .mer-ark) .ark-huvud { border-bottom: 0; } /* rutorna rullar i .ark-kropp – ingen linje mellan huvudet och rutorna (2026-11-04) */
+  html body dialog.ark:has(> .mer-ark) .ark-huvud::before { background: rgb(var(--t-blaeck-rgb) / .18); }
+  html body dialog.ark:has(> .mer-ark) .ark-huvud h2 { color: var(--text); }
+  html body dialog.ark:has(> .mer-ark) .ark-huvud .ikonknapp { background: none; color: var(--text-2); box-shadow: none; }
+  html body dialog.ark:has(> .mer-ark) .ark-huvud .ikonknapp:hover { color: var(--text); background: rgb(var(--t-blaeck-rgb) / .06); }
+  html body .mer-ark .mer-etikett { color: var(--text-3); }
+  html body .mer-ark .mer-etikett::before { background: linear-gradient(90deg, var(--accent-text), color-mix(in srgb, var(--accent-text) 40%, transparent)); }
+  /* kontot överst */
+  html body .mer-du { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: rgb(var(--t-glas-rgb) / .8);
+    box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07), 0 12px 26px -20px rgb(var(--t-skugga-rgb) / .6); }
+  html:not([data-glas]) body .mer-du { background: var(--vit); }
+  html body .mer-du .avatar { flex: none; width: 42px; height: 42px; font-size: .82rem; box-shadow: 0 0 0 2px var(--vit-tack, #fff), 0 0 0 3.5px color-mix(in srgb, var(--accent-text) 30%, transparent); }
+  html body .mer-du-text { display: grid; gap: 2px; flex: 1 1 auto; min-width: 0; }
+  html body .mer-du-text strong { font: 600 .98rem/1.2 var(--font-rubrik); color: var(--text); overflow-wrap: anywhere; }
+  html body .mer-du-text small { font-size: .78rem; line-height: 1.3; color: var(--text-2); }
+  html body .mer-du-status { flex: none; display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 10px 0 14px; border: 0; border-radius: 999px; cursor: pointer;
+    font: 600 .78rem/1 var(--font-rubrik); color: var(--accent-text); background: var(--accent-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 24%, transparent); }
+  html body .mer-du-status .ikon { width: 14px; height: 14px; transform: rotate(-90deg); }
+  /* sidorna som rutor: tre i rad (två i det egna) */
+  html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)), html body .mer-ark .mer-rutor { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  html body .mer-ark .mer-rutor { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html body .mer-ark .mer-grupp > .mer-etikett { grid-column: 1 / -1; }
+  html body .mer-ark :is(.mer-grupp, .mer-rutor) > .mer-rad { position: relative; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; min-height: 92px; padding: 14px 6px 12px; border-radius: 18px; text-align: center;
+    color: var(--text); background: rgb(var(--t-glas-rgb) / .82); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .07), 0 12px 24px -20px rgb(var(--t-skugga-rgb) / .6); }
+  html:not([data-glas]) body .mer-ark :is(.mer-grupp, .mer-rutor) > .mer-rad { background: var(--vit); }
+  html body .mer-ark .mer-rad:hover { background: rgb(var(--t-glas-rgb) / .98); }
+  html body .mer-ark .mer-rad[aria-current="page"] { background: color-mix(in srgb, var(--accent) 14%, var(--vit-tack, #fff)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent-text) 45%, transparent); }
+  html body .mer-ark .mer-ikon { width: 40px; height: 40px; border-radius: 13px; color: var(--accent-text); background: var(--accent-ljus); box-shadow: none; }
+  html body .mer-ark .mer-rad[aria-current="page"] .mer-ikon { color: var(--ink); background: linear-gradient(160deg, #b5f0de, var(--accent)); box-shadow: 0 8px 16px -9px rgb(var(--t-accent-djup-rgb) / .6); }
+  html body .mer-ark .mer-ikon .ikon { width: 19px; height: 19px; }
+  html body .mer-ark .mer-rad .mer-text { display: block; min-width: 0; max-width: 100%; }
+  html body .mer-ark .mer-rad .mer-text strong { display: block; font: 600 .8rem/1.2 var(--font-rubrik); color: var(--text); overflow-wrap: anywhere; hyphens: auto; }
+  html body .mer-ark .mer-rad .mer-text small { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  html body .mer-ark .mer-rad > .ikon:last-child { display: none; }
+  /* räknaren i rutans hörn (den hela texten finns kvar för skärmläsare) */
+  html body .mer-ark .mer-rad > .chip { position: absolute; top: 8px; right: 8px; max-width: calc(100% - 16px); min-height: 0; padding: 3px 7px; font: 700 .62rem/1.1 var(--font-rubrik); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    color: var(--text-2); background: rgb(var(--t-blaeck-rgb) / .06); box-shadow: none; }
+  /* Räknaren sitter över rutans överkant (som flikradens) – förut trycktes ikon och namn ned så att rutan inte linjerade med grannarna */
+  html body .mer-ark .mer-rad > .chip { top: -7px; right: 6px; box-shadow: 0 4px 10px -6px rgb(var(--t-skugga-rgb) / .5); background: var(--vit-tack, #fff); }
+  /* Raderna fylls ut (mobiltestet 2026-11-04): sex spår, rutan tar två – en ensam sista ruta får hela raden, två sista delar raden */
+  @media (min-width: 361px) {
+    html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)) { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)) > .mer-rad { grid-column: span 2; }
+    html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)) > .mer-rad:last-child:nth-child(3n+2) { grid-column: 1 / -1; }
+    html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)) > .mer-rad:last-child:nth-child(3n), html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)) > .mer-rad:nth-last-child(2):nth-child(3n+2) { grid-column: span 3; }
+  }
+  html body .mer-ark .mer-rad > .chip-gul { color: var(--gul-text); background: var(--gul-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gul-text) 22%, transparent); }
+  /* kontot nederst: byt konto, utgångarna */
+  html body .mer-ark .etikett { color: var(--text-3); }
+  html body .mer-ark .avatar { box-shadow: 0 0 0 2px var(--vit-tack, #fff), 0 0 0 3.5px color-mix(in srgb, var(--accent-text) 30%, transparent); }
+  html body .mer-ark .falt, html body .mer-ark .valj-knapp.falt { border-color: var(--kant); background: var(--vit); color: var(--text); }
+  html body .mer-ark :is(.knapp-kontur, .knapp-spok) { color: var(--text); background: rgb(var(--t-glas-rgb) / .7); border-color: transparent; box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .1); }
+  html body .mer-ark :is(.knapp-kontur, .knapp-spok):hover:not(:disabled) { background: var(--accent-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-text) 40%, transparent); }
+  html body .mer-ark .knapp-spok { background: transparent; box-shadow: none; color: var(--text-2); }
+  :is(.flikrad, .mer-ark, dialog.ark > .ark-huvud.mer-huvud) :focus-visible { outline-color: var(--accent-text); }
+}
+@media (max-width: 360px) { html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } html body .mer-ark .mer-grupp:not(:has(> .mer-par, > .lp-konto-lista)) > .mer-rad:last-child:nth-child(2n) { grid-column: 1 / -1; } html body .mer-du { flex-wrap: wrap; } html body .mer-du-status { margin-left: 54px; } }
+/* Toppraden med glas: tätare och frostad – innehåll som rullar under syntes rakt igenom titeln (liten yta, oskärpan kostar lite) */
+@media (max-width: 999px) {
+  html[data-glas] body .topprad { background: linear-gradient(180deg, rgb(var(--t-glas-rgb) / .9), rgb(var(--t-glas-rgb) / .78)); -webkit-backdrop-filter: blur(14px) saturate(150%); backdrop-filter: blur(14px) saturate(150%); }
+  /* Öppen sökning/Ctrl K: toppradens oskärpa gjorde den till backdrop-rot, så sökträffarnas frost blev verkningslös och sidan
+     syntes skarpt igenom listan (texten krockade). Medan sökningen är öppen: ingen oskärpa på raden och ett tätt sökfält
+     som täcker Prototyp-chippet och klockan */
+  html[data-glas] body .topprad:has(> .sok[data-oppen]) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html[data-glas] body .topprad > .sok[data-oppen] { --vit: var(--vit-tack); }
+}
+/* 320 px: Prototyp-chippet blir en prick (texten finns kvar för skärmläsare och som verktygstips), så att sidans namn ryms;
+   flikradens etiketter lite mindre så att de inte går ihop */
+@media (max-width: 360px) {
+  html body .topprad .prototyp { gap: 0; padding: 8px; }
+  html body .topprad .prototyp :is(.chip-lang, .chip-kort) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+    color: transparent; } /* osynlig text: kontrastmätningen räknade den utklippta texten mot knapparna bredvid (3,8:1 i Färgglad, 4,2:1 i Original) */
+  html body .flikrad a, html body .flikrad button { font-size: .5625rem; letter-spacing: -.02em; padding-inline: 0; }
+}
+
+/* ---- 14 Rörelse, genomskinlighet och utskrift ---- */
+@media (prefers-reduced-motion: reduce) {
+  #sidomeny .nav-puck { transition: opacity .2s linear; }
+  #sidomeny .navlank[aria-current="page"] .ikon, #sidomeny .navlank .ikon[data-hopp], .klocka[data-ny] .ikon { animation: none; }
+  #sidomeny .navlank .ikon, #sidomeny .navlank-text, #sidomeny .varumarke, html:root body .sido-kant .sido-knapp, .nav-merpop, .nav-merpop[data-ut] { transition: none; animation: none; }
+  #sidomeny .navlank:hover .ikon, #sidomeny .navlank:hover .navlank-text, #sidomeny .varumarke:hover { transform: none; }
+  .klick-ring { display: none; }
+}
+@media print { .klick-ring, .nav-merpop, .klocka { display: none !important; } }
+
+/* Mobilens topprad (2026-11-04, "synka bättre"): loggan, sök och klockan samma 40 px rundade glasrutor, märket 32 px högt mitt i raden, lika luft runt om */
+@media (max-width: 999px) {
+  html body .topprad { align-items: center; padding: max(8px, env(safe-area-inset-top)) 12px 6px; } /* statusraden på en riktig iPhone (viewport-fit=cover) */
+  html body .topprad .topprad-hoger { align-items: center; gap: 8px; }
+  html body .topprad .topprad-marke { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 14px; background: rgb(var(--t-glas-rgb) / .6); box-shadow: inset 0 0 0 1px rgb(var(--t-blaeck-rgb) / .08), 0 4px 12px -8px rgb(var(--t-skugga-rgb, 24 54 83) / .4); }
+  html body .topprad .klocka-plats { display: grid; place-items: center; width: 40px; height: 40px; }
+  html body .topprad .klocka-plats > * { width: 40px; height: 40px; }
+  html body .topprad .prototyp { display: inline-flex; align-items: center; height: 32px; padding-block: 0; }
+  /* tät gul bricka: den genomskinliga gav brun text på hjältarnas mörka yta i Original/Färgglad */
+  html[data-tema] body .topprad .prototyp { background: var(--gul-ljus); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gul-text) 24%, transparent), 0 4px 12px -8px rgb(var(--t-skugga-rgb, 24 54 83) / .4); color: var(--gul-text); }
+}
+
+/* Mobilens topprad smälter ihop med sidan (2026-11-04, "allt ska smälta ihop – inga olika färger, linjer och kanter"): ingen egen yta och ingen kantlinje;
+   frosten ligger i ett lager bakom som tonas ut nedåt, så att det som rullar under aldrig får en hård kant */
+@media (max-width: 999px) {
+  html[data-tema] body .topprad { isolation: isolate; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html[data-tema] body .topprad::before { content: ''; position: absolute; z-index: -1; inset: 0 0 -22px; pointer-events: none;
+    background: linear-gradient(180deg, rgb(var(--t-ben-rgb) / .55), rgb(var(--t-ben-rgb) / 0));
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent); mask-image: linear-gradient(180deg, #000 55%, transparent); }
+  html[data-tema] body .topprad:has(> .sok[data-oppen])::before { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* Mobil, "dra upp till max" (2026-11-04): första kortet går ända upp till skärmens kant och fyller bredden; toppradens knappar svävar ovanpå (som en app) */
+@media (max-width: 560px) {
+  html[data-tema] body .topprad { position: fixed; top: 0; left: 0; right: 0; z-index: 40; }
+  html[data-tema] body .topprad::before, html[data-tema] body .topprad::after { display: none; } /* ::after = sidor.css bentoning under raden – utan glas ett ljust band över kortet */
+  /* utrullat (titeln syns i raden): frosten tillbaka, så att titeln inte står rakt över innehållet; uppe i kortet syns ingen yta */
+  html[data-tema] body .topprad:not([data-h1-synlig])::before { display: block; background: linear-gradient(180deg, rgb(var(--t-ben-rgb) / .96), rgb(var(--t-ben-rgb) / .9) 62%, rgb(var(--t-ben-rgb) / 0));
+    -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent); mask-image: linear-gradient(180deg, #000 78%, transparent); }
+  html[data-tema] body .vy { padding-top: 0; }
+  html[data-tema] body #vy > :first-child { margin-top: 0; margin-inline: -8px; border-top-left-radius: 0; border-top-right-radius: 0; padding-top: calc(var(--topph, 62px) + 16px); } /* --topph = toppradens höjd INKLUSIVE statusraden (safe-area nedan, telefonramens padding) – mäts om med ResizeObserver (crm.js satTopph) */
+}
+@media (max-width: 360px) { html body .topprad .prototyp { width: 40px; height: 40px; padding: 0; justify-content: center; border-radius: 14px; } } /* pricken i en ruta som knapparna bredvid – förut en hög smal oval */
+/* Toppraden smälter ihop med det som står under den (2026-11-04, test-T24 och lagets mobilomgång): utan glas var sökningen och klockan vita
+   brickor och loggan en grå slöja på hjältens mörka yta, med glas tre olika gråa rutor; utrullat lade sig en ljus rand över hjälten.
+   crm.js toppTitelLage sätter data-over-mork när en mörk yta står under raden (hjälten, ett mörkt band, chatten) och data-rullad när sidan är
+   rullad. Över en mörk yta (alla teman utom Ljus, där hjältarna är ljusa) har knapparna hjältens egna knappars yta – en ljus slöja med hårfin
+   ring och ljus ikon – och frosten är ytans egen (ofärgad oskärpa medan rubriken syns, en mörk ton när titeln står i raden). Över den ljusa
+   sidan är allt som förut. Övergångarna är bara färg (ingen ständig animation). */
+@media (max-width: 560px) {
+  html[data-tema]:not([data-tema="ljus"]) body .topprad :is(.topprad-marke, .ikonknapp, .klocka, .topprad-titel) { transition: background-color .25s ease, box-shadow .25s ease, color .25s ease; }
+  html[data-tema]:not([data-tema="ljus"]) body .topprad[data-over-mork] :is(.topprad-marke, .ikonknapp, .klocka) {
+    background: rgb(var(--z-yb-rgb, 246 244 239) / .1); box-shadow: inset 0 0 0 1px rgb(var(--z-yb-rgb, 246 244 239) / .16); color: var(--z-text, var(--pa-mork)); }
+  html[data-tema]:not([data-tema="ljus"]) body .topprad[data-over-mork] .topprad-marke { color: var(--is); }
+  html[data-tema]:not([data-tema="ljus"]) body .topprad[data-over-mork] .topprad-titel { color: var(--z-text, var(--pa-mork)); }
+  /* Rullat en bit men hjältens rubrik syns ännu: datumraden och hälsningen gled skarpt in under knapparna ("God kväll" krockade med
+     Prototyp-chippet) – nu en ofärgad frost bakom raden som tonas ut nedåt (alla teman) */
+  html[data-tema] body .topprad[data-h1-synlig][data-rullad]:not(:has(> .sok[data-oppen]))::before { display: block; background: none;
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    -webkit-mask-image: linear-gradient(180deg, #000 58%, transparent); mask-image: linear-gradient(180deg, #000 58%, transparent); }
+  /* utrullat över en mörk yta: frosten i ytans mörka ton (titeln ljus) i stället för sidans ljusa */
+  html[data-tema]:not([data-tema="ljus"]) body .topprad[data-over-mork]:not([data-h1-synlig]):not(:has(> .sok[data-oppen]))::before {
+    background: linear-gradient(180deg, rgb(var(--z-skugga-rgb, 11 21 32) / .5), rgb(var(--z-skugga-rgb, 11 21 32) / .3) 62%, rgb(var(--z-skugga-rgb, 11 21 32) / 0)); }
+}
+
+/* Mobil (2026-11-04): aviseringsarket med luft mot kanterna och allt i linje – rubrikerna, ikonerna, texten och knappraden; tiden till vänster, knapparna i högerkanten */
+@media (max-width: 640px) {
+  html body dialog.ark:has(> .ark-kropp > .avis) > .ark-huvud, html body dialog.ark:has(> .ark-kropp > .avis) > .ark-kropp { padding-left: 18px; padding-right: 18px; }
+  .avis-topp, .avis-rubrik { padding-inline: 8px; }
+  .avis-rad { padding: 12px 8px; column-gap: 14px; row-gap: 8px; }
+  .avis-hoger { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
+}
+
+/* Räknarbrickorna (2026-11-04, användarens bild på "2"): en ren bricka – ingen ring i ytans färg och ingen grumlig glöd, bara en mjuk skugga – på flikraden, klockan och Mer */
+html body :is(.flikrad-bricka, .klocka > b) { box-shadow: 0 1px 2px rgb(0 0 0 / .18), 0 2px 6px -2px rgb(0 0 0 / .22); }
+html body .flikrad :is(a, button) { overflow: clip; overflow-clip-margin: 10px; } /* brickan klipps inte i överkanten – klickets ljusring hålls ändå inom fliken */
+
+/* Menyknappen på kanten (2026-11-23, användaren: knappen täckte rubriken Din dag): med 12 px luft mot innehållet stack den 24 px breda
+   knappen 6 px in över korten och rubrikerna. Den sitter nu med högerkanten 4 px före innehållet och sticker i stället in över menyns kant. */
+@media (min-width: 1000px) {
+  html:root:not([data-sido-dold]) body .sido-kant .sido-knapp { margin-left: -22px; }
+}

@@ -1,0 +1,175 @@
+/* Uperformance CRM – mötesscenen överst på #/mote (motescen.js).
+   Ett mörkt kort: texten till vänster, mötesrummet i 3D (scen-mote.js, scen-mote.css) till höger. Utan 3D: bara texten,
+   nyckeltalen och knapparna ("Utan 3D" nedan). */
+.motescen { --ms-ink: #0b1520; --ms-navy: #183653; --ms-mint: #7ee0c3; --ms-is: #a7d2ff; --ms-mjuk: cubic-bezier(.22, 1, .36, 1);
+  position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); align-items: stretch;
+  margin-bottom: 18px; border-radius: 28px; color: var(--z-text, #f6f4ef); min-height: 470px;
+  --ms-yta: radial-gradient(70% 90% at 78% 30%, rgba(126, 224, 195, .16), transparent 60%), radial-gradient(60% 80% at 0% 100%, rgb(var(--zy-1d4166, 29 65 102) / calc(.7 * var(--z-opak, 1))), transparent 65%), linear-gradient(160deg, rgb(var(--zy-13273b, 19 39 59) / var(--z-opak, 1)), rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1)) 60%, rgb(var(--zy-08111a, 8 17 26) / var(--z-opak, 1)));
+  background: var(--ms-yta); /* ytan som variabel: på mobilen ritas den i ::after och tonas ut nedtill (se "Mobil … en yta" sist) */
+  box-shadow: 0 30px 70px -40px rgb(var(--z-skugga-rgb, 11 21 32) / .7), inset 0 1px 0 rgb(var(--z-glans-rgb, 255 255 255) / .06); }
+.motescen::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background-image: radial-gradient(1.2px 1.2px at 14% 20%, rgb(var(--t-glas-rgb) / .5), transparent), radial-gradient(1px 1px at 40% 74%, rgb(var(--z-vit-rgb, 255 255 255) / .35), transparent), radial-gradient(1.3px 1.3px at 66% 14%, rgb(var(--z-vit-rgb, 255 255 255) / .45), transparent), radial-gradient(1px 1px at 88% 60%, rgb(var(--z-vit-rgb, 255 255 255) / .3), transparent), radial-gradient(1.1px 1.1px at 92% 90%, rgb(var(--z-vit-rgb, 255 255 255) / .4), transparent); }
+
+/* Texten */
+.ms-ord { display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: clamp(24px, 4vw, 44px); position: relative; z-index: 2; }
+.ms-etikett { display: inline-flex; align-items: center; gap: 9px; margin: 0; font: 600 .68rem/1.3 'Poppins', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--z-accent, var(--ms-mint)); }
+.ms-etikett::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--ms-mint); box-shadow: 0 0 0 4px rgba(126, 224, 195, .18); }
+.ms-rubrik { margin: 0; font: 600 clamp(1.9rem, 1.2rem + 2.2vw, 2.9rem)/1.02 'Poppins', sans-serif; letter-spacing: -.045em; }
+.ms-rubrik em { font-style: normal; background: linear-gradient(90deg, var(--z-accent, var(--ms-mint)), var(--z-is, var(--ms-is))); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ms-text { margin: 0; max-width: 30rem; font-size: .95rem; line-height: 1.55; color: var(--z-t72, rgba(246, 244, 239, .72)); }
+.ms-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+/* Knapparna i jämna rader (2026-11-04, fynd "tre ojämna rader"): samma bredd som nyckeltalen, Starta presentation över hela raden,
+   de andra två och två – blir en ensam kvar sist tar den hela raden. Smalt: en per rad. */
+.ms-ord .ms-knappar { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 172px), 1fr)); width: min(100%, 440px); }
+.ms-ord .ms-knappar > * { justify-content: center; min-width: 0; }
+.ms-ord .ms-knappar > :first-child, .ms-ord .ms-knappar > :last-child:nth-child(even) { grid-column: 1 / -1; }
+.ms-knapp { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px; border-radius: 999px; border: 0; cursor: pointer; font: 600 .9rem/1 'Poppins', sans-serif; transition: transform .35s var(--ms-mjuk), background-color .3s; }
+.ms-knapp svg { width: 18px; height: 18px; flex: none; }
+.ms-knapp:hover { transform: translateY(-2px); }
+.ms-knapp-mint { background: var(--ms-mint); color: var(--ms-ink); box-shadow: 0 10px 26px -12px rgba(126, 224, 195, .8); }
+.ms-knapp-glas { background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya08, .08)); color: var(--z-text, #f6f4ef); box-shadow: inset 0 0 0 1px rgb(var(--z-vit-rgb, 255 255 255) / .16); }
+.ms-knapp-glas:hover { background: rgb(var(--z-yv-rgb, 255 255 255) / var(--z-ya14, .14)); }
+.ms-knapp:focus-visible, .ms-plats:focus-visible { outline: 3px solid var(--z-accent, var(--ms-mint)); outline-offset: 3px; }
+/* Filmen (film.js): glasknappen bär en liten affisch ur filmen med spela-tecknet – öppnar biografspelaren */
+.ms-knapp-film { padding-left: 6px; }
+.ms-film-bild { position: relative; display: grid; place-items: center; flex: none; width: 54px; height: 34px; overflow: hidden; border-radius: 999px; color: var(--z-vit, #fff);
+  background: rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1)) url(film/uperformance-film-liten.jpg) center / cover; box-shadow: inset 0 0 0 1px rgb(var(--z-vit-rgb, 255 255 255) / .2); }
+.ms-film-bild::before { content: ''; position: absolute; inset: 0; background: rgb(var(--zy-070f18, 7 15 24) / .32); transition: opacity .25s; }
+.ms-knapp-film:hover .ms-film-bild::before { opacity: 0; }
+.ms-knapp .ms-film-bild svg { position: relative; width: 14px; height: 14px; }
+.ms-knapp-film small { font: 600 .74rem/1 'Poppins', sans-serif; font-variant-numeric: tabular-nums; color: var(--z-t58, rgba(246, 244, 239, .58)); }
+.ms-not { margin: 0; font-size: .78rem; color: var(--z-t50, rgba(246, 244, 239, .5)); }
+
+/* Rummet: scen-mote.js lägger duken här. Platserna runt bordet (knappar som 3D-scenen läser) visas inte, se slutet. */
+.ms-rum { position: relative; min-height: 470px; }
+.ms-platser { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+
+/* Mobil och smala fönster */
+@media (max-width: 980px) {
+  .motescen { grid-template-columns: minmax(0, 1fr); }
+  .ms-ord { padding-bottom: 0; }
+  .ms-rum { min-height: 380px; }
+}
+@media (max-width: 560px) {
+  .motescen { border-radius: 22px; }
+  .ms-rum { min-height: 330px; }
+}
+
+/* Står still utanför bild och för den som valt minskad rörelse */
+.motescen[data-vilar] *, .motescen[data-vilar] *::before, .motescen[data-vilar] *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .motescen *, .motescen *::before, .motescen *::after { animation: none !important; transition: none !important; }
+}
+
+/* Mötesvyn använder hela ytan: vyns eget sidhuvud döljs när mötesscenen finns (texten om priserna står i kortet, .ms-pris)
+   och kortet fyller fönsterhöjden så att bordet får plats. Sidhuvudet ligger kvar i DOM:en. */
+#vy:has(> .motescen) > .sidhuvud { display: none; }
+.ms-pris { display: flex; align-items: center; gap: 8px; margin: 0; font-size: .76rem; color: var(--z-t55, rgba(246, 244, 239, .55)); }
+.ms-pris .ikon { width: 14px; height: 14px; color: var(--z-accent, var(--accent)); }
+@media (min-width: 981px) {
+  .motescen { min-height: max(560px, calc(100dvh - 104px)); }
+  .motescen.motescen[data-ms-3d] { min-height: max(640px, calc(100dvh - 104px)); } /* vinner över scen-mote.css (laddas senare) */
+  .ms-ord { padding-top: clamp(28px, 5vh, 56px); padding-bottom: clamp(28px, 5vh, 56px); }
+}
+/* Dator (sidomeny, ingen topprad): scenen är ett stort rundat kort som fyller nästan hela vyn (smal luft runt om, mjuk skugga
+   mot den ljusa sidan – variablerna i crm.css modul 22). Korten under har samma kanter som hjälten. */
+@media (min-width: 1000px) {
+  #vy:has(> .motescen) { max-width: none; padding-top: var(--hjalte-luft, 12px); padding-inline: 0; }
+  #vy > .motescen ~ :not(.motescen) { margin-inline: var(--hjalte-luft, 12px); } /* samma kanter som hjälten (2026-11-04) */
+  #vy > .motescen.motescen { min-height: max(620px, calc(100dvh - 2 * var(--hjalte-luft, 12px))); margin: 0 var(--hjalte-luft, 12px) clamp(26px, 3vw, 40px);
+    border-radius: var(--hjalte-rund, 28px); box-shadow: var(--hjalte-skugga, none); }
+  #vy > .motescen .ms-ord { padding-left: clamp(36px, 4.5vw, 72px); }
+}
+/* Mobil: prisraden sist i kortet (scen-mote.css ordnar resten med order) */
+@media (max-width: 640px) {
+  .motescen.motescen[data-ms-3d] .ms-not { margin-bottom: 10px; }
+  .motescen.motescen[data-ms-3d] .ms-pris { order: 8; margin-bottom: 24px; }
+}
+
+/* Platsetiketterna vid bordet (BB Bergmark Bygg …) visas inte (användarens önskemål) – kunden väljs under "Planera mötet".
+   Knapparna finns kvar i DOM:en (3D-scenen läser vald plats för strålkastaren) men syns och nås inte. Raden med vald kund
+   under bordet (.ms-valrad) ritas inte längre – kunden står i hjältens rubrik och i dossiern. */
+.motescen .ms-platser { display: none !important; }
+
+/* Hjältens nyckeltal (2026-10-23): tre tal i en glasrad – väntar på möte, möten hållna och kalkylen (kundens tal när en kund är vald) */
+.ms-talrad { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; width: min(100%, 440px); overflow: hidden; border-radius: 20px;
+  background: rgba(167, 210, 255, .13); box-shadow: 0 0 0 1px rgba(167, 210, 255, .15), 0 26px 50px -30px rgb(var(--z-skugga-rgb, 0 0 0) / .85); }
+/* Ett kort (2026-10-23): etiketten med ikon, talet med ett piller, och längst ned vem det gäller (initialer + rubrik + namn). Tonen (is/mint)
+   färgar ikonen, pillret och ett svagt sken i hörnet. Korten är lika höga (rutnätet sträcker dem) och vem-raden står alltid längst ned. */
+.ms-tal { --t: 167, 210, 255; position: relative; display: grid; grid-template-rows: auto auto 1fr; gap: 9px; min-width: 0; padding: 14px 15px 13px;
+  background: radial-gradient(150px 90px at 0 0, rgba(var(--t), .13), transparent 72%), linear-gradient(180deg, rgb(var(--zy-132538, 19 37 56) / calc(.93 * var(--z-opak, 1))), rgb(var(--zy-09131e, 9 19 30) / calc(.95 * var(--z-opak, 1)))); }
+.ms-tal[data-ton="mint"] { --t: 126, 224, 195; }
+.ms-tal::before { content: ''; position: absolute; inset: 0 12% auto; height: 1px; background: linear-gradient(90deg, transparent, rgba(var(--t), .45), transparent); pointer-events: none; }
+.ms-tal-topp { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ms-tal-topp > i { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 8px; color: color-mix(in srgb, rgb(var(--t)), var(--z-dimma-mot, #06141c) var(--z-dimma, 0%));
+  background: rgba(var(--t), .12); box-shadow: inset 0 0 0 1px rgba(var(--t), .26); }
+.ms-tal-topp > i svg { width: 13px; height: 13px; }
+.ms-tal-topp small { min-width: 0; font: 600 .56rem/1.2 'Poppins', sans-serif; letter-spacing: .13em; text-transform: uppercase; color: var(--z-t60, rgba(246, 244, 239, .6)); }
+.ms-tal-varde { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 9px; min-width: 0; }
+.ms-tal-varde b { font: 600 1.75rem/1 'Poppins', sans-serif; letter-spacing: -.03em; color: var(--z-vit, #fff); font-variant-numeric: tabular-nums; }
+.ms-tal-piller { padding: 5px 9px 4px; border-radius: 999px; font: 700 .64rem/1 'Manrope', sans-serif; letter-spacing: .02em; white-space: nowrap;
+  color: color-mix(in srgb, rgb(var(--t)), var(--z-dimma-mot, #06141c) var(--z-dimma, 0%)); background: rgba(var(--t), .12); box-shadow: inset 0 0 0 1px rgba(var(--t), .28); font-variant-numeric: tabular-nums; }
+.ms-tal-vem { display: flex; align-items: center; gap: 9px; align-self: end; min-width: 0; padding-top: 10px; border-top: 1px solid rgb(var(--z-vit-rgb, 255 255 255) / .075); }
+.ms-tal-vem > i { display: grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 50%; font: 600 .58rem/1 'Poppins', sans-serif; font-style: normal;
+  letter-spacing: .04em; color: var(--z-vit, #fff); background: linear-gradient(140deg, rgba(var(--t), .55), rgb(var(--zy-183653, 24 54 83) / calc(.9 * var(--z-opak, 1)))); box-shadow: 0 0 0 1px rgba(var(--t), .35); }
+.ms-tal-vem > i.ms-tal-tom { background: none; box-shadow: inset 0 0 0 1px rgb(var(--z-vit-rgb, 255 255 255) / .16); }
+.ms-tal-vem > span { display: grid; gap: 1px; min-width: 0; }
+.ms-tal-vem small { font: 600 .52rem/1.2 'Poppins', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--z-t45, rgba(246, 244, 239, .45)); }
+.ms-tal-vem em { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere;
+  font: 600 .74rem/1.3 'Manrope', sans-serif; font-style: normal; color: var(--z-t88, rgba(246, 244, 239, .88)); }
+/* smal mobil: namnet under bilden och rubriken i full bredd – "Tellus Redovisning" klipptes till "Redovisn…" bredvid initialerna på 320 px */
+@media (max-width: 400px) {
+  .ms-tal-vem { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 8px; row-gap: 6px; align-items: center; }
+  .ms-tal-vem > span { display: contents; }
+  .ms-tal-vem em { grid-column: 1 / -1; -webkit-line-clamp: 3; overflow-wrap: break-word; }
+}
+@media (max-width: 640px) { .ms-ord .ms-knappar > * { padding-inline: 12px; gap: 7px; } /* "Öppna kalkylen" bröts på två rader i 402 px */
+  .motescen.motescen .ms-talrad { width: auto; } .ms-tal { padding: 12px 11px 11px; } .ms-tal-varde b { font-size: 1.5rem; } } /* mobil: .ms-ord är display: contents – raden fyller ytan innanför marginalerna */
+
+/* Utan 3D (ingen WebGL2, 3D avstängt eller scenen föll bort – html saknar data-3d och scen-mote.js har inte satt data-ms-3d):
+   inget rum och ingen tom yta. Hjälten är så hög som innehållet: rubriken och texten till vänster, nyckeltalen och knapparna
+   till höger (dator), allt i en spalt på smalare skärmar. */
+html:not([data-3d]) .motescen:not([data-ms-3d]) { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-rum { display: none; }
+@media (min-width: 981px) {
+  html:not([data-3d]) .motescen.motescen:not([data-ms-3d]), html:not([data-3d]) #vy > .motescen.motescen:not([data-ms-3d]) { min-height: 0; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-ord { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); grid-template-rows: 1fr auto auto auto auto auto 1fr;
+    column-gap: clamp(32px, 5vw, 88px); row-gap: 14px; padding-block: clamp(36px, 6vh, 64px); padding-right: clamp(36px, 4.5vw, 72px); }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-ord > * { grid-column: 1; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-etikett { grid-row: 2; justify-self: start; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-rubrik { grid-row: 3; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-text { grid-row: 4; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-not { grid-row: 5; align-self: start; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-pris { grid-row: 6; align-self: start; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-talrad { grid-column: 2; grid-row: 1 / 4; align-self: end; width: 100%; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-knappar { grid-column: 2; grid-row: 4 / -1; align-self: start; width: 100%; margin-top: 0; }
+}
+
+/* Mobil, kortet uppdraget till kanten (sidomeny.css "dra upp till max", 2026-11-04): vyns sidhuvud är dolt här, så mötesscenen är det
+   första som syns – samma behandling som #vy > :first-child: kant i kant, upp bakom statusraden, rubriken under toppradens knappar */
+@media (max-width: 560px) {
+  html[data-tema] body #vy > .sidhuvud:first-child + .motescen { margin-top: 0; margin-inline: -8px; border-top-left-radius: 0; border-top-right-radius: 0;
+    padding-top: calc(var(--topph, 62px) + 4px); } /* --topph inkluderar statusraden (crm.js satTopph) */
+  html[data-tema] body #vy > .sidhuvud:first-child + .motescen .ms-etikett { margin-top: 12px; }
+}
+
+/* Mobil: hjälten och "Planera mötet" är EN yta (2026-11-04, användarens fynd "låda i låda" – hjälten slutade med rundade hörn, egen skugga
+   och en lucka på 18 px före nästa yta). Hjältens yta ritas i ::after och tonas ut i en utjämnad mask under innehållet, så att den smälter
+   in i sidan (temats botten och glasets fläckar) – inga hörn, ingen skugga, ingen lucka, i alla teman. Texten slutar ovanför toningen. */
+@media (max-width: 560px) {
+  html[data-tema] body #vy > .sidhuvud:first-child + .motescen { --ms-ton: 80px; margin-bottom: 0; border-radius: 0; box-shadow: none; background: none; padding-bottom: calc(var(--ms-ton) - 20px); }
+  html[data-tema] body #vy > .sidhuvud:first-child + .motescen::after { content: ''; position: absolute; inset: 0; z-index: -2; pointer-events: none; background: var(--ms-yta); }
+  html[data-tema] body #vy > .sidhuvud:first-child + .motescen::before, html[data-tema] body #vy > .sidhuvud:first-child + .motescen::after {
+    --ms-ton-mask: linear-gradient(180deg, #000 calc(100% - var(--ms-ton)), rgb(0 0 0 / .95) calc(100% - var(--ms-ton) * .84), rgb(0 0 0 / .82) calc(100% - var(--ms-ton) * .68),
+      rgb(0 0 0 / .6) calc(100% - var(--ms-ton) * .5), rgb(0 0 0 / .34) calc(100% - var(--ms-ton) * .32), rgb(0 0 0 / .12) calc(100% - var(--ms-ton) * .15), transparent);
+    -webkit-mask-image: var(--ms-ton-mask); mask-image: var(--ms-ton-mask); }
+  html[data-tema] body #vy > .motescen + .mote-start.mk { margin-top: 0; }
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-ord { padding-bottom: 24px; } /* utan 3D: samma luft under prisraden som med rummet */
+}
+/* Utan 3D (smalare än 981 px): prisraden stod i hjältens nederkant utan luft (.ms-ord har ingen bottenluft där rummet annars följer) */
+@media (min-width: 561px) and (max-width: 980px) {
+  html:not([data-3d]) .motescen:not([data-ms-3d]) .ms-ord { padding-bottom: clamp(24px, 4vw, 44px); }
+}
+
+/* Planera mötet med luft från kanten – rubriken stod i kortets kant sedan innehållet fick hjältens kanter (2026-11-04) */
+#vy > .mote-start > .mk-huvud { padding-inline: clamp(14px, 2vw, 28px); }

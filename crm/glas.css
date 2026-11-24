@@ -1,0 +1,152 @@
+/* Glasdesignen (html[data-glas]): samma recept som Legohus med våra färger, men tydligare – man ska se att det är glas på första ögonkastet.
+   Stilla färgfläckar ligger över hela sidan och står still när man rullar; alla ytor är halvgenomskinliga och tar upp deras färg, så att
+   samma kort ser olika ut på olika ställen. Varje yta har tunn ljus kant (ljusare upptill), reflex uppifrån och djup mjuk skugga.
+   Motorn är tokens: --vit, --skugga, --y-* (tema-toner.css) och --z-opak blir glas, så att ALLA ytor följer med utan att listas här.
+   Det här lagret lägger bara till reflex, sken och korn på de stora ytorna.
+   Inget här rör sig. Riktig oskärpa finns bara på det som ligger ovanpå innehållet (ark, listor, toaster) och på små paneler (Kundmötets
+   knappar och nyckeltal) – riktig oskärpa på stora ytor gav ränder och lagg, och över en hel 3D-duk skulle den räknas om i varje bild.
+   Stängs av per konto (tema.js) och när datorn ber om minskad genomskinlighet: då saknas html[data-glas] och allt nedan är av.
+   Laddas med media="screen": utskrift och PDF får aldrig glas. */
+
+/* ---- 01 Bakgrunden: starka fläckar över hela sidan + fint korn mot färgband. Allt i ::before (::after är övergångens lager) ---- */
+html[data-glas]::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    url(bilder/korn.png),
+    radial-gradient(40vw 60vh at 0% 0%, rgb(var(--t-flack-1-rgb) / var(--t-flack-k, 1)), transparent 78%),
+    radial-gradient(58vw 74vh at 100% 0%, rgb(var(--t-flack-2-rgb) / var(--t-flack-k, 1)), transparent 78%),
+    radial-gradient(46vw 52vh at var(--t-flack-3-pos, 46% 12%), rgb(var(--t-flack-3-rgb) / calc(var(--t-flack-3-k, .9) * var(--t-flack-k, 1))), transparent 76%),
+    radial-gradient(40vw 56vh at 100% 62%, rgb(var(--t-flack-1-rgb) / calc(.62 * var(--t-flack-k, 1))), transparent 76%),
+    radial-gradient(50vw 62vh at 0% 100%, rgb(var(--t-flack-2-rgb) / calc(.7 * var(--t-flack-k, 1))), transparent 76%),
+    radial-gradient(44vw 56vh at 72% 100%, rgb(var(--t-flack-1-rgb) / calc(.8 * var(--t-flack-k, 1))), transparent 76%),
+    var(--t-flack-grund, none); } /* grunden: utan den blir sidans benvita mitt grå genom de mörka glasen */
+/* Aurorans rörelse bakom halvgenomskinliga kort skulle kosta i varje bild – fläckarna ersätter den */
+html[data-glas] .aurora { display: none; }
+
+/* ---- 02 Receptet per tema: täckning, kant, reflex, djup ----
+   --g-kant är den tunna yttre linjen som ramar in den ljusa kanten (mörk på ljusa teman, svart i Mörk): utan den smälter en vit kant ihop med
+   en ljus botten och kortet ser täckt ut i stället för som glas */
+:root[data-glas] { --g-yta: .6; --g-yta-2: .4; --g-inne: .36; --g-ton: .56; --g-ring: .55; --g-topp: .95; --g-reflex: .55; --g-sken: .16; --g-djup: .3;
+  --g-zon: .74; --g-zon-filter: .62; --g-panel: .46; --g-sido: .76; --g-hj-reflex: .14; --g-hj-sken: .08; --g-mattnad: 150%; --g-mork: .56;
+  --t-kant-rgb: 11 21 32; --g-kant: .07; --vit-tack: #fff; --g-ark: .78; --g-ark-2: .62; }
+:root[data-glas][data-tema="ljus"] { --g-yta: .52; --g-yta-2: .32; --g-inne: .36; --g-ton: .52; --g-ring: .85; --g-topp: 1; --g-reflex: .75; --g-sken: .18; --g-djup: .24;
+  --g-zon: .52; --g-panel: .5; --g-sido: .5; --g-hj-reflex: .6; --g-hj-sken: .22; --t-kant-rgb: 15 26 38; --g-kant: .08; }
+:root[data-glas][data-tema="mork"] { --t-glas-rgb: 40 60 84; --t-glans-rgb: 150 180 210; --g-yta: .42; --g-yta-2: .24; --g-inne: .3; --g-ton: .46; --g-ring: .26; --g-topp: .7; --g-reflex: .2; --g-sken: .07; --g-djup: .75;
+  --g-zon: .6; --g-zon-filter: .52; --g-panel: .4; --g-sido: .58; --g-hj-reflex: .12; --g-hj-sken: .07; --g-mattnad: 170%; --g-mork: 1;
+  --t-kant-rgb: 0 0 0; --g-kant: .4; --vit-tack: #131f2c; --g-ark: .8; --g-ark-2: .66; }
+:root[data-glas][data-tema="fargglad"] { --g-yta: .5; --g-yta-2: .3; --g-inne: .36; --g-ton: .5; --g-ring: .62; --g-topp: 1; --g-reflex: .6; --g-sken: .2; --g-djup: .3;
+  --g-zon: .8; --g-zon-filter: .64; --g-panel: .5; --g-sido: .8; --g-hj-reflex: .15; --g-hj-sken: .09; --g-mattnad: 220%; --g-mork: .48; --t-kant-rgb: 6 40 70; --g-kant: .08; }
+
+/* ---- 03 Tokens: allt som använder dem blir glas ---- */
+:root[data-tema][data-glas] {
+  --vit: rgb(var(--t-glas-rgb) / var(--g-yta));
+  --kant: rgb(var(--t-blaeck-rgb) / .07); --kant-2: rgb(var(--t-blaeck-rgb) / .12);
+  /* kanten: ljus överkant, ljus ring, svag underkant och en tunn yttre linje – sedan djup i två steg */
+  --skugga: inset 0 1px 0 rgb(var(--t-glans-rgb) / var(--g-topp)), inset 0 0 0 1px rgb(var(--t-glans-rgb) / var(--g-ring)), inset 0 -1px 0 rgb(var(--t-glans-rgb) / calc(var(--g-ring) * .35)),
+    0 0 0 1px rgb(var(--t-kant-rgb) / var(--g-kant)),
+    0 1px 2px rgb(var(--t-skugga-rgb) / calc(var(--g-djup) * .25)), 0 18px 38px -22px rgb(var(--t-skugga-rgb) / var(--g-djup)), 0 40px 70px -46px rgb(var(--t-skugga-navy-rgb) / var(--g-djup));
+  --skugga-stor: inset 0 1px 0 rgb(var(--t-glans-rgb) / var(--g-topp)), inset 0 0 0 1px rgb(var(--t-glans-rgb) / var(--g-ring)), 0 0 0 1px rgb(var(--t-kant-rgb) / var(--g-kant)),
+    0 2px 6px rgb(var(--t-skugga-rgb) / calc(var(--g-djup) * .3)), 0 34px 70px -34px rgb(var(--t-skugga-rgb) / calc(var(--g-djup) * 1.5));
+  /* reflexen: ljuset faller på överkanten och tonar ut nedåt (ett band, inte en fläck i mitten) */
+  --g-bild-reflex: linear-gradient(180deg, rgb(var(--t-glans-rgb) / var(--g-reflex)) 0px, rgb(var(--t-glans-rgb) / calc(var(--g-reflex) * .3)) 30px, rgb(var(--t-glans-rgb) / 0) 90px);
+  --g-bild-sken: linear-gradient(112deg, transparent 34%, rgb(var(--t-glans-rgb) / var(--g-sken)) 46%, rgb(var(--t-glans-rgb) / 0) 58%);
+  --g-bild-yta: linear-gradient(165deg, rgb(var(--t-glas-rgb) / var(--g-yta)), rgb(var(--t-glas-rgb) / var(--g-yta-2))); }
+/* Innehållets ytor i sidfärg blir också glas (inte sidans egen botten) */
+html[data-glas] #vy { --ben: rgb(var(--t-ben-rgb) / .5); --ben-2: rgb(var(--t-ben-rgb) / .62); }
+
+/* ---- 04 Korten: --vit ger genomskinligheten, här läggs reflex och sken till. :where gör att alla mer specifika ytor (mörka band …) står kvar ---- */
+:where(html[data-glas]) .kort { --vit: rgb(var(--t-glas-rgb) / var(--g-inne)); background-color: transparent; background-image: var(--g-bild-reflex), var(--g-bild-sken), var(--g-bild-yta); border-color: rgb(var(--t-blaeck-rgb) / .05); }
+:where(html[data-glas]) .kort-mork { background-image: radial-gradient(120% 90% at 100% 0%, rgb(var(--zy-1b3a5a, 27 58 90) / var(--z-opak, 1)), transparent 55%), linear-gradient(0deg, rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1)), rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1))); }
+
+/* Alla andra stora ytor: samma reflex, kant och djup. :where – hovring och mer specifika varianter står kvar */
+:where(html[data-glas]) :is(.affarskort, .skapa-kort, .td-kort, .td-forslag, .dk-atgarder, .ml-kort, .kr-lista, .kr-mobil, .kr-tomt, .sf-kort, .salj-tom, .testkort, .kb-prov, .segment, .saljverktyg, .kolumn) { --vit: rgb(var(--t-glas-rgb) / var(--g-inne)); box-shadow: var(--skugga); border-color: transparent; }
+/* Säljtavlans verktygsrad är bara en rad med fält (sök, filter, visning) – den bär fältens --vit men ingen egen yta, alltså ingen kant (blev en ihålig ram) */
+:where(html[data-glas]) .saljverktyg { box-shadow: none; }
+:where(html[data-glas]) :is(.affarskort, .sf-kort, .ml-kort, .td-kort, .kb-prov, .testkort) { background-color: transparent; background-image: var(--g-bild-reflex), var(--g-bild-yta); } /* ett lager: färg + gradient gav täckt yta */
+:where(html[data-glas]) :is(.af-rum, .kd-rum) .kort:where(:not(.af-nasta)) { background-image: var(--g-bild-reflex), var(--g-bild-sken), var(--g-bild-yta); }
+:where(html[data-glas]) .ob-sektion:where(:not(.ob-band)) .ob-kort { background-image: var(--g-bild-reflex), var(--g-bild-sken), var(--g-bild-yta); box-shadow: var(--skugga); }
+:where(html[data-glas]) .kolumn { background-color: transparent; background-image: linear-gradient(180deg, rgb(var(--t-glas-rgb) / calc(var(--g-yta) * .8)), rgb(var(--t-glas-rgb) / calc(var(--g-yta-2) * .7))); }
+/* Knapparna (accent och mörk har redan sin gradient i premium.css): blank överkant och ljus ring */
+:where(html[data-glas]) .knapp-accent { box-shadow: inset 0 1px 0 rgb(255 255 255 / .8), inset 0 0 0 1px rgb(255 255 255 / .2), 0 12px 24px -12px rgb(var(--t-accent-djup-rgb) / .75); }
+:where(html[data-glas]) .knapp-mork { box-shadow: inset 0 1px 0 rgb(255 255 255 / .26), 0 10px 20px -12px rgb(var(--t-skugga-rgb) / .6); }
+:where(html[data-glas]) .knapp-kontur { border-color: transparent; box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / var(--g-ring)), inset 0 1px 0 rgb(var(--t-glans-rgb) / var(--g-topp)), 0 6px 14px -10px rgb(var(--t-skugga-rgb) / .4); }
+
+/* Ligger över hjälten eller klistrar sig fast: tätare, texten måste gå att läsa. Kortet som dras svävar över allt */
+html[data-glas] .svavande { background-color: rgb(var(--t-glas-rgb) / .92); }
+:where(html[data-glas]) .td-kommando { --vit: rgb(var(--t-glas-rgb) / .9); box-shadow: var(--skugga); border-color: transparent; }
+html[data-glas] .sf-huvud .rakna { background-color: var(--vit-tack); }
+html[data-glas] .logg-dag { background: var(--vit-tack); } /* klistrad dagsrubrik: raderna rullar under den */
+
+/* Färgglad: varje kort har sin egen färg – ett färgsken från hörnet och en färgad överkant. Gäller också utan glas */
+:where(:root[data-tema="fargglad"]) .kort { --kort-rgb: 40 224 176; background-image: linear-gradient(140deg, rgb(var(--kort-rgb) / .34), rgb(var(--kort-rgb) / .08) 44%, transparent 68%), var(--g-bild-reflex, none), var(--g-bild-yta, none); box-shadow: inset 0 3px 0 -1px rgb(var(--kort-rgb) / .95), var(--skugga); }
+:where(:root[data-tema="fargglad"]) .kort:nth-of-type(4n + 2) { --kort-rgb: 84 164 255; }
+:where(:root[data-tema="fargglad"]) .kort:nth-of-type(4n + 3) { --kort-rgb: 255 136 96; }
+:where(:root[data-tema="fargglad"]) .kort:nth-of-type(4n) { --kort-rgb: 255 196 80; }
+:where(:root[data-tema="fargglad"]) :is(.af-rum, .kd-rum) .kort:where(:not(.af-nasta)) { background-image: linear-gradient(140deg, rgb(var(--kort-rgb) / .34), rgb(var(--kort-rgb) / .08) 44%, transparent 68%), var(--g-bild-reflex, linear-gradient(transparent, transparent)), var(--g-bild-yta, linear-gradient(var(--vit), var(--vit))); box-shadow: inset 0 3px 0 -1px rgb(var(--kort-rgb) / .95), var(--skugga); }
+:where(:root[data-tema="fargglad"]) .kort-mork { background-image: radial-gradient(120% 90% at 100% 0%, rgb(var(--zy-1b3a5a, 27 58 90) / var(--z-opak, 1)), transparent 55%), linear-gradient(0deg, rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1)), rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1))); box-shadow: var(--skugga-stor); }
+/* Färgglad: säljtavlans steg – kolumnen och stegbandet bär stegets färg */
+:where(:root[data-tema="fargglad"]) .kolumn { background-image: linear-gradient(180deg, color-mix(in srgb, var(--steg-farg, #3d86e0) 58%, transparent), color-mix(in srgb, var(--steg-farg, #3d86e0) 14%, transparent) 170px, transparent 460px), var(--g-bild-yta, none); box-shadow: inset 0 3px 0 -1px var(--steg-farg, #3d86e0), var(--skugga); }
+:where(:root[data-tema="fargglad"]) .stegband button[data-synlig] { background-image: linear-gradient(135deg, color-mix(in srgb, var(--steg-farg, #3d86e0) 46%, transparent), transparent 80%); }
+
+/* Mobilens topprad: glas i stället för en täckt rand mot den färgade bakgrunden */
+html[data-glas] .topprad { background: linear-gradient(180deg, rgb(var(--t-glas-rgb) / calc(var(--g-yta) + .1)), rgb(var(--t-glas-rgb) / var(--g-yta-2))); box-shadow: 0 1px 0 rgb(var(--t-glans-rgb) / calc(var(--g-ring) * .5)), 0 12px 24px -20px rgb(var(--t-skugga-rgb) / .35); }
+html[data-glas] .topprad::after { display: none; }
+
+/* ---- 05 Hjältar och band: halvgenomskinligt tema-glas med reflex och sken; skenet bakom syns igenom ---- */
+html[data-glas] :is(.sidhjalte, .ob-band, .lp-band, .kb-band, .mk-infor, .dk-d-topp, .ao-hjalte, .sh-hjalte, .ch-rum, .kort-mork) { --g-hj-ljus: linear-gradient(180deg, rgb(var(--z-glans-rgb, 255 255 255) / var(--g-hj-reflex)), transparent 150px), linear-gradient(112deg, transparent 36%, rgb(var(--z-glans-rgb, 255 255 255) / var(--g-hj-sken)) 48%, transparent 60%); }
+html[data-glas] :is(.sidhjalte, .ob-band, .lp-band, .mk-infor, .dk-d-topp) {
+  background:
+    var(--g-hj-ljus),
+    radial-gradient(85% 120% at 100% 0%, rgb(var(--zy-1d4166, 29 65 102) / calc(.85 * var(--z-opak, 1))), transparent 58%),
+    radial-gradient(70% 110% at 0% 105%, rgb(var(--z-gron-rgb, 15 110 87) / .36), transparent 62%),
+    linear-gradient(170deg, rgb(var(--zy-0f1e2e, 15 30 46) / var(--z-opak, 1)) 0%, rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1)) 55%, rgb(var(--zy-08121c, 8 18 28) / var(--z-opak, 1)) 100%); }
+html[data-glas] .kb-band { background: var(--g-hj-ljus), radial-gradient(70% 90% at 92% 112%, rgba(217, 130, 43, .22), transparent 62%), radial-gradient(80% 120% at 100% 0%, rgb(var(--zy-1d4166, 29 65 102) / calc(.85 * var(--z-opak, 1))), transparent 58%), radial-gradient(70% 110% at 0% 105%, rgb(var(--z-gron-rgb, 15 110 87) / .32), transparent 62%), linear-gradient(170deg, rgb(var(--zy-0f1e2e, 15 30 46) / var(--z-opak, 1)) 0%, rgb(var(--zy-0b1520, 11 21 32) / var(--z-opak, 1)) 55%, rgb(var(--zy-08121c, 8 18 28) / var(--z-opak, 1)) 100%); }
+html[data-glas] :is(.ao-hjalte, .sh-hjalte) { background: var(--g-hj-ljus), radial-gradient(70% 120% at 85% 40%, rgba(var(--sh), .16), transparent 60%), radial-gradient(60% 100% at 0% 100%, rgb(var(--zy-1d4166, 29 65 102) / calc(.6 * var(--z-opak, 1))), transparent 60%), linear-gradient(160deg, rgb(var(--zy-0a1622, 10 22 34) / var(--z-opak, 1)) 0%, rgb(var(--zy-060d15, 6 13 21) / var(--z-opak, 1)) 60%, rgb(var(--zy-04090f, 4 9 15) / var(--z-opak, 1)) 100%); }
+html[data-glas] .ch-rum { background: var(--g-hj-ljus), radial-gradient(60% 80% at 100% 0%, rgba(126, 224, 195, .08), transparent 60%), radial-gradient(50% 70% at 0% 100%, rgb(var(--zy-1d4166, 29 65 102) / calc(.55 * var(--z-opak, 1))), transparent 60%), linear-gradient(160deg, rgb(var(--zy-0a1622, 10 22 34) / var(--z-opak, 1)), rgb(var(--zy-060d15, 6 13 21) / var(--z-opak, 1)) 60%, rgb(var(--zy-04090f, 4 9 15) / var(--z-opak, 1))); }
+/* Glas på glas: allt inne i hjältar och band är tunnare än ytan under, så att bakgrunden och skenet syns genom båda lagren. Barnen får ett eget
+   --z-opak (det ärvs nedåt), så att varje panel följer med utan att listas här. Hjältens egen yta behåller sin täckning */
+html[data-glas] :is(.sidhjalte, .hero3d, .ov-hjalte, .ob-band, .lp-band, .kb-band, .kort-mork, .ao-hjalte, .sh-hjalte, .motescen, .kb3d, .mk-infor, .dk-d-topp, .ch-rum) > :not(.ov-scen, .ms-rum, .kb3d-scenruta) { --z-opak: var(--g-panel); }
+/* Kundmötets 3D: mörka toningen bakom texten ska bära texten – den har annars --z-opak .46 och rummet lyser igenom bokstäverna. Knappar och nyckeltal över
+   scenen är riktigt frostade: de är små, och oskärpan gör att texten går att läsa över en rörlig bakgrund */
+html[data-glas] .motescen[data-ms-3d] .ms-ord { --z-opak: .96; }
+html[data-glas] .motescen[data-ms-3d] .ms-talrad { --z-opak: var(--g-panel); }
+/* Färgglad: översiktens remsa och klubbarnas initialbricka står på den ljusaste blå fläcken – vit småtext låg på 4,3–4,5:1 (lagets mobilomgång).
+   Remsan lite tätare och brickan med en mörk botten under det orange skenet (temats egen ton). */
+:root[data-glas][data-tema="fargglad"] .hero3d > .nyckelremsa { --z-opak: .64; }
+:root[data-glas][data-tema="fargglad"] .ob-resultat .obk-marke { background-color: rgb(var(--zy-0b1520, 11 21 32) / .34); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html[data-glas] .motescen[data-ms-3d] :is(.ms-knapp-glas, .ms-talrad) { -webkit-backdrop-filter: blur(14px) saturate(150%); backdrop-filter: blur(14px) saturate(150%); }
+}
+/* Menyn: inget filter (riktig oskärpa på ett så stort fast element gav ränder i Legohus), bakom den ligger bara de stilla fläckarna */
+html[data-glas] .sido { --z-opak: var(--g-sido); }
+/* Utan filter blir neutralt mörkt över ljus bakgrund grått. En mättad djup bas (menyns tre stopp, sidor.css) ger samma mörker men låter fläckarnas färg leva */
+:root[data-tema="original"][data-glas] .sido { --zy-0f1e2e: 2 24 46; --zy-0b1520: 0 15 38; --zy-08121c: 0 13 36; }
+/* Kontomenyn täcker menyn exakt: raderna bakom tonas bort, så att den kan vara riktigt glas utan att texten krockar.
+   .sido-verktyg är display: contents (sökningen och lägeschippet) – opacitet verkar inte på den, så dess barn tonas för sig */
+:where(html[data-glas] .sido > *, html[data-glas] .sido > .sido-verktyg > *) { transition: opacity .22s ease; }
+html:root[data-glas][data-konto-oppen] :is(.sido > *, .sido > .sido-verktyg > *) { opacity: 0; } /* inget :not([data-sido-dold]) här: väljaren slutar i * och fick varje växling av menyn att räkna om stilen för hela sidan (20 ms); infälld är menyn ändå dold */
+:root[data-glas] { --hjalte-skugga: inset 0 0 0 1px rgb(var(--z-glans-rgb, 255 255 255) / .14), inset 0 1px 0 rgb(var(--z-glans-rgb, 255 255 255) / .38), inset 0 -1px 0 rgb(var(--z-glans-rgb, 255 255 255) / .06), 0 2px 8px rgb(var(--t-skugga-rgb) / .1), 0 34px 64px -36px rgb(var(--t-skugga-rgb) / .55), 0 70px 120px -70px rgb(var(--t-skugga-navy-rgb) / .5); }
+
+/* Mörkt glas: bakgrundens färg ska synas igenom utan grå ton. Färgmatrisen (ingen oskärpa) kostar lite och fläckarna är redan mjuka.
+   Inte på hjältar med 3D i sig (säljtavlan): där gav den en lång bild när duken rullades (mätt: 83 ms mot 33 ms) */
+@supports ((backdrop-filter: saturate(1)) or (-webkit-backdrop-filter: saturate(1))) {
+  html[data-glas]:not([data-tema="ljus"]) :is(.sidhjalte:not(.sidhjalte-salj), .ob-band, .lp-band, .kb-band, .ao-hjalte, .sh-hjalte) { --z-opak: var(--g-zon-filter); -webkit-backdrop-filter: saturate(var(--g-mattnad)) brightness(var(--g-mork)); backdrop-filter: saturate(var(--g-mattnad)) brightness(var(--g-mork)); }
+}
+
+/* ---- 06 Ovanpå innehållet: riktig frostning, bara ett åt gången ---- */
+html[data-glas] :is(dialog.ark, .valj-panel, .kal-panel, .sok-traffar, .sido-bubbla) { --vit: var(--vit-tack); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html[data-glas] body :is(dialog.ark:not(:has(> .mer-ark, > .snabb-topp)), .sok-traffar, .valj-panel:not([data-mork]), .kal-panel:not([data-mork])) {
+    background: var(--g-bild-reflex), linear-gradient(165deg, rgb(var(--t-glas-rgb) / calc(var(--g-ark) + .1)), rgb(var(--t-glas-rgb) / var(--g-ark)));
+    -webkit-backdrop-filter: blur(30px) saturate(175%); backdrop-filter: blur(30px) saturate(175%);
+    box-shadow: inset 0 0 0 1px rgb(var(--t-glans-rgb) / var(--g-ring)), inset 0 1px 0 rgb(var(--t-glans-rgb) / var(--g-topp)), 0 40px 90px -40px rgb(var(--t-skugga-rgb) / .8); }
+  html[data-glas] body dialog.ark:not(:has(> .mer-ark, > .snabb-topp)) .ark-huvud { background: linear-gradient(180deg, rgb(var(--t-glas-rgb) / .86), rgb(var(--t-glas-rgb) / .62)); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  html[data-glas] body dialog.ark:not(:has(> .mer-ark, > .snabb-topp)) .ark-fot { background: rgb(var(--t-glas-rgb) / .4); }
+  /* Det som ligger ovanpå zonerna: toaster, kontomenyn, chattfönstret, listor och flikraden (mobilen). :where – täckningen ska gå att ändra per yta nedan */
+  html[data-glas] :where(.toast, .chf, .chf-meny, .ch-forslag, .ch-tk-meny, .ch-emoji, .lp-konto, .fs-kort, .valj-panel[data-mork], .kal-panel[data-mork], .insp-kort, .insp-piller, .flikrad, .ob-nav, .mk-docka, .docka-zon, dialog.ark:has(> .mer-ark), dialog.ark:has(> .snabb-topp)) { --z-opak: var(--g-zon-ovan, .78);
+    -webkit-backdrop-filter: blur(24px) saturate(170%); backdrop-filter: blur(24px) saturate(170%); }
+  /* Notisen ligger ovanpå kontokortet: täckt, annars krockar namnen */
+  html[data-glas] .anv-notis { --z-opak: 1; }
+  /* Snabbarkets topp: i Ljus står ljus text inte på ljus botten */
+  html[data-glas][data-tema="ljus"] dialog.ark:has(> .snabb-topp) { --z-opak: .96; }
+  html[data-glas] .stegband { -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); }
+}
