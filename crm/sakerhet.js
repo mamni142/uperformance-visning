@@ -87,7 +87,7 @@ window.UPAdmin = (K, LED) => {
   const ALLVAR = { hog: { namn: 'Hög', minus: 15 }, medel: { namn: 'Medel', minus: 6 }, lag: { namn: 'Låg', minus: 2 }, info: { namn: 'Info', minus: 0 } };
   // Reservlistan över CRM:ets egna skript (också de som laddas efter hand: 3D-scenerna och three.js). Skanningen läser dessutom
   // index.html från servern – allt som den laddar räknas som känt, så att en ny modul aldrig flaggas som okänd.
-  const KANDA_SKRIPT = /^(skarpt|tema|tema-tidigt|installningar|data|lager|crm|ledning|sakerhet|diagram|chatt|filskanner|filregler|mote|inspelning|motescen|scener|scen3d|scen-[a-z]+|kund|kundlogik|halsa|offert|portal|logga-in|valj|kalender|overgang|three[\w.-]*|[\w-]+\.module)\.js$/;
+  const KANDA_SKRIPT = /^(skarpt|tema|tema-tidigt|installningar|data|lager|crm|ledning|sakerhet|diagram|chatt|filskanner|filregler|mote|inspelning|motescen|scener|scen3d|scen-[a-z]+|kund|kundlogik|halsa|offert|portal|logga-in|laddning|laddning-arbetare|valj|kalender|overgang|three[\w.-]*|[\w-]+\.module)\.js$/;
   async function skriptIIndex() {
     try {
       const r = await fetch(`index.html?kontroll=${Date.now()}`, { cache: 'no-store', credentials: 'same-origin' });

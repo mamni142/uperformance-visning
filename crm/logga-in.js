@@ -52,7 +52,7 @@
       ton.addColorStop(0, '#6fb6ff'); ton.addColorStop(.3, '#a7d2ff'); ton.addColorStop(.55, '#8fe6cf'); ton.addColorStop(.8, '#7ee0c3'); ton.addColorStop(1, '#6fb6ff');
     };
     const rita = (nu) => {
-      igang = 0; if (document.hidden) return;
+      igang = 0; if (document.hidden || document.querySelector('.upl[data-in]')) return; // virveln täcker – Flödet vilar
       const dt = Math.min(.05, (nu - (forra || nu)) / 1000); forra = nu; t += dt;
       if (!b) matt();
       in0 = Math.min(1, in0 + dt / 2.2); const fram = 1 - Math.pow(1 - in0, 3);
@@ -123,8 +123,11 @@
   // Gemensam utgång: tona ut sidan och gå in i CRM:et (testteamet börjar i sina projekt, sälj på översikten)
   let valt = false;
   function ganIn(roll) {
-    setTimeout(() => document.body.setAttribute('data-lamnar', ''), lugn ? 0 : 380);
-    setTimeout(() => { location.href = './' + (nasta || (roll === 'test' ? '#/projekt' : '')); }, lugn ? 0 : 950); // admin börjar på kontrollcentralen (#/)
+    // Virveln (laddning.js, 2026-11-24) tar över: den börjar här och fortsätter i CRM:et tills vyn är ritad
+    setTimeout(() => { document.body.setAttribute('data-lamnar', ''); if (window.UPLaddning) UPLaddning.visa(); }, lugn ? 0 : 380);
+    const mal = './' + (nasta || (roll === 'test' ? '#/projekt' : ''));
+    // virveln snurrar en stund, dras sedan ihop i märket och sidan byts när bara loggan syns (UPLaddning.lamna)
+    setTimeout(() => { if (window.UPLaddning) UPLaddning.lamna(mal); else location.href = mal; }, lugn ? 120 : (window.UPLaddning ? 1700 : 950)); // admin börjar på kontrollcentralen (#/)
   }
 
   if (!SKARP) {

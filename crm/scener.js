@@ -69,6 +69,7 @@ function harWebGL2() {
 const moduler = new Map(); // namn → modul | 'laddar' | 'fel'
 let aktiv = null;          // { namn, handtag, vakt } – vakt = noden som visar att monteringen fortfarande gäller
 let planerad = false;
+let vantarLaddning = false; // väntar på att laddningsvirveln (laddning.js) ska tona bort
 let efterBild = false; // false | 'vantar' | 'malad' – en ny montering väntar på att vyn målats en gång (kontrollera)
 
 function slapp() {
@@ -111,6 +112,12 @@ function kontrollera() {
   if (modul.STUBB === true) return;                     // testkuben från motorbygget visas aldrig
   // En ny montering (annan vy, första besöket) väntar tills vyn har målats en gång: förut monterades scenen i samma uppgift
   // som vybytet och första bilden kom 50–100 ms senare (fynd-2-prestanda 3, #/). Omritning i samma vy flyttar duken direkt.
+  // Virveln från inloggningen (laddning.js) visas: vänta med 3D tills den har tonat bort. Grafikkortets kompilering av scenens
+  // shaders stoppar annars allt bildflöde (även virvelns egen tråd) i upp till en sekund i taget – hacket mot slutet av laddningen.
+  if (!aktiv && document.documentElement.hasAttribute('data-laddar')) {
+    if (!vantarLaddning) { vantarLaddning = true; addEventListener('up:laddning-klar', () => { vantarLaddning = false; planera(); }, { once: true }); }
+    return;
+  }
   if (!aktiv && efterBild !== 'malad') {
     if (!efterBild) { efterBild = 'vantar'; requestAnimationFrame(() => setTimeout(() => { efterBild = 'malad'; planera(); }, 0)); }
     return;
